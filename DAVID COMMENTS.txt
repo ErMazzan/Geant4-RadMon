@@ -1,0 +1,7 @@
+Few comments about the properties added
+-----------------------------------------------------------------------------------------------------
+
+SENSITIVE DETECTOR:
+
+- 1) Define the SensitiveDetector variable in DetectorConstruction and set it associating its logical 				   value.
+- 2) Define the pointer in EventAction pointing to "ScintillatorHitsColelction" in order to recover information. Define the Hits variables for each layer. Define the data member fScintHCID in .hh file.
