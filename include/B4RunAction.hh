@@ -59,13 +59,18 @@ class B4RunAction : public G4UserRunAction
   public:
     B4RunAction();
     virtual ~B4RunAction();
-
+    
+    B4RunAction* GetRunAction() const { return fRunAction; }
+    
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
     
     G4int fRate23;
     void UpdateRate23(G4int count) { fRate23 = fRate23 + count; }
     G4int GetRate23() { return fRate23; }
+    
+  private:
+    B4RunAction* fRunAction;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

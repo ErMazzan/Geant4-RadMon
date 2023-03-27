@@ -116,6 +116,9 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 {  
   // Get hits collections IDs (only once)
   // David -> Added fScintHCID
+    
+  B4RunAction* RunAct = fRunAct->GetRunAction();
+    
   if ( fAbsHCID == -1 ) {
     fAbsHCID 
       = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
@@ -194,7 +197,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     
   if ((Scint1Flag && Scint2Flag) == TRUE) {
       analysisManager->FillH1(8, Scint1Hit->GetEdep());
-      // fRunAct->UpdateRate23(1);
+      // RunAct->UpdateRate23(1);
   }
     
   if ((Scint3Flag && Scint4Flag) == TRUE) {

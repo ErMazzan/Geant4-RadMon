@@ -114,6 +114,7 @@ B4RunAction::~B4RunAction()
   delete G4AnalysisManager::Instance();  
 }
 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
@@ -169,15 +170,16 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
       << G4BestUnit(analysisManager->GetH1(3)->rms(),  "Length") << G4endl;
      */
   }
+    
+  G4cout << "Counts scintillators 1 & 2: " << analysisManager->GetH1(8)->entries() << G4endl;
+  G4cout << "Counts scintillators 3 & 4: " << analysisManager->GetH1(9)->entries() << G4endl;
+  G4cout << "Counts scintillators 1 & 2 & 3: " << analysisManager->GetH1(10)->entries() << G4endl;
+  G4cout << "Counts scintillators 2 & 3 & 4: " << analysisManager->GetH1(11)->entries() << G4endl;
+  G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << analysisManager->GetH1(12)->entries() << G4endl;
   
   // save histograms & ntuple
   //
   analysisManager->Write();
-    G4cout << "Counts scintillators 1 & 2: " << analysisManager->GetH1(8)->entries() << G4endl;
-    G4cout << "Counts scintillators 3 & 4: " << analysisManager->GetH1(9)->entries() << G4endl;
-    G4cout << "Counts scintillators 1 & 2 & 3: " << analysisManager->GetH1(10)->entries() << G4endl;
-    G4cout << "Counts scintillators 2 & 3 & 4: " << analysisManager->GetH1(11)->entries() << G4endl;
-    G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << analysisManager->GetH1(12)->entries() << G4endl;
   analysisManager->CloseFile();
 }
 
