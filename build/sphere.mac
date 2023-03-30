@@ -15,28 +15,28 @@
 
 /gps/energy 100 MeV
 /analysis/setFileName ../results/sphere/100-MeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 200 MeV
 /analysis/setFileName ../results/sphere/200-MeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 300 MeV
 /analysis/setFileName ../results/sphere/300-MeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 500 MeV
 /analysis/setFileName ../results/sphere/500-MeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 700 MeV
 /analysis/setFileName ../results/sphere/700-MeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 1 GeV
 /analysis/setFileName ../results/sphere/1-GeV.root
-/run/beamOn 100000
+/run/beamOn 1000000
 
 /gps/energy 2 GeV
 /analysis/setFileName ../results/sphere/2-GeV.root
-/run/beamOn 100000
+/run/beamOn 1000000

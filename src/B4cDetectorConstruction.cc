@@ -70,7 +70,7 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	scintThickness= 3.*mm;
 	caloSizeXY = 20.*mm;
 	
-	shieldThickness= 6.*mm;
+	shieldThickness= 0.*mm;
 	shieldSizeXY = 40. *mm;
 	shieldZ = 100.* mm;
 	worldSize = 50.*cm;

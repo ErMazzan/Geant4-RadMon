@@ -72,6 +72,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/Users/nontxo/Documents/Anaconda/anaconda3/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake"
   "/Users/nontxo/Documents/Anaconda/anaconda3/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake"
   "../CMakeLists.txt"
+  "../acc_p_solarmax.mac"
+  "../acc_p_solarmin.mac"
   "../beam.mac"
   "CMakeFiles/3.23.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.23.2/CMakeCXXCompiler.cmake"
@@ -116,6 +118,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "sphere.mac"
   "vis.mac"
   "prueba.mac"
+  "acc_p_solarmax.mac"
+  "acc_p_solarmin.mac"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

@@ -5,4 +5,4 @@ Information about the simulations performed
 - Proton particles over all the monitor (each file name denotes its energy)
 - Copper shield with 6 mm of thickness
 - Scintillator thickness of 3 mm
-- 500000 particles
+- 1000000 particles

@@ -53,6 +53,8 @@ set(RadMon_SCRIPTS
   sphere.mac
   vis.mac
   prueba.mac
+  acc_p_solarmax.mac
+  acc_p_solarmin.mac
   )
 
 foreach(_script ${RadMon_SCRIPTS})
