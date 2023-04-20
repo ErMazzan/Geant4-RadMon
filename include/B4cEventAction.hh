@@ -74,7 +74,13 @@ private:
   G4bool Scint2Flag;
   G4bool Scint3Flag;
   G4bool Scint4Flag;
-
+    
+  G4double Scint12Energy;
+  G4double Scint34Energy;
+  G4double Scint123Energy;
+  G4double Scint234Energy;
+  G4double Scint1234Energy;
+    
   B4RunAction* fRunAct;
 };
                      
