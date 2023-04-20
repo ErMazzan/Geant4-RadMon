@@ -97,6 +97,20 @@ B4RunAction::B4RunAction()
   // 12. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for particles that reach all scintillators
   analysisManager->CreateH1("ES1&2&3&4", "Edep in Scint 3 & 4", 1000, 0., 5000*keV);
 
+  // 13. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for all coincidence events
+  analysisManager->CreateH1("ESumCoinc", "Edep in All scintillators", 1000, 0., 5000*keV);
+
+  // 14. Energy deposited in Scintillator 2 for 1-2 Coinc events
+  analysisManager->CreateH1("E2Coinc1-2", "Edep in Scint2 for Coinc 1-2", 1000, 0., 5000*keV);
+
+  // 15. Energy deposited in Scintillator 3 for 1-2-3 Coinc events
+  analysisManager->CreateH1("E3Coinc1-2-3", "Edep in Scint3 for Coinc 1-2-3", 1000, 0., 5000*keV);
+
+  // 16. Energy deposited in Scintillator 3 for 3-4 Coinc events
+  analysisManager->CreateH1("E3Coinc3-4", "Edep in Scint3 for Coinc 3-4", 1000, 0., 5000*keV);
+
+
+
   // Creating ntuple
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");

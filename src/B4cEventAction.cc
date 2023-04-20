@@ -189,11 +189,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
      analysisManager->FillH1(7, Scint4Hit->GetEdep());
      Scint4Flag = TRUE;
   }
-    // G4cout << "Hola :)" << G4endl;
-    
-    // G4cout << fRunAction->GetRate23() << G4endl;
-    
-    // G4cout << "Hola :)" << G4endl;
+
     
   if ((Scint1Flag && Scint2Flag) == TRUE) {
       analysisManager->FillH1(8, Scint1Hit->GetEdep());
@@ -204,17 +200,33 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillH1(9, Scint3Hit->GetEdep());
   }
     
-    if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
-        analysisManager->FillH1(10, Scint3Hit->GetEdep());
-    }
-    
-    if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-        analysisManager->FillH1(11, Scint4Hit->GetEdep());
-    }
-    
-    if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-        analysisManager->FillH1(12, Scint4Hit->GetEdep());
-    }
+  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
+      analysisManager->FillH1(10, Scint3Hit->GetEdep());
+  }
+  
+  if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(11, Scint4Hit->GetEdep());
+  }
+  
+  if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(12, Scint4Hit->GetEdep());
+  }
+
+  if ((Scint1Flag && Scint2Flag) == TRUE || (Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(13, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
+  }
+
+  if ((Scint1Flag && Scint2Flag) == TRUE && (Scint3Flag && Scint4Flag) == FALSE) {
+      analysisManager->FillH1(14, Scint2Hit->GetEdep());
+  }
+
+  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE && Scint4Flag == FALSE) {
+      analysisManager->FillH1(15, Scint3Hit->GetEdep());
+  }
+
+  if ((Scint1Flag && Scint2Flag) == FALSE && (Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(16, Scint3Hit->GetEdep());
+  }
   
   // fill ntuple
   analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
