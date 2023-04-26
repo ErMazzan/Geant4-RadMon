@@ -190,42 +190,34 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
      Scint4Flag = TRUE;
   }
 
-    
-  if ((Scint1Flag && Scint2Flag) == TRUE) {
-      analysisManager->FillH1(8, Scint1Hit->GetEdep());
-      // RunAct->UpdateRate23(1);
-  }
-    
-  if ((Scint3Flag && Scint4Flag) == TRUE) {
-      analysisManager->FillH1(9, Scint3Hit->GetEdep());
-  }
-    
-  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
-      analysisManager->FillH1(10, Scint3Hit->GetEdep());
-  }
-  
-  if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-      analysisManager->FillH1(11, Scint4Hit->GetEdep());
-  }
-  
-  if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-      analysisManager->FillH1(12, Scint4Hit->GetEdep());
+  // Scint 1 and 2 only
+  if ((Scint1Flag && Scint2Flag) == TRUE && (Scint3Flag && Scint4Flag) == FALSE) {
+      analysisManager->FillH1(8, Scint1Hit->GetEdep()+Scint2Hit->GetEdep());
   }
 
+  // Scint 3 and 4 only
+  if ((Scint1Flag && Scint2Flag) == FALSE && (Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(9, Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
+  }
+
+    // Scint 1, 2 and 3 only
+  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE && Scint4Flag == FALSE) {
+      analysisManager->FillH1(10, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep());
+  }
+
+  // Scint 2, 3 and 4 only
+  if (Scint1Flag == FALSE && (Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(11, Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
+  }
+
+  // All scintillators
+  if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
+      analysisManager->FillH1(12, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
+  }
+
+  // Any valid coincidence
   if ((Scint1Flag && Scint2Flag) == TRUE || (Scint3Flag && Scint4Flag) == TRUE) {
       analysisManager->FillH1(13, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
-  }
-
-  if ((Scint1Flag && Scint2Flag) == TRUE && (Scint3Flag && Scint4Flag) == FALSE) {
-      analysisManager->FillH1(14, Scint2Hit->GetEdep());
-  }
-
-  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE && Scint4Flag == FALSE) {
-      analysisManager->FillH1(15, Scint3Hit->GetEdep());
-  }
-
-  if ((Scint1Flag && Scint2Flag) == FALSE && (Scint3Flag && Scint4Flag) == TRUE) {
-      analysisManager->FillH1(16, Scint3Hit->GetEdep());
   }
   
   // fill ntuple
