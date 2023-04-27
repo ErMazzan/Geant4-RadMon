@@ -60,17 +60,32 @@ class B4RunAction : public G4UserRunAction
     B4RunAction();
     virtual ~B4RunAction();
     
-    B4RunAction* GetRunAction() const { return fRunAction; }
-    
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
     
-    G4int fRate23;
-    void UpdateRate23(G4int count) { fRate23 = fRate23 + count; }
-    G4int GetRate23() { return fRate23; }
+    G4int fRate12;
+    void UpdateRate12(G4int count) { fRate12 = fRate12 + count; }
+    G4int GetRate12() { return fRate12; }
     
-  private:
-    B4RunAction* fRunAction;
+    G4int fRate34;
+    void UpdateRate34(G4int count) { fRate34 = fRate34 + count; }
+    G4int GetRate34() { return fRate34; }
+    
+    G4int fRate123;
+    void UpdateRate123(G4int count) { fRate123 = fRate123 + count; }
+    G4int GetRate123() { return fRate123; }
+    
+    G4int fRate234;
+    void UpdateRate234(G4int count) { fRate234 = fRate234 + count; }
+    G4int GetRate234() { return fRate234; }
+    
+    G4int fRate1234;
+    void UpdateRate1234(G4int count) { fRate1234 = fRate1234 + count; }
+    G4int GetRate1234() { return fRate1234; }
+    
+    G4double fKinEnergy;
+    void SetKinEnergy(G4double energy)        { fKinEnergy = energy; }
+    G4double GetKinEnergy()        { return fKinEnergy; }
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

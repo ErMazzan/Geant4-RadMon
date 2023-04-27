@@ -20,6 +20,7 @@
 /run/beamOn 100000
 
 /gps/energy 500 MeV
+
 /analysis/setFileName ../results/beam/500-MeV.root
 /run/beamOn 100000
 

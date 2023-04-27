@@ -40,10 +40,10 @@ class B4cActionInitialization : public G4VUserActionInitialization
 {
   public:
     B4cActionInitialization();
-    virtual ~B4cActionInitialization();
+    ~B4cActionInitialization() override;
 
-    virtual void BuildForMaster() const;
-    virtual void Build() const;
+    virtual void BuildForMaster() const override;
+    virtual void Build() const override;
 };
 
 #endif

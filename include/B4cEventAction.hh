@@ -44,6 +44,8 @@
 /// deposit and track lengths of charged particles in Absober and Gap layers 
 /// stored in the hits collections.
 
+class G4Track;
+class G4Step;
 class B4RunAction;
 
 class B4cEventAction : public G4UserEventAction
@@ -51,11 +53,14 @@ class B4cEventAction : public G4UserEventAction
     
 public:
     
+  /*
   B4cEventAction();
   virtual ~B4cEventAction();
-    
-  B4RunAction* GetRunAction() const { return fRunAct; }
+   */
 
+  B4cEventAction(B4RunAction* runAction);
+  virtual ~B4cEventAction();
+  
   virtual void  BeginOfEventAction(const G4Event* event);
   virtual void    EndOfEventAction(const G4Event* event);
 
@@ -81,7 +86,7 @@ private:
   G4double Scint234Energy;
   G4double Scint1234Energy;
     
-  B4RunAction* fRunAct;
+  B4RunAction* fRunAct = nullptr;
 };
                      
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

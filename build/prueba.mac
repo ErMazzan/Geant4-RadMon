@@ -9,6 +9,6 @@
 /gps/pos/type Point
 /gps/ene/type Mono
 
-/gps/energy 200 MeV
+/gps/energy 1 GeV
 /analysis/setFileName prueba.root
-/run/beamOn 10000
+/run/beamOn 1

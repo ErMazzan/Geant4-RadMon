@@ -42,9 +42,13 @@ B4RunAction::B4RunAction()
  : G4UserRunAction()
 {
     
-  fRate23 = 0;
+  fRate12 = 0;
+  fRate34 = 0;
+  fRate123 = 0;
+  fRate234 = 0;
+  fRate1234 = 0;
   // set printing event number per each event
-  G4RunManager::GetRunManager()->SetPrintProgress(1);     
+  // G4RunManager::GetRunManager()->SetPrintProgress(1);     
 
   // Create analysis manager
   // The choice of analysis technology is done via selectin of a namespace
@@ -96,6 +100,34 @@ B4RunAction::B4RunAction()
     
   // 12. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for particles that reach all scintillators
   analysisManager->CreateH1("ES1&2&3&4", "Edep in Scint 3 & 4", 1000, 0., 5000*keV);
+
+  // 13. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for all coincidence events
+  analysisManager->CreateH1("ESumCoinc", "Edep in All scintillators", 1000, 0., 5000*keV);
+
+  // 14. Energy deposited in Scintillator 2 for 1-2 Coinc events
+  analysisManager->CreateH1("E2Coinc1-2", "Edep in Scint2 for Coinc 1-2", 1000, 0., 5000*keV);
+
+  // 15. Energy deposited in Scintillator 3 for 1-2-3 Coinc events
+  analysisManager->CreateH1("E3Coinc1-2-3", "Edep in Scint3 for Coinc 1-2-3", 1000, 0., 5000*keV);
+
+  // 16. Energy deposited in Scintillator 3 for 3-4 Coinc events
+  analysisManager->CreateH1("E3Coinc3-4", "Edep in Scint3 for Coinc 3-4", 1000, 0., 5000*keV);
+    
+  // 17. Energy distribution of primary particles for 1-2 Coinc events
+  analysisManager->CreateH1("EDistCoinc1-2", "KinEnergy for Coinc 1-2", 1000, 0., 5000*keV);
+
+  // 18. Energy distribution of primary particles for 3-4 Coinc events
+  analysisManager->CreateH1("EDistCoinc3-4", "KinEnergy for Coinc 3-4", 1000, 0., 5000*keV);
+    
+  // 19. Energy distribution of primary particles for 1-2-3 Coinc events
+  analysisManager->CreateH1("EDistCoinc1-2-3", "KinEnergy for Coinc 1-2-3", 1000, 0., 5000*keV);
+
+  // 20. Energy distribution of primary particles for 2-3-4 Coinc events
+  analysisManager->CreateH1("EDistCoinc2-3-4", "KinEnergy for Coinc 2-3-4", 1000, 0., 5000*keV);
+    
+  // 21. Energy distribution of primary particles for 1-2-3-4 Coinc events
+  analysisManager->CreateH1("EDistCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", 1000, 0., 5000*keV);
+
 
   // Creating ntuple
   //
@@ -171,11 +203,11 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
      */
   }
     
-  G4cout << "Counts scintillators 1 & 2: " << analysisManager->GetH1(8)->entries() << G4endl;
-  G4cout << "Counts scintillators 3 & 4: " << analysisManager->GetH1(9)->entries() << G4endl;
-  G4cout << "Counts scintillators 1 & 2 & 3: " << analysisManager->GetH1(10)->entries() << G4endl;
-  G4cout << "Counts scintillators 2 & 3 & 4: " << analysisManager->GetH1(11)->entries() << G4endl;
-  G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << analysisManager->GetH1(12)->entries() << G4endl;
+  G4cout << "Counts scintillators 1 & 2: " << GetRate12() << G4endl;
+  G4cout << "Counts scintillators 3 & 4: " << GetRate34() << G4endl;
+  G4cout << "Counts scintillators 1 & 2 & 3: " << GetRate123() << G4endl;
+  G4cout << "Counts scintillators 2 & 3 & 4: " << GetRate234() << G4endl;
+  G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << GetRate1234() << G4endl;
   
   // save histograms & ntuple
   //
