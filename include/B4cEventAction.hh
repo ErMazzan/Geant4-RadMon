@@ -52,17 +52,20 @@ class B4cEventAction : public G4UserEventAction
 {
     
 public:
-    
   /*
   B4cEventAction();
   virtual ~B4cEventAction();
-   */
-
+  */
+  
   B4cEventAction(B4RunAction* runAction);
   virtual ~B4cEventAction();
   
   virtual void  BeginOfEventAction(const G4Event* event);
   virtual void    EndOfEventAction(const G4Event* event);
+    
+  G4int FirstInt;
+  void SetFirstIntFlag(G4int flag) { FirstInt = flag; }
+  G4int GetFirstIntFlag() { return FirstInt; }
 
 private:
   // methods
@@ -86,7 +89,7 @@ private:
   G4double Scint234Energy;
   G4double Scint1234Energy;
     
-  B4RunAction* fRunAct = nullptr;
+  B4RunAction* fRunAct;
 };
                      
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

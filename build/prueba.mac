@@ -1,7 +1,5 @@
 /run/initialize
 
-/run/initialize
-
 /gps/particle proton
 /gps/direction 0 0 -1 
 /gps/position 0 0 100 mm
@@ -9,6 +7,6 @@
 /gps/pos/type Point
 /gps/ene/type Mono
 
-/gps/energy 1 GeV
+/gps/energy 700 MeV
 /analysis/setFileName prueba.root
-/run/beamOn 1
+/run/beamOn 10000

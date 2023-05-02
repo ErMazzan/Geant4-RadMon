@@ -32,13 +32,20 @@
 #include "MyPrimaryGeneratorAction.hh"
 #include "B4RunAction.hh"
 #include "B4cEventAction.hh"
+#include "SteppingAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+/*
 B4cActionInitialization::B4cActionInitialization()
  : G4VUserActionInitialization()
 {}
+*/
 
+B4cActionInitialization::B4cActionInitialization
+                            (B4cDetectorConstruction* detConstruction)
+ : fDetConstruction(detConstruction)
+{}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4cActionInitialization::~B4cActionInitialization()
@@ -57,14 +64,20 @@ void B4cActionInitialization::BuildForMaster() const
 void B4cActionInitialization::Build() const
 {
   SetUserAction(new MyPrimaryGeneratorAction);
-  //SetUserAction(new B4RunAction);
-  //SetUserAction(new B4cEventAction);
-
+    
   B4RunAction* runAction = new B4RunAction;
   SetUserAction(runAction);
+    
+  B4cEventAction* evtAction = new B4cEventAction(runAction);
+  SetUserAction(evtAction);
+    
+  SetUserAction(new SteppingAction(runAction));
 
-  B4cEventAction* eventAction = new B4cEventAction(runAction);
-  SetUserAction(eventAction);
+  // B4RunAction* runAction = new B4RunAction;
+  // SetUserAction(runAction);
+
+  // B4cEventAction* eventAction = new B4cEventAction(runAction);
+  // SetUserAction(eventAction);
   
 }  
 

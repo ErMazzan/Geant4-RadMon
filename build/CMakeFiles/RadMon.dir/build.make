@@ -181,6 +181,20 @@ CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/MyPrimaryGeneratorAction.cc -o CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.s
 
+CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/flags.make
+CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc
+CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -MF CMakeFiles/RadMon.dir/src/SteppingAction.cc.o.d -o CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -c /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/SteppingAction.cc
+
+CMakeFiles/RadMon.dir/src/SteppingAction.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RadMon.dir/src/SteppingAction.cc.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/SteppingAction.cc > CMakeFiles/RadMon.dir/src/SteppingAction.cc.i
+
+CMakeFiles/RadMon.dir/src/SteppingAction.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/SteppingAction.cc.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/SteppingAction.cc -o CMakeFiles/RadMon.dir/src/SteppingAction.cc.s
+
 # Object files for target RadMon
 RadMon_OBJECTS = \
 "CMakeFiles/RadMon.dir/RadMon.cc.o" \
@@ -190,7 +204,8 @@ RadMon_OBJECTS = \
 "CMakeFiles/RadMon.dir/src/B4cCalorimeterSD.cc.o" \
 "CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o" \
 "CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o" \
-"CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
+"CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o" \
+"CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
 
 # External object files for target RadMon
 RadMon_EXTERNAL_OBJECTS =
@@ -203,49 +218,51 @@ RadMon: CMakeFiles/RadMon.dir/src/B4cCalorimeterSD.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o
+RadMon: CMakeFiles/RadMon.dir/src/SteppingAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/build.make
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4Tree.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4FR.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4GMocren.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4visHepRep.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4RayTracer.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4VRML.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4OpenGL.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4gl2ps.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4vis_management.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4modeling.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4interfaces.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4persistency.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4error_propagation.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4readout.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4physicslists.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4tasking.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4parmodels.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4Tree.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4FR.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4GMocren.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4visHepRep.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4RayTracer.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4VRML.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4OpenGL.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4gl2ps.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4vis_management.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4modeling.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4interfaces.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4persistency.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4error_propagation.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4readout.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4physicslists.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4tasking.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4parmodels.dylib
 RadMon: /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL.tbd
 RadMon: /Users/nontxo/Documents/Anaconda/anaconda3/lib/libQt5OpenGL.5.9.7.dylib
 RadMon: /Users/nontxo/Documents/Anaconda/anaconda3/lib/libQt5PrintSupport.5.9.7.dylib
 RadMon: /Users/nontxo/Documents/Anaconda/anaconda3/lib/libQt5Widgets.5.9.7.dylib
 RadMon: /Users/nontxo/Documents/Anaconda/anaconda3/lib/libQt5Gui.5.9.7.dylib
 RadMon: /Users/nontxo/Documents/Anaconda/anaconda3/lib/libQt5Core.5.9.7.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4run.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4event.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4tracking.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4processes.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4analysis.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4run.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4event.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4tracking.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4processes.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4analysis.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4tools.dylib
 RadMon: /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libexpat.tbd
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4digits_hits.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4track.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4particles.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4geometry.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4materials.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4zlib.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4graphics_reps.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4intercoms.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4global.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4clhep.dylib
-RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4ptl.0.0.2.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4digits_hits.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4track.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4particles.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4geometry.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4materials.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4zlib.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4graphics_reps.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4intercoms.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4global.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4clhep.dylib
+RadMon: /Users/nontxo/Documents/geant4-v11.0.2-install/lib/libG4ptl.0.0.2.dylib
 RadMon: CMakeFiles/RadMon.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable RadMon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable RadMon"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RadMon.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

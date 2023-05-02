@@ -32,18 +32,30 @@
 #define B4cActionInitialization_h 1
 
 #include "G4VUserActionInitialization.hh"
+#include "B4cDetectorConstruction.hh"
 
 /// Action initialization class.
 ///
 
+class B4cDetectorConstruction;
+
 class B4cActionInitialization : public G4VUserActionInitialization
 {
   public:
+    
+    B4cActionInitialization(B4cDetectorConstruction*);
+    ~B4cActionInitialization() override;
+    
+    /*
     B4cActionInitialization();
     ~B4cActionInitialization() override;
-
+    */
+    
     virtual void BuildForMaster() const override;
     virtual void Build() const override;
+    
+  private:
+    B4cDetectorConstruction* fDetConstruction;
 };
 
 #endif

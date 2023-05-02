@@ -116,10 +116,15 @@ int main(int argc,char** argv)
 
   auto physicsList = new FTFP_BERT;
   runManager->SetUserInitialization(physicsList);
+  
+  auto actionInitialization = new B4cActionInitialization(detConstruction);
+  runManager->SetUserInitialization(actionInitialization);
     
+  /*
   auto actionInitialization = new B4cActionInitialization();
   runManager->SetUserInitialization(actionInitialization);
-  
+  */
+    
   // Initialize visualization
   auto visManager = new G4VisExecutive;
   // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
