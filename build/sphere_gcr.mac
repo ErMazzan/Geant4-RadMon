@@ -1,0 +1,22 @@
+/run/initialize
+
+/gps/particle proton 
+
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/centre 0 0 0 cm
+/gps/pos/radius 70 mm
+
+/gps/ang/type cos
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 90 deg
+
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/ene/emspec true
+/gps/ene/diffspec false
+/control/execute acc_p_solarmin.mac
+/gps/hist/inter Lin
+
+/analysis/setFileName ../results/sphere_GCR/sphere_GCR.root
+/run/beamOn 5000000

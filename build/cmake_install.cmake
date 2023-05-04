@@ -42,7 +42,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/RadMon" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/RadMon")
     execute_process(COMMAND /usr/bin/install_name_tool
-      -delete_rpath "/Users/nontxo/Documents/geant4-v11.0.2-install/lib"
+      -delete_rpath "/Users/nontxo/Documents/geant4-v10.7-install/lib"
       -delete_rpath "/Users/nontxo/Documents/Anaconda/anaconda3/lib"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/RadMon")
     if(CMAKE_INSTALL_DO_STRIP)

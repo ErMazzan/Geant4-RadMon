@@ -62,10 +62,6 @@ public:
   
   virtual void  BeginOfEventAction(const G4Event* event);
   virtual void    EndOfEventAction(const G4Event* event);
-    
-  G4int FirstInt;
-  void SetFirstIntFlag(G4int flag) { FirstInt = flag; }
-  G4int GetFirstIntFlag() { return FirstInt; }
 
 private:
   // methods
@@ -74,7 +70,8 @@ private:
   void PrintEventStatistics(G4double absoEdep, G4double absoTrackLength,
                             G4double gapEdep, G4double gapTrackLength) const;
   
-  // data members                   
+  // data members
+  G4int  FirstInt;
   G4int  fAbsHCID;
   G4int  fGapHCID;
   G4int  fScintHCID;

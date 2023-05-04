@@ -1,11 +1,11 @@
 CMakeFiles/RadMon.dir/src/B4cCalorHit.cc.o: \
   /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/B4cCalorHit.cc \
   /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/include/B4cCalorHit.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VHit.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/globals.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4ios.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Types.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4GlobalConfig.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VHit.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/globals.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ios.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Types.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GlobalConfig.hh \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/complex \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config_site \
@@ -188,6 +188,7 @@ CMakeFiles/RadMon.dir/src/B4cCalorHit.cc.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__memory/allocator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__memory/unique_ptr.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__functional/hash.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__memory/auto_ptr.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/atomic \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__thread/poll_with_backoff.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/chrono \
@@ -423,15 +424,15 @@ CMakeFiles/RadMon.dir/src/B4cCalorHit.cc.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/tls.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/tls.hh \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iostream \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4String.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4String.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/templates.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Exception.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VExceptionHandler.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4ExceptionSeverity.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4EnvironmentUtils.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4String.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4String.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/templates.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Exception.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VExceptionHandler.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ExceptionSeverity.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4EnvironmentUtils.hh \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iomanip \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/map \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__functional/is_transparent.h \
@@ -440,53 +441,53 @@ CMakeFiles/RadMon.dir/src/B4cCalorHit.cc.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__split_buffer \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4THitsCollection.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VHitsCollection.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Allocator.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4AllocatorPool.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4ThreeVector.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/ThreeVector.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Utility/defs.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/ThreeVector.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Threading.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4THitsCollection.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VHitsCollection.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Allocator.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4AllocatorPool.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ThreeVector.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/ThreeVector.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Utility/defs.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/ThreeVector.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Threading.hh \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/condition_variable \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/future \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/thread \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4UnitsTable.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4UnitsTable.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VVisManager.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Transform3D.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/Rotation.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/LorentzVector.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/LorentzVector.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/AxisAngle.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/AxisAngle.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationInterfaces.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationX.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationX.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Units/PhysicalConstants.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Units/SystemOfUnits.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationY.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationY.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationZ.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/RotationZ.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Vector/Rotation.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/Point3D.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4RotationMatrix.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Circle.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VMarker.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Visible.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Visible.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Point3D.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Colour.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4Color.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VMarker.icc \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VisAttributes.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/graphics_reps_defs.hh \
-  /Users/nontxo/Documents/geant4-v11.0.2-install/include/Geant4/G4VisAttributes.icc
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UnitsTable.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UnitsTable.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VVisManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Transform3D.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/Transform3D.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/Transform3D.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/Rotation.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/LorentzVector.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/LorentzVector.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/AxisAngle.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/AxisAngle.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationInterfaces.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationX.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationX.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Units/PhysicalConstants.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Units/SystemOfUnits.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationY.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationY.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationZ.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/RotationZ.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/Rotation.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/Point3D.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/Vector3D.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Geometry/Normal3D.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4RotationMatrix.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Circle.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VMarker.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Visible.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Visible.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Point3D.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Colour.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Color.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VMarker.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VisAttributes.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/graphics_reps_defs.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VisAttributes.icc

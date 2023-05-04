@@ -86,6 +86,13 @@ class B4RunAction : public G4UserRunAction
     G4double fKinEnergy;
     void SetKinEnergy(G4double energy)        { fKinEnergy = energy; }
     G4double GetKinEnergy()        { return fKinEnergy; }
+    
+    G4int FirstInt;
+    void SetFirstIntFlag(G4int flag) { FirstInt = flag; }
+    G4int GetFirstIntFlag() { return FirstInt; }
+    
+  private:
+    G4int TotalBins;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

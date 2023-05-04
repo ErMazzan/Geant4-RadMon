@@ -50,7 +50,8 @@ set(RadMon_SCRIPTS
   init_vis.mac
   plotHisto.C
   beam.mac
-  sphere.mac
+  sphere_mono.mac
+  sphere_gcr.mac
   vis.mac
   prueba.mac
   acc_p_solarmax.mac

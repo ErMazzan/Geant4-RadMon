@@ -37,15 +37,14 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     const G4StepPoint* endPoint = step->GetPostStepPoint();
     const G4String currentPhysicalName = prePoint->GetPhysicalVolume()->GetName();
    
-    G4int FirstInt = fEventAct->GetFirstIntFlag();
+    FirstIntStep = fRunAct->GetFirstIntFlag();
     
-    G4int flag = fEventAct->GetFirstIntFlag();
-    if (currentPhysicalName == "WorldPV" && FirstInt == 0 && parent_id == 0) {
+    if (currentPhysicalName == "WorldPV" && FirstIntStep == 0 && parent_id == 0) {
        G4double kinE = Track->GetKineticEnergy();
        fRunAct->SetKinEnergy(kinE);
-       fEventAct->SetFirstIntFlag(1);
-        G4cout << kinE << G4endl;
-   }
+       FirstIntStep = 1;
+       fRunAct->SetFirstIntFlag(FirstIntStep);
+    }
     
     
 }

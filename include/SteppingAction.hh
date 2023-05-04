@@ -33,6 +33,8 @@ class SteppingAction : public G4UserSteppingAction
       B4cDetectorConstruction* fDetConstruction;
       B4cEventAction* fEventAct;
       B4RunAction* fRunAct;
+    
+      G4int FirstIntStep;
 };
 
 #endif

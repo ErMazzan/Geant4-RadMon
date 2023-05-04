@@ -108,8 +108,10 @@ void B4cEventAction::PrintEventStatistics(
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B4cEventAction::BeginOfEventAction(const G4Event* /*event*/)
+void B4cEventAction::BeginOfEventAction(const G4Event* event)
 {
+    if (event->GetEventID()%100000 == 0) G4cout << "<<< Begin of Event:  " << event->GetEventID() << G4endl;
+    
     Scint1Flag = FALSE;
     Scint2Flag = FALSE;
     Scint3Flag = FALSE;
@@ -117,10 +119,8 @@ void B4cEventAction::BeginOfEventAction(const G4Event* /*event*/)
     
     auto analysisManager = G4AnalysisManager::Instance();
     
-    G4cout << "Begin Action" << G4endl;
-    SetFirstIntFlag(0);
-    G4bool Flag = GetFirstIntFlag();
-    G4cout << Flag << G4endl;
+    FirstInt = 0;
+    fRunAct->SetFirstIntFlag(FirstInt);
     
     G4double ekin = fRunAct->GetKinEnergy();
     analysisManager->FillH1(13, ekin);

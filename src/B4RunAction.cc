@@ -74,50 +74,52 @@ B4RunAction::B4RunAction()
     
   // DAVID -> Added Edep for Scintillators
     
+  TotalBins = 1000;
+    
   // 4. Energy deposited in Scintillator 1
-  analysisManager->CreateH1("EScint1","Edep in Scintillator 1", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 5000*keV);
     
   // 5. Energy deposited in Scintillator 2
-  analysisManager->CreateH1("EScint2","Edep in Scintillator 2", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 5000*keV);
     
   // 6. Energy deposited in Scintillator 3
-  analysisManager->CreateH1("EScint3","Edep in Scintillator 3", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EScint3","Edep in Scintillator 3", TotalBins, 0., 5000*keV);
     
   // 7. Energy deposited in Scintillator 4
-  analysisManager->CreateH1("EScint4","Edep in Scintillator 4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EScint4","Edep in Scintillator 4", TotalBins, 0., 5000*keV);
   
   // 8. Energy deposited in both Scintillator 1 & 2 for particles that reach both scintillators
-  analysisManager->CreateH1("ES1&2", "Edep in Scint 1 & 2", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2", "Edep in Scint 1 & 2", TotalBins, 0., 5000*keV);
     
-  // 9. Energy deposited in both Scintillator 3 & 3 for particles that reach both scintillators
-  analysisManager->CreateH1("ES3&4", "Edep in Scint 3 & 4", 1000, 0., 5000*keV);
+  // 9. Energy deposited in both Scintillator 3 & 4 for particles that reach both scintillators
+  analysisManager->CreateH1("ESumCoinc3-4", "Edep in Scint 3 & 4", TotalBins, 0., 5000*keV);
     
   // 10. Energy deposited in Scintillators 1 & 2 & 3 for particles that reach the three scintillators
-  analysisManager->CreateH1("ES1&2&3", "Edep in Scint 1 & 2 & 3", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2-3", "Edep in Scint 1 & 2 & 3", TotalBins, 0., 5000*keV);
     
   // 11. Energy deposited in Scintillators 2 & 3 & 4 for particles that reach the three scintillators
-  analysisManager->CreateH1("ES2&3&4", "Edep in Scint 2 & 3 & 4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc2-3-4", "Edep in Scint 2 & 3 & 4", TotalBins, 0., 5000*keV);
     
   // 12. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for particles that reach all scintillators
-  analysisManager->CreateH1("ES1&2&3&4", "Edep in Scint 3 & 4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 3 & 4", TotalBins, 0., 5000*keV);
     
   // 13. Initial kinetic energy of the protons
-  analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", 1000, 0., 2*GeV);
+  analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", TotalBins, 0., 2*GeV);
   
   // 14. Energy distribution of primary particles for 1-2 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2", "KinEnergy for Coinc 1-2", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EKinCoinc1-2", "KinEnergy for Coinc 1-2", TotalBins, 0., 2*GeV);
     
   // 15. Energy distribution of primary particles for 3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc3-4", "KinEnergy for Coinc 3-4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EKinCoinc3-4", "KinEnergy for Coinc 3-4", TotalBins, 0., 2*GeV);
       
   // 16. Energy distribution of primary particles for 1-2-3 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2-3", "KinEnergy for Coinc 1-2-3", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EKinCoinc1-2-3", "KinEnergy for Coinc 1-2-3", TotalBins, 0., 2*GeV);
 
   // 17. Energy distribution of primary particles for 2-3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc2-3-4", "KinEnergy for Coinc 2-3-4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EKinCoinc2-3-4", "KinEnergy for Coinc 2-3-4", TotalBins, 0.,2*GeV);
       
   // 18. Energy distribution of primary particles for 1-2-3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EKinCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", TotalBins, 0., 2*GeV);
     
   /*
   // 13. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for all coincidence events

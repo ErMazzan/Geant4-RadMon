@@ -214,7 +214,7 @@ EXPAT_INCLUDE_DIR:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/u
 EXPAT_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libexpat.tbd
 
 //The directory containing a CMake configuration file for Geant4.
-Geant4_DIR:PATH=/Users/nontxo/Documents/geant4-v11.0.2-install/lib/Geant4-11.0.2
+Geant4_DIR:PATH=/Users/nontxo/Documents/geant4-v10.7-install/lib/Geant4-10.7.3
 
 //Include for OpenGL on OS X
 OPENGL_INCLUDE_DIR:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/OpenGL.framework
@@ -232,7 +232,7 @@ PKG_CONFIG_ARGN:STRING=
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/local/bin/pkg-config
 
 //The directory containing a CMake configuration file for PTL.
-PTL_DIR:PATH=/Users/nontxo/Documents/geant4-v11.0.2-install/lib/Geant4-11.0.2/PTL
+PTL_DIR:PATH=/Users/nontxo/Documents/geant4-v10.7-install/lib/Geant4-10.7.3/PTL
 
 //The directory containing a CMake configuration file for Qt5Core.
 Qt5Core_DIR:PATH=/Users/nontxo/Documents/Anaconda/anaconda3/lib/cmake/Qt5Core
@@ -416,8 +416,6 @@ EXPAT_INCLUDE_DIR-ADVANCED:INTERNAL=1
 EXPAT_LIBRARY-ADVANCED:INTERNAL=1
 //Details about finding EXPAT
 FIND_PACKAGE_MESSAGE_DETAILS_EXPAT:INTERNAL=[/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/lib/libexpat.tbd][/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include][v2.4.1(2.4.1)]
-//Details about finding Geant4
-FIND_PACKAGE_MESSAGE_DETAILS_Geant4:INTERNAL=[/Users/nontxo/Documents/geant4-v11.0.2-install/lib/Geant4-11.0.2/Geant4Config.cmake][v11.0.2()]
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/OpenGL.framework][/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/OpenGL.framework][c ][v()]
 //Details about finding Threads
