@@ -167,10 +167,24 @@ CMakeFiles/RadMon.dir/src/B4cEventAction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/B4cEventAction.cc.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/B4cEventAction.cc -o CMakeFiles/RadMon.dir/src/B4cEventAction.cc.s
 
+CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o: CMakeFiles/RadMon.dir/flags.make
+CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o: ../src/DetectorMessenger.cc
+CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o -MF CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o.d -o CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o -c /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/DetectorMessenger.cc
+
+CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/DetectorMessenger.cc > CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.i
+
+CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/DetectorMessenger.cc -o CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s
+
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: CMakeFiles/RadMon.dir/flags.make
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: ../src/MyPrimaryGeneratorAction.cc
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o -MF CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o.d -o CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o -c /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/MyPrimaryGeneratorAction.cc
 
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.s: cmake_force
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/flags.make
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -MF CMakeFiles/RadMon.dir/src/SteppingAction.cc.o.d -o CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -c /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/src/SteppingAction.cc
 
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.i: cmake_force
@@ -204,6 +218,7 @@ RadMon_OBJECTS = \
 "CMakeFiles/RadMon.dir/src/B4cCalorimeterSD.cc.o" \
 "CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o" \
 "CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o" \
+"CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o" \
 "CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o" \
 "CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
 
@@ -217,6 +232,7 @@ RadMon: CMakeFiles/RadMon.dir/src/B4cCalorHit.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cCalorimeterSD.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o
+RadMon: CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/SteppingAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/build.make
@@ -261,7 +277,7 @@ RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4global.dylib
 RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4clhep.dylib
 RadMon: /Users/nontxo/Documents/geant4-v10.7-install/lib/libG4ptl.0.0.2.dylib
 RadMon: CMakeFiles/RadMon.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable RadMon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable RadMon"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RadMon.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -36,6 +36,7 @@
 
 class G4VPhysicalVolume;
 class G4GlobalMagFieldMessenger;
+class DetectorMessenger;
 
 /// Detector construction class to define materials and geometry.
 /// The calorimeter is a box made of a given number of layers. A layer consists
@@ -58,17 +59,24 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
   public:
     B4cDetectorConstruction();
     virtual ~B4cDetectorConstruction();
-
+    
   public:
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
-     
+    
+    void SetStartPhiAngle(G4double);
+    void SetAperturePhiAngle(G4double);
+    void SetStartThetaAngle(G4double);
+    void SetApertureThetaAngle(G4double);
+    
+    void UpdateGeometry();
+    
   private:
     // methods
     //
     void DefineMaterials();
     G4VPhysicalVolume* DefineVolumes();
-  
+    
     // data members
     //
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
@@ -85,6 +93,15 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
 	G4double shieldSizeXY;
 	G4double shieldZ;
 	G4double worldSize;
+    
+    G4double fStartPhiAngle = 0;
+    G4double fAperturePhiAngle = 3.1415;
+    G4double fStartThetaAngle = 0;
+    G4double fApertureThetaAngle = 3.1415;
+    
+    G4VPhysicalVolume* worldPV;
+    
+    DetectorMessenger* fDetectorMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

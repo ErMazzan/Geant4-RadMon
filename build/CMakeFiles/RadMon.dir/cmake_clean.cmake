@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o.d"
   "CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o"
   "CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o.d"
+  "CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o"
+  "CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o.d"
   "CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
   "CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o.d"
   "CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"

@@ -29,16 +29,25 @@
 /// \brief Implementation of the B4cDetectorConstruction class
 
 #include "B4cDetectorConstruction.hh"
+#include "DetectorMessenger.hh"
+
 #include "B4cCalorimeterSD.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 
 #include "G4Box.hh"
+#include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4PVReplica.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4AutoDelete.hh"
+
+#include "G4GeometryManager.hh"
+#include "G4SolidStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4RunManager.hh"
 
 #include "G4SDManager.hh"
 
@@ -74,12 +83,15 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	shieldSizeXY = 40. *mm;
 	shieldZ = 100.* mm;
 	worldSize = 50.*cm;
+    
+    fDetectorMessenger = new DetectorMessenger(this);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4cDetectorConstruction::~B4cDetectorConstruction()
-{ 
+{
+    delete fDetectorMessenger;
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -179,7 +191,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   
   // Scintillators
   G4VSolid* scintS = new G4Box("Scintillator", caloSizeXY/2., caloSizeXY/2., scintThickness/2.);
-  G4LogicalVolume* scintLV = new G4LogicalVolume( scintS, scintMaterial, "ScintillatorLV");
+  G4LogicalVolume* scintLV = new G4LogicalVolume(scintS, scintMaterial, "ScintillatorLV");
   G4VPhysicalVolume* scintPV;
   G4double posDetEle;
   G4double accumulatedAbsTh=0.;
@@ -200,7 +212,6 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   
   for (int i=0; i<fNofLayers-1; i++){
 	  
-	  
 	  sprintf(str, "Absorber%d\n",i);
 	  absoS[i] = new G4Box(str, caloSizeXY/2., caloSizeXY/2., absoThickness[i]/2.);
 	  
@@ -211,27 +222,19 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	  posDetEle = totalDetZ/2 - (1+i)*scintThickness - accumulatedAbsTh + absoThickness[i]/2.;
 	  absoPV[i] = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), absoLV[i], "AbsorberPV", caloLV, false, i, fCheckOverlaps);
   }
-	   
+
+  G4Sphere* Hemisphere = new G4Sphere("Hemisphere", 70.0*mm, 70.1*mm, fStartPhiAngle, fAperturePhiAngle, fStartThetaAngle, fApertureThetaAngle);
+    
+  G4LogicalVolume* HemisphereLV = new G4LogicalVolume(Hemisphere, defaultMaterial, "HemisphereLV");
+    
+  G4VPhysicalVolume* HemispherePV = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), HemisphereLV, "HemispherePV", worldLV, false, 0, fCheckOverlaps);
   
- /*
-  //
-  // print parameters
-  //
-  G4cout
-    << G4endl 
-    << "------------------------------------------------------------" << G4endl
-    << "---> The calorimeter is " << fNofLayers << " layers of: [ "
-    << absoThickness/mm << "mm of " << absorberMaterial->GetName() 
-    << " + "
-    << scinThickness/mm << "mm of " << gapMaterial->GetName() << " ] " << G4endl
-    << "------------------------------------------------------------" << G4endl;
-  
-  */
   //                                        
   // Visualization attributes
   //
   worldLV->SetVisAttributes (G4VisAttributes::GetInvisible());
   
+  /*
   G4VisAttributes* Att_Green = new G4VisAttributes(G4Colour(0.0,1.0,0.0));
   G4VisAttributes* Att_Gray= new G4VisAttributes(G4Colour(0.5, 0.5, 0.5));
   G4VisAttributes* Att_Blue= new G4VisAttributes(G4Colour(0.0,0.0,1.0));
@@ -244,7 +247,8 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   shieldLV->SetVisAttributes(Att_Green);
   vacuumLV->SetVisAttributes(Att_Green);
   for (int i=0; i<fNofLayers-1; i++) absoLV[i]->SetVisAttributes(Att_Gray);
-
+  */
+    
   //
   // Always return the physical World
   //
@@ -252,6 +256,41 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B4cDetectorConstruction::UpdateGeometry()
+{
+    if (!worldPV) return;
+    
+    
+    G4GeometryManager::GetInstance()->OpenGeometry();
+    G4PhysicalVolumeStore::GetInstance()->Clean();
+    G4LogicalVolumeStore::GetInstance()->Clean();
+    G4SolidStore::GetInstance()->Clean();
+    
+    G4RunManager::GetRunManager()->DefineWorldVolume(DefineVolumes());
+    G4RunManager::GetRunManager()->GeometryHasBeenModified();
+    
+}
+
+void B4cDetectorConstruction::SetStartPhiAngle(G4double StartPhiAngle)
+{
+    fStartPhiAngle = StartPhiAngle;
+}
+
+void B4cDetectorConstruction::SetAperturePhiAngle(G4double AperturePhiAngle)
+{
+    fAperturePhiAngle = AperturePhiAngle;
+}
+
+void B4cDetectorConstruction::SetStartThetaAngle(G4double StartThetaAngle)
+{
+    fStartThetaAngle = StartThetaAngle;
+}
+
+void B4cDetectorConstruction::SetApertureThetaAngle(G4double ApertureThetaAngle)
+{
+    fApertureThetaAngle = ApertureThetaAngle;
+}
 
 void B4cDetectorConstruction::ConstructSDandField()
 {

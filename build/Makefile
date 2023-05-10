@@ -342,6 +342,30 @@ src/B4cEventAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/B4cEventAction.cc.s
 .PHONY : src/B4cEventAction.cc.s
 
+src/DetectorMessenger.o: src/DetectorMessenger.cc.o
+.PHONY : src/DetectorMessenger.o
+
+# target to build an object file
+src/DetectorMessenger.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o
+.PHONY : src/DetectorMessenger.cc.o
+
+src/DetectorMessenger.i: src/DetectorMessenger.cc.i
+.PHONY : src/DetectorMessenger.i
+
+# target to preprocess a source file
+src/DetectorMessenger.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.i
+.PHONY : src/DetectorMessenger.cc.i
+
+src/DetectorMessenger.s: src/DetectorMessenger.cc.s
+.PHONY : src/DetectorMessenger.s
+
+# target to generate assembly for a file
+src/DetectorMessenger.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s
+.PHONY : src/DetectorMessenger.cc.s
+
 src/MyPrimaryGeneratorAction.o: src/MyPrimaryGeneratorAction.cc.o
 .PHONY : src/MyPrimaryGeneratorAction.o
 
@@ -424,6 +448,9 @@ help:
 	@echo "... src/B4cEventAction.o"
 	@echo "... src/B4cEventAction.i"
 	@echo "... src/B4cEventAction.s"
+	@echo "... src/DetectorMessenger.o"
+	@echo "... src/DetectorMessenger.i"
+	@echo "... src/DetectorMessenger.s"
 	@echo "... src/MyPrimaryGeneratorAction.o"
 	@echo "... src/MyPrimaryGeneratorAction.i"
 	@echo "... src/MyPrimaryGeneratorAction.s"

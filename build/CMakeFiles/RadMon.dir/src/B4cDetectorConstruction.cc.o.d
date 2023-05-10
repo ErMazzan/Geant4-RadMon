@@ -441,14 +441,21 @@ CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__split_buffer \
-  /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/include/B4cCalorimeterSD.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VSensitiveDetector.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VHit.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Step.hh \
+  /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/include/DetectorMessenger.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UImessenger.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIdirectory.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIcommand.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIparameter.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UItokenNum.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ApplicationState.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ThreeVector.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/ThreeVector.h \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Utility/defs.h \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Vector/ThreeVector.icc \
+  /Users/nontxo/Documents/Geant4Projects/srcfiles/RadMon/include/B4cCalorimeterSD.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VSensitiveDetector.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VHit.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Step.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VPhysicalVolume.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/geomdefs.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4RotationMatrix.hh \
@@ -587,20 +594,144 @@ CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o: \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Visible.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Visible.icc \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Box.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Sphere.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Sphere.icc \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PVPlacement.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PVReplica.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GlobalMagFieldMessenger.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UImessenger.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIdirectory.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIcommand.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UIparameter.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UItokenNum.hh \
-  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ApplicationState.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4AutoDelete.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ThreadLocalSingleton.hh \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/list \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Cache.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4CacheDetails.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GeometryManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelStat.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SolidStore.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VStoreNotifier.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VNotifier.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4LogicalVolumeStore.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PhysicalVolumeStore.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4RunManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/rundefs.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Event.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/evtdefs.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PrimaryVertex.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PrimaryParticle.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4DCofThisEvent.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VDigiCollection.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TrajectoryContainer.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VTrajectory.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VUserEventInformation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4EventManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4StackManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UserStackingAction.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ClassificationOfNewTrack.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4StackedTrack.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TrackStack.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartTrackStack.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PrimaryTransformer.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParticleTable.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParticleTableIterator.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParticleTable.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TrackingManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SteppingManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/Randomize.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/Randomize.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/DualRand.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandomEngine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandomEngine.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/JamesRandom.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/MixMaxRng.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/MTwistEngine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RanecuEngine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RanluxEngine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/Ranlux64Engine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RanshiEngine.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBinomial.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/Random.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/Random.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Utility/memory.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBinomial.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBreitWigner.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandFlat.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Utility/thread_local.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandFlat.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBreitWigner.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandChiSquare.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandChiSquare.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandExponential.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandExponential.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandExpZiggurat.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBit.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandBit.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGamma.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGamma.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGauss.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGauss.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGaussQ.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGaussQ.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGaussZiggurat.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGeneral.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandGeneral.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandLandau.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandLandau.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandPoissonQ.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandPoisson.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandPoisson.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandPoissonQ.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandStudentT.h \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/CLHEP/Random/RandStudentT.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Navigator.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GRSVolume.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GRSVolume.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GRSSolid.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GRSSolid.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TouchableHistoryHandle.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4NormalNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4AuxiliaryNavServices.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4AuxiliaryNavServices.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4NormalNavigation.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VoxelNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4NavigationLogger.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4BlockingList.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4BlockingList.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelProxy.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelProxy.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelNode.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelNode.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelHeader.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SmartVoxelHeader.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VoxelNavigation.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParameterisedNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VPVParameterisation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VVolumeMaterialScanner.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParameterisedNavigation.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ReplicaNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ReplicaNavigation.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4RegularNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VExternalNavigation.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4Navigator.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ProcessManager.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VProcess.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PhysicsTable.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4PhysicsTable.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VParticleChange.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TrackFastVector.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4FastVector.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VParticleChange.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ForceCondition.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4GPILSelection.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParticleChange.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ParticleChange.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ProcessType.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ProcessVector.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ProcessVector.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4ProcessManager.icc \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UserSteppingAction.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4VSteppingVerbose.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4TrackingMessenger.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4UserTrackingAction.hh \
+  /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4RunManagerKernel.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SDManager.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4SDStructure.hh \
   /Users/nontxo/Documents/geant4-v10.7-install/include/Geant4/G4HCtable.hh \
