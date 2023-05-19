@@ -29,7 +29,6 @@ SteppingAction::~SteppingAction()
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
     
-    // G4cout << "Hola :)" << G4endl;
     G4Track* Track = step->GetTrack();
     G4int parent_id = Track->GetParentID();
    

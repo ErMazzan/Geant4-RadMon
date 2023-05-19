@@ -9,7 +9,7 @@
 
 /gps/pos/confine HemispherePV
 
-/gps/pos/centre 0 0 0 cm
+/gps/pos/centre 0 0 0 mm
 /gps/pos/radius 70.05 mm
 
 /gps/ang/type cos
