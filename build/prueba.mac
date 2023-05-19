@@ -2,10 +2,15 @@
 
 /gps/particle proton 
 
-/gps/pos/type Surface
-/gps/pos/shape Sphere
+# To simulate particles around all the Monitor, activate the following lines and deactivate HemispherePV
+
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+
+/gps/pos/confine HemispherePV
+
 /gps/pos/centre 0 0 0 cm
-/gps/pos/radius 70 mm
+/gps/pos/radius 70.05 mm
 
 /gps/ang/type cos
 /gps/ang/mintheta 0 deg
@@ -21,6 +26,7 @@
 /analysis/setFileName prueba.root
 
 /RadMon/det/setAperturePhiAngle 30 deg
+/RadMon/det/setApertureThetaAngle 120 deg
 /RadMon/Update
 
-/run/beamOn 100
+/run/beamOn 1
