@@ -208,6 +208,7 @@ void MyPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // ===================
   // GENERATE PRIMARIES
   // ===================
+    // fGPSGun->GetParticleDefinition()->DumpTable();
 
     fGPSGun->GeneratePrimaryVertex( anEvent );
   

@@ -54,8 +54,13 @@ set(RadMon_SCRIPTS
   sphere_gcr.mac
   vis.mac
   prueba.mac
-  acc_p_solarmax.mac
-  acc_p_solarmin.mac
+  data/acc_p_solarmax.mac
+  data/acc_he_3_solarmax.mac
+  data/acc_he_4_solarmax.mac
+  data/acc_p_solarmin.mac
+  data/acc_he_3_solarmin.mac
+  data/acc_he_4_solarmin.mac
+  data/acc_sep.mac
   )
 
 foreach(_script ${RadMon_SCRIPTS})

@@ -1,6 +1,9 @@
 /run/initialize
 
-/gps/particle proton 
+#/gps/particle ion
+#/gps/ion 2 3
+
+/gps/particle proton
 
 /gps/pos/type Surface
 /gps/pos/shape Sphere
@@ -14,29 +17,29 @@
 /gps/ang/maxtheta 90 deg
 
 /gps/energy 100 MeV
-/analysis/setFileName ../results/sphere_MONO/100-MeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/100-MeV.root
 /run/beamOn 1000000
 
 /gps/energy 200 MeV
-/analysis/setFileName ../results/sphere_MONO/200-MeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/200-MeV.root
 /run/beamOn 1000000
 
 /gps/energy 300 MeV
-/analysis/setFileName ../results/sphere_MONO/300-MeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/300-MeV.root
 /run/beamOn 1000000
 
 /gps/energy 500 MeV
-/analysis/setFileName ../results/sphere_MONO/500-MeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/500-MeV.root
 /run/beamOn 1000000
 
 /gps/energy 700 MeV
-/analysis/setFileName ../results/sphere_MONO/700-MeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/700-MeV.root
 /run/beamOn 1000000
 
 /gps/energy 1 GeV
-/analysis/setFileName ../results/sphere_MONO/1-GeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/1-GeV.root
 /run/beamOn 1000000
 
 /gps/energy 2 GeV
-/analysis/setFileName ../results/sphere_MONO/2-GeV.root
+/analysis/setFileName ../results/proton/sphere_MONO/2-GeV.root
 /run/beamOn 1000000

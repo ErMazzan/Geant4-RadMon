@@ -1,6 +1,8 @@
-/run/initialize
-
 /gps/particle proton
+
+#/gps/particle ion
+#/gps/ion 2 3
+
 /gps/direction 0 0 -1 
 /gps/position 0 0 100 mm
 
@@ -8,30 +10,29 @@
 /gps/ene/type Mono
 
 /gps/energy 100 MeV
-/analysis/setFileName ../results/beam/100-MeV.root
+/analysis/setFileName ../results/proton/beam/100-MeV.root
 /run/beamOn 100000
 
 /gps/energy 200 MeV
-/analysis/setFileName ../results/beam/200-MeV.root
+/analysis/setFileName ../results/proton/beam/200-MeV.root
 /run/beamOn 100000
 
 /gps/energy 300 MeV
-/analysis/setFileName ../results/beam/300-MeV.root
+/analysis/setFileName ../results/proton/beam/300-MeV.root
 /run/beamOn 100000
 
 /gps/energy 500 MeV
-
-/analysis/setFileName ../results/beam/500-MeV.root
+/analysis/setFileName ../results/proton/beam/500-MeV.root
 /run/beamOn 100000
 
 /gps/energy 700 MeV
-/analysis/setFileName ../results/beam/700-MeV.root
+/analysis/setFileName ../results/proton/beam/700-MeV.root
 /run/beamOn 100000
 
 /gps/energy 1 GeV
-/analysis/setFileName ../results/beam/1-GeV.root
+/analysis/setFileName ../results/proton/beam/1-GeV.root
 /run/beamOn 100000
 
 /gps/energy 2 GeV
-/analysis/setFileName ../results/beam/2-GeV.root
+/analysis/setFileName ../results/proton/beam/2-GeV.root
 /run/beamOn 100000

@@ -42,11 +42,6 @@ B4RunAction::B4RunAction()
  : G4UserRunAction()
 {
     
-  fRate12 = 0;
-  fRate34 = 0;
-  fRate123 = 0;
-  fRate234 = 0;
-  fRate1234 = 0;
   // set printing event number per each event
   // G4RunManager::GetRunManager()->SetPrintProgress(1);     
 
@@ -79,31 +74,31 @@ B4RunAction::B4RunAction()
   TotalBins = 1000;
     
   // 0. Energy deposited in Scintillator 1
-  analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 50*MeV);
     
   // 1. Energy deposited in Scintillator 2
-  analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 50*MeV);
     
   // 2. Energy deposited in Scintillator 3
-  analysisManager->CreateH1("EScint3","Edep in Scintillator 3", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("EScint3","Edep in Scintillator 3", TotalBins, 0., 50*MeV);
     
   // 3. Energy deposited in Scintillator 4
-  analysisManager->CreateH1("EScint4","Edep in Scintillator 4", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("EScint4","Edep in Scintillator 4", TotalBins, 0., 50*MeV);
   
   // 4. Energy deposited in both Scintillator 1 & 2 for particles that reach both scintillators
-  analysisManager->CreateH1("ESumCoinc1-2", "Edep in Scint 1 & 2", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2", "Edep in Scint 1 & 2", TotalBins, 0., 100*MeV);
     
   // 5. Energy deposited in both Scintillator 3 & 4 for particles that reach both scintillators
-  analysisManager->CreateH1("ESumCoinc3-4", "Edep in Scint 3 & 4", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc3-4", "Edep in Scint 3 & 4", TotalBins, 0., 100*MeV);
     
   // 6. Energy deposited in Scintillators 1 & 2 & 3 for particles that reach the three scintillators
-  analysisManager->CreateH1("ESumCoinc1-2-3", "Edep in Scint 1 & 2 & 3", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2-3", "Edep in Scint 1 & 2 & 3", TotalBins, 0., 100*MeV);
     
   // 7. Energy deposited in Scintillators 2 & 3 & 4 for particles that reach the three scintillators
-  analysisManager->CreateH1("ESumCoinc2-3-4", "Edep in Scint 2 & 3 & 4", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc2-3-4", "Edep in Scint 2 & 3 & 4", TotalBins, 0., 100*MeV);
     
   // 8. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for particles that reach all scintillators
-  analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 3 & 4", TotalBins, 0., 5000*keV);
+  analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 3 & 4", TotalBins, 0., 100*MeV);
     
   // 9. Initial kinetic energy of the protons
   analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", TotalBins, 0., 20*GeV);
@@ -122,6 +117,24 @@ B4RunAction::B4RunAction()
       
   // 14. Energy distribution of primary particles for 1-2-3-4 Coinc events
   analysisManager->CreateH1("EKinCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", TotalBins, 0., 20*GeV);
+    
+  // 15. Energy deposited for Scintillator 1 for 1-2 Coinc events
+  analysisManager->CreateH1("EDep1-Scint1-2", "EDep for Scint 1 for Coinc 1-2", TotalBins, 0., 100*MeV);
+    
+  // 16. Energy deposited for Scintillator 2 for 1-2 Coinc events
+  analysisManager->CreateH1("EDep2-Scint1-2", "EDep for Scint 2 for Coinc 1-2", TotalBins, 0., 100*MeV);
+    
+  // 17. Energy deposited for Scintillator 2 for 1-2-3 Coinc events
+  analysisManager->CreateH1("EDep2-Scint1-2-3", "EDep for Scint 2 for Coinc 1-2-3", TotalBins, 0., 100*MeV);
+  
+  // 18. Energy deposited for Scintillator 3 for 1-2-3 Coinc events
+  analysisManager->CreateH1("EDep3-Scint1-2-3", "EDep for Scint 3 for Coinc 1-2-3", TotalBins, 0., 100*MeV);
+    
+  // 19. Energy deposited for Scintillator 2 for 1-2-3-4 Coinc events
+  analysisManager->CreateH1("EDep2-Scint1-2-3-4", "EDep for Scint 2 for Coinc 1-2-3-4", TotalBins, 0., 100*MeV);
+    
+  // 20. Energy deposited for Scintillator 3 for 1-2-3-4 Coinc events
+  analysisManager->CreateH1("EDep3-Scint1-2-3-4", "EDep for Scint 3 for Coinc 1-2-3-4", TotalBins, 0., 100*MeV);
     
   /*
   // 13. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for all coincidence events
@@ -184,6 +197,13 @@ void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
   //
   G4String fileName = "";
   analysisManager->OpenFile(fileName);
+    
+  fRate12 = 0;
+  fRate34 = 0;
+  fRate123 = 0;
+  fRate234 = 0;
+  fRate1234 = 0;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -95,9 +95,9 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
 	G4double worldSize;
     
     G4double fStartPhiAngle = 0;
-    G4double fAperturePhiAngle = 3.1415;
+    G4double fAperturePhiAngle = 0.01;
     G4double fStartThetaAngle = 0;
-    G4double fApertureThetaAngle = 3.1415;
+    G4double fApertureThetaAngle = 0.01;
     
     G4VPhysicalVolume* worldPV;
     
