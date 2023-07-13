@@ -212,42 +212,45 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     
   if ((Scint1Flag && Scint2Flag) == TRUE) {
       Scint12Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep();
-      analysisManager->FillH1(4, Scint12Energy);
-      analysisManager->FillH1(10, ekin);
+      // analysisManager->FillH1(4, Scint12Energy);
+      // analysisManager->FillH1(10, ekin);
       analysisManager->FillH1(15, Scint1Hit->GetEdep());
       analysisManager->FillH1(16, Scint2Hit->GetEdep());
+      analysisManager->FillH2(0, Scint1Hit->GetEdep(), Scint2Hit->GetEdep());
       fRunAct->UpdateRate12(1);
   }
     
   if ((Scint3Flag && Scint4Flag) == TRUE) {
       Scint34Energy = Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      analysisManager->FillH1(5, Scint34Energy);
-      analysisManager->FillH1(11, ekin);
+      // analysisManager->FillH1(5, Scint34Energy);
+      // analysisManager->FillH1(11, ekin);
       fRunAct->UpdateRate34(1);
   }
     
   if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
       Scint123Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep();
-      analysisManager->FillH1(6, Scint123Energy);
-      analysisManager->FillH1(12, ekin);
+      // analysisManager->FillH1(6, Scint123Energy);
+      // analysisManager->FillH1(12, ekin);
       analysisManager->FillH1(17, Scint2Hit->GetEdep());
       analysisManager->FillH1(18, Scint3Hit->GetEdep());
+      analysisManager->FillH2(1, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
       fRunAct->UpdateRate123(1);
   }
 
   if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
       Scint234Energy = Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      analysisManager->FillH1(7, Scint234Energy);
-      analysisManager->FillH1(13, ekin);
+      // analysisManager->FillH1(7, Scint234Energy);
+      // analysisManager->FillH1(13, ekin);
       fRunAct->UpdateRate234(1);
   }
 
   if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
       Scint1234Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      analysisManager->FillH1(8, Scint1234Energy);
-      analysisManager->FillH1(14, ekin);
+      // analysisManager->FillH1(8, Scint1234Energy);
+      // analysisManager->FillH1(14, ekin);
       analysisManager->FillH1(19, Scint2Hit->GetEdep());
       analysisManager->FillH1(20, Scint3Hit->GetEdep());
+      analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
       fRunAct->UpdateRate1234(1);
   }
 

@@ -1,8 +1,0 @@
-Information about the simulations performed 
------------------------------------------------------------------------------------------------------
-
-- Mono-energetic source 
-- Proton beam (each file name denotes its energy)
-- Cuper shield with 6 mm of thickness
-- Scintillator thickness of 3 mm
-- 100000 particles

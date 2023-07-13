@@ -73,6 +73,8 @@ B4RunAction::B4RunAction()
     
   TotalBins = 1000;
     
+  // 1D HISTOGRAMS
+    
   // 0. Energy deposited in Scintillator 1
   analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 50*MeV);
     
@@ -98,7 +100,7 @@ B4RunAction::B4RunAction()
   analysisManager->CreateH1("ESumCoinc2-3-4", "Edep in Scint 2 & 3 & 4", TotalBins, 0., 100*MeV);
     
   // 8. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for particles that reach all scintillators
-  analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 3 & 4", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 1 & 2 & 3 & 4", TotalBins, 0., 100*MeV);
     
   // 9. Initial kinetic energy of the protons
   analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", TotalBins, 0., 20*GeV);
@@ -119,52 +121,34 @@ B4RunAction::B4RunAction()
   analysisManager->CreateH1("EKinCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", TotalBins, 0., 20*GeV);
     
   // 15. Energy deposited for Scintillator 1 for 1-2 Coinc events
-  analysisManager->CreateH1("EDep1-Scint1-2", "EDep for Scint 1 for Coinc 1-2", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("EDep1-Scint1-2", "EDep for Scint 1 for Coinc 1-2", TotalBins, 0., 50*MeV);
     
   // 16. Energy deposited for Scintillator 2 for 1-2 Coinc events
-  analysisManager->CreateH1("EDep2-Scint1-2", "EDep for Scint 2 for Coinc 1-2", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("EDep2-Scint1-2", "EDep for Scint 2 for Coinc 1-2", TotalBins, 0., 50*MeV);
     
   // 17. Energy deposited for Scintillator 2 for 1-2-3 Coinc events
-  analysisManager->CreateH1("EDep2-Scint1-2-3", "EDep for Scint 2 for Coinc 1-2-3", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("EDep2-Scint1-2-3", "EDep for Scint 2 for Coinc 1-2-3", TotalBins, 0., 50*MeV);
   
   // 18. Energy deposited for Scintillator 3 for 1-2-3 Coinc events
-  analysisManager->CreateH1("EDep3-Scint1-2-3", "EDep for Scint 3 for Coinc 1-2-3", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("EDep3-Scint1-2-3", "EDep for Scint 3 for Coinc 1-2-3", TotalBins, 0., 50*MeV);
     
   // 19. Energy deposited for Scintillator 2 for 1-2-3-4 Coinc events
-  analysisManager->CreateH1("EDep2-Scint1-2-3-4", "EDep for Scint 2 for Coinc 1-2-3-4", TotalBins, 0., 100*MeV);
+  analysisManager->CreateH1("EDep2-Scint1-2-3-4", "EDep for Scint 2 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV);
     
   // 20. Energy deposited for Scintillator 3 for 1-2-3-4 Coinc events
-  analysisManager->CreateH1("EDep3-Scint1-2-3-4", "EDep for Scint 3 for Coinc 1-2-3-4", TotalBins, 0., 100*MeV);
-    
-  /*
-  // 13. Energy deposited in all Scintillators 1 & 2 & 3 & 4 for all coincidence events
-  analysisManager->CreateH1("ESumCoinc", "Edep in All scintillators", 1000, 0., 5000*keV);
+  analysisManager->CreateH1("EDep3-Scint1-2-3-4", "EDep for Scint 3 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV);
+
+  // 2D HISTOGRAMS
+
+  // 0. Energy deposited in coincidence channel 1-2
+  analysisManager->CreateH2("EDep1-vs-EDep2-Scint1-2", "EDep for Scint1 and Scint2 for Coinc 1-2", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
+
+  // 1. Energy deposited in coincidence channel 1-2-3
+  analysisManager->CreateH2("EDep2-vs-EDep3-Scint1-2-3", "EDep for Scint2 and Scint3 for Coinc 1-2-3", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
   
-  // 14. Energy deposited in Scintillator 2 for 1-2 Coinc events
-  analysisManager->CreateH1("E2Coinc1-2", "Edep in Scint2 for Coinc 1-2", 1000, 0., 5000*keV);
-
-  // 15. Energy deposited in Scintillator 3 for 1-2-3 Coinc events
-  analysisManager->CreateH1("E3Coinc1-2-3", "Edep in Scint3 for Coinc 1-2-3", 1000, 0., 5000*keV);
-
-  // 16. Energy deposited in Scintillator 3 for 3-4 Coinc events
-  analysisManager->CreateH1("E3Coinc3-4", "Edep in Scint3 for Coinc 3-4", 1000, 0., 5000*keV);
-    
-  // 17. Energy distribution of primary particles for 1-2 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2", "KinEnergy for Coinc 1-2", 1000, 0., 5000*keV);
-
-  // 18. Energy distribution of primary particles for 3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc3-4", "KinEnergy for Coinc 3-4", 1000, 0., 5000*keV);
-    
-  // 19. Energy distribution of primary particles for 1-2-3 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2-3", "KinEnergy for Coinc 1-2-3", 1000, 0., 5000*keV);
-
-  // 20. Energy distribution of primary particles for 2-3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc2-3-4", "KinEnergy for Coinc 2-3-4", 1000, 0., 5000*keV);
-    
-  // 21. Energy distribution of primary particles for 1-2-3-4 Coinc events
-  analysisManager->CreateH1("EDistCoinc1-2-3-4", "KinEnergy for Coinc 1-2-3-4", 1000, 0., 5000*keV);
-  */
-
+  // 2. Energy deposited in coincidence channel 1-2-3-4
+  analysisManager->CreateH2("EDep2-vs-EDep3-Scint1-2-3-4", "EDep for Scint2 and Scint3 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
+      
   // Creating ntuple
   //
   analysisManager->CreateNtuple("B4", "Edep and TrackL");
