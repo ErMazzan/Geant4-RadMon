@@ -1,10 +1,22 @@
 /run/initialize
 
-/gps/particle proton
+/gps/particle proton 
 
-/gps/direction 0 0 -1 
-/gps/position 0 0 100 mm
+/gps/pos/type Surface
+/gps/pos/shape Sphere
+/gps/pos/centre 0 0 0 cm
+/gps/pos/radius 70 mm
 
-/gps/energy 1 MeV
+/gps/ang/type cos
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 90 deg
+
+/gps/ene/type Arb
+/gps/hist/type arb
+/gps/ene/emspec true
+/gps/ene/diffspec false
+/control/execute acc_p_solarmin.mac
+/gps/hist/inter Lin
+
 /analysis/setFileName prueba.root
-/run/beamOn 1
+/run/beamOn 100
