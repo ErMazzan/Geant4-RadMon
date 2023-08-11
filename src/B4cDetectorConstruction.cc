@@ -73,8 +73,8 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	
     // DAVID -> Changed geometry of the absorbers: [0] 2 mm -> 10 mm ; [2] 50 mm -> 40 mm
 	absoThickness[0] = 10.*mm;
-	absoThickness[1] = 20.*mm;
-	absoThickness[2] = 40.*mm;
+	absoThickness[1] = 25.*mm;
+	absoThickness[2] = 35.*mm;
 	
 	scintThickness= 3.*mm;
 	caloSizeXY = 20.*mm;
