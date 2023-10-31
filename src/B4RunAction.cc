@@ -77,7 +77,7 @@ B4RunAction::B4RunAction()
     
   // 0. Energy deposited in Scintillator 1
   analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 50*MeV);
-    
+
   // 1. Energy deposited in Scintillator 2
   analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 50*MeV);
     
@@ -148,15 +148,15 @@ B4RunAction::B4RunAction()
   
   // 2. Energy deposited in coincidence channel 1-2-3-4
   analysisManager->CreateH2("EDep2-vs-EDep3-Scint1-2-3-4", "EDep for Scint2 and Scint3 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
-      
+
   // Creating ntuple
   //
-  analysisManager->CreateNtuple("B4", "Edep and TrackL");
-  analysisManager->CreateNtupleDColumn("Eabs");
-  analysisManager->CreateNtupleDColumn("Egap");
-  analysisManager->CreateNtupleDColumn("Labs");
-  analysisManager->CreateNtupleDColumn("Lgap");
-  analysisManager->FinishNtuple();
+  // analysisManager->CreateNtuple("B4", "Edep and TrackL");
+  // analysisManager->CreateNtupleDColumn("Eabs");
+  // analysisManager->CreateNtupleDColumn("Egap");
+  // analysisManager->CreateNtupleDColumn("Labs");
+  // analysisManager->CreateNtupleDColumn("Lgap");
+  // analysisManager->FinishNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

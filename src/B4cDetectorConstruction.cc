@@ -35,6 +35,9 @@
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 
+#include "MyMaterials.hh"
+#include "G4Material.hh"
+
 #include "G4Box.hh"
 #include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
@@ -42,6 +45,9 @@
 #include "G4PVReplica.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4AutoDelete.hh"
+
+#include "G4OpticalSurface.hh"
+#include "G4LogicalBorderSurface.hh"
 
 #include "G4GeometryManager.hh"
 #include "G4SolidStore.hh"
@@ -67,7 +73,8 @@ G4GlobalMagFieldMessenger* B4cDetectorConstruction::fMagFieldMessenger = 0;
 B4cDetectorConstruction::B4cDetectorConstruction()
  : G4VUserDetectorConstruction(),
    fCheckOverlaps(true),
-   fNofLayers(-1)
+   fNofLayers(-1),
+   fMaterials(NULL)
 {
 	fNofLayers = 4;
 	
@@ -79,19 +86,21 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	scintThickness= 3.*mm;
 	caloSizeXY = 20.*mm;
 	
-	shieldThickness= 0.*mm;
+	shieldThickness= 6.*mm;
 	shieldSizeXY = 40. *mm;
 	shieldZ = 100.* mm;
 	worldSize = 50.*cm;
     
-    fDetectorMessenger = new DetectorMessenger(this);
+  fDetectorMessenger = new DetectorMessenger(this);
+    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4cDetectorConstruction::~B4cDetectorConstruction()
 {
-    delete fDetectorMessenger;
+  if (fDetectorMessenger) delete fDetectorMessenger;
+	if (fMaterials)         delete fMaterials;
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -99,38 +108,13 @@ B4cDetectorConstruction::~B4cDetectorConstruction()
 G4VPhysicalVolume* B4cDetectorConstruction::Construct()
 {
   // Define materials 
-  DefineMaterials();
+  // DefineMaterials();
+  fMaterials = MyMaterials::GetInstance();
   
   // Define volumes
   return DefineVolumes();
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void B4cDetectorConstruction::DefineMaterials()
-{ 
-  // Lead material defined using NIST Manager
-  auto nistManager = G4NistManager::Instance();
-  nistManager->FindOrBuildMaterial("G4_Pb");
-  nistManager->FindOrBuildMaterial("G4_Ta");
-  nistManager->FindOrBuildMaterial("G4_Cu");
-  // DAVID -> Added Tungsten material
-  nistManager->FindOrBuildMaterial("G4_W");
-  
-  // Polystirene
-  // G4_POLYSTYRENE       dty = 1.06     I (eV) = 68.7, C8H8
-  nistManager->FindOrBuildMaterial("G4_POLYSTYRENE");
-  
-  // Vacuum
-  G4double a;  // mass of a mole;
-  G4double z;  // z=mean number of protons;  
-  G4double density; 
-  
-  new G4Material("Galactic", z=1., a=1.01*g/mole,density= universe_mean_density,
-                  kStateGas, 2.73*kelvin, 3.e-18*pascal);
-
-  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
-}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -146,11 +130,15 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   G4double totalDetZ = fNofLayers*scintThickness + totalAbsZ;
   
   // Get materials
-  auto defaultMaterial = G4Material::GetMaterial("Galactic");
-  auto shieldMaterial = G4Material::GetMaterial("G4_Cu");
-  // auto shieldMaterial = G4Material::GetMaterial("G4_W");
-  auto absoMaterial = G4Material::GetMaterial("G4_Ta");
-  auto scintMaterial = G4Material::GetMaterial("G4_POLYSTYRENE");
+  auto defaultMaterial = FindMaterial("fVacuum");
+  // auto shieldMaterial = FindMaterial("fCu");
+  auto shieldMaterial = FindMaterial("fVacuum");
+  auto absoMaterial = FindMaterial("fW");
+  // auto absoMaterial = FindMaterial("fTa");
+  auto scintMaterial = FindMaterial("fPolystyrene");
+  auto sipmMaterial = FindMaterial("fEpoxy");
+  auto couplingMaterial = FindMaterial("fSilicone");
+  
   
   
   if ( ! defaultMaterial || ! shieldMaterial || ! absoMaterial || ! scintMaterial ) {
@@ -175,6 +163,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
                  fCheckOverlaps);  // checking overlaps 
                     
   // Cuper shield
+  /*
   G4VSolid* shieldS = new G4Box("Shield", shieldSizeXY/2., shieldSizeXY/2., shieldZ/2.);
   G4LogicalVolume* shieldLV = new G4LogicalVolume(shieldS, shieldMaterial, "ShieldLV");
   G4VPhysicalVolume* shieldPV = new G4PVPlacement(0, G4ThreeVector(), shieldLV, "ShieldPV", worldLV, false, 0, fCheckOverlaps);
@@ -188,11 +177,61 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   G4VSolid* caloS = new G4Box("Calo", caloSizeXY/2., caloSizeXY/2., totalDetZ/2.);
   G4LogicalVolume* caloLV = new G4LogicalVolume(caloS, defaultMaterial, "CaloLV");
   G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", vacuumLV, false, 0, fCheckOverlaps);
-  
+  */
+
   // Scintillators
   G4VSolid* scintS = new G4Box("Scintillator", caloSizeXY/2., caloSizeXY/2., scintThickness/2.);
   G4LogicalVolume* scintLV = new G4LogicalVolume(scintS, scintMaterial, "ScintillatorLV");
-  G4VPhysicalVolume* scintPV;
+  G4VPhysicalVolume* scintPV = new G4PVPlacement( 0, G4ThreeVector(0., 0., 0.), scintLV, "ScintillatorPV", worldLV, false, 0, fCheckOverlaps);
+
+
+
+// OpCoupling
+	// G4Box* solidOpCoupling = new G4Box("OpCoupling", (sqrt(NSiPMs)*(SiPMsize+SiPMgap)-SiPMgap)/2., (sqrt(NSiPMs)*(SiPMsize+SiPMgap)-SiPMgap)/2., OpCouplThickness/2.);
+	// G4LogicalVolume* logicOpCoupling = new G4LogicalVolume(solidOpCoupling,FindMaterial(tempMaterial),"OpCoupling");
+	// G4VPhysicalVolume* physiOpCoupling = new G4PVPlacement(0,positionOpCoupling,"OpCoupling",logicOpCoupling,physiWorld,false,0);
+
+	// SiPM
+  G4double SiPMsize = 1.3*mm;
+  G4double SiPMThickness = 0.3*mm;
+
+    //Create a Rotation Matrix
+  G4RotationMatrix* Rotation = new G4RotationMatrix();
+  Rotation->rotateX(0*deg);
+  Rotation->rotateY(90*deg);
+  Rotation->rotateZ(0*deg);
+
+  G4VSolid* sipmS = new G4Box("SiPM_SV", SiPMsize/2., SiPMsize/2., SiPMThickness/2.);
+  G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, scintMaterial, "SiPM_LV");
+  G4VPhysicalVolume* sipmPV = new G4PVPlacement(Rotation, G4ThreeVector(caloSizeXY/2.+SiPMThickness/2., 0., 0.), sipmLV, "SiPM_PV", scintLV, false, 0, fCheckOverlaps);
+
+  
+  
+	//------------------------------------------------------
+  // Surfaces and boundary processes
+	//------------------------------------------------------
+
+  // Scintillator - OpCoupling
+	
+	// G4OpticalSurface* OpCouplSurface = new G4OpticalSurface("WinCouplSurface");
+	// OpCouplSurface->SetType(dielectric_dielectric);
+	// OpCouplSurface->SetModel(glisur);
+	// OpCouplSurface->SetFinish(polished);
+	
+	// G4LogicalBorderSurface* WinCouplSurface = new G4LogicalBorderSurface("WinCouplSurface",sipmPV,couplingPV,OpCouplSurface);
+
+	
+	// Opticalcoupling - SiPM
+	
+	G4OpticalSurface* OpCouplSiPMSurface = new G4OpticalSurface("CouplSiPMSurface");
+	OpCouplSiPMSurface->SetType(dielectric_dielectric);
+	OpCouplSiPMSurface->SetModel(glisur);
+	OpCouplSiPMSurface->SetFinish(polished);
+	
+	G4LogicalBorderSurface* CouplSiPMSurface = new G4LogicalBorderSurface("CouplSiPMSurface",scintPV,sipmPV,OpCouplSiPMSurface);
+	
+
+  /*
   G4double posDetEle;
   G4double accumulatedAbsTh=0.;
   
@@ -222,7 +261,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	  posDetEle = totalDetZ/2 - (1+i)*scintThickness - accumulatedAbsTh + absoThickness[i]/2.;
 	  absoPV[i] = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), absoLV[i], "AbsorberPV", caloLV, false, i, fCheckOverlaps);
   }
-
+  */
   G4Sphere* Hemisphere = new G4Sphere("Hemisphere", 70.0*mm, 70.1*mm, fStartPhiAngle, fAperturePhiAngle, fStartThetaAngle, fApertureThetaAngle);
     
   G4LogicalVolume* HemisphereLV = new G4LogicalVolume(Hemisphere, defaultMaterial, "HemisphereLV");
@@ -303,6 +342,7 @@ void B4cDetectorConstruction::ConstructSDandField()
   // 
   // Sensitive detectors
   //
+  /*
   char str[1024];
   auto absoSD 
     = new B4cCalorimeterSD("AbsorberSD", "AbsorberHitsCollection", fNofLayers);
@@ -317,9 +357,8 @@ void B4cDetectorConstruction::ConstructSDandField()
     = new B4cCalorimeterSD("GapSD", "GapHitsCollection", fNofLayers);
   G4SDManager::GetSDMpointer()->AddNewDetector(gapSD);
   SetSensitiveDetector("ScintillatorLV",gapSD);
-    
+  */
   // DAVID -> Added a new SensitiveDetector object
-    
   auto ScinSD
     = new B4cCalorimeterSD("ScinSD", "ScintillatorHitsCollection", fNofLayers);
   G4SDManager::GetSDMpointer()->AddNewDetector(ScinSD);
@@ -341,3 +380,10 @@ void B4cDetectorConstruction::ConstructSDandField()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4Material* B4cDetectorConstruction::FindMaterial(G4String name) {
+  G4Material* material = fMaterials->GetMaterial(name);
+  return material;
+}

@@ -30,6 +30,7 @@
 
 #include "B4cDetectorConstruction.hh"
 #include "B4cActionInitialization.hh"
+#include "MyPhysicsList.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -39,7 +40,12 @@
 
 #include "G4UImanager.hh"
 #include "G4UIcommand.hh"
+
 #include "FTFP_BERT.hh"
+#include "G4OpticalPhysics.hh"
+#include "G4OpticalParameters.hh"
+#include "G4EmStandardPhysics_option3.hh"
+#include "G4EmStandardPhysics_option4.hh"
 
 #include "Randomize.hh"
 
@@ -114,9 +120,39 @@ int main(int argc,char** argv)
   auto detConstruction = new B4cDetectorConstruction();
   runManager->SetUserInitialization(detConstruction);
 
-  auto physicsList = new FTFP_BERT;
+  runManager->SetUserInitialization(new MyPhysicsList);
+
+  /*
+  // Physics list
+  G4VModularPhysicsList* physicsList = new MyPhysicsList();
+
+  // hadronic physics
+   physicsList = new FTFP_BERT; // hadronic physics
+
+  // em physics
+  physicsList->RegisterPhysics(new G4EmStandardPhysics_option3()); // for medical and space
+
+  // optical physics
+  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
+  physicsList->RegisterPhysics(opticalPhysics);
+
+  auto opticalParams = G4OpticalParameters::Instance();
+  opticalParams->SetProcessActivation("Cerenkov",false);
+    // Default processes:
+        // processActivation["OpRayleigh"]    = true;
+        // processActivation["OpBoundary"]    = true;
+        // processActivation["OpMieHG"]       = true;
+        // processActivation["OpAbsorption"]  = true;
+        // processActivation["OpWLS"]         = true;
+        // processActivation["OpWLS2"]        = true;
+        // processActivation["Cerenkov"]      = true;
+        // processActivation["Scintillation"] = true;
+
   runManager->SetUserInitialization(physicsList);
   
+  */
+
+  // Action Initialization
   auto actionInitialization = new B4cActionInitialization(detConstruction);
   runManager->SetUserInitialization(actionInitialization);
     

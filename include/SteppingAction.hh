@@ -11,6 +11,7 @@
 #include "G4UserSteppingAction.hh"
 #include "B4RunAction.hh"
 #include "B4cEventAction.hh"
+#include "G4OpBoundaryProcess.hh"
 
 class B4cDetectorConstruction;
 class G4Track;
@@ -35,6 +36,9 @@ class SteppingAction : public G4UserSteppingAction
       B4RunAction* fRunAct;
     
       G4int FirstIntStep;
+
+      G4OpBoundaryProcess* fBoundary = nullptr;
+      G4OpBoundaryProcessStatus fExpectedNextStatus;
 };
 
 #endif

@@ -135,30 +135,32 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // David -> Added fScintHCID
     
   // G4cout << "hola:)" << G4endl;
-  if ( fAbsHCID == -1 ) {
+  if ( fScintHCID == -1 ) {
+    /*
     fAbsHCID 
       = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
     fGapHCID 
       = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
+      */
     fScintHCID
       = G4SDManager::GetSDMpointer()->GetCollectionID("ScintillatorHitsCollection");
   }
 
   // Get hits collections
-  auto absoHC = GetHitsCollection(fAbsHCID, event);
-  auto gapHC = GetHitsCollection(fGapHCID, event);
+  // auto absoHC = GetHitsCollection(fAbsHCID, event);
+  // auto gapHC = GetHitsCollection(fGapHCID, event);
   auto scintHC = GetHitsCollection(fScintHCID, event);
 
   // DAVID -> Added Hits detector for each layer
     
   // Get hit with total values
-  auto absoHit = (*absoHC)[absoHC->entries()-1];
-  auto gapHit = (*gapHC)[gapHC->entries()-1];
+  // auto absoHit = (*absoHC)[absoHC->entries()-1];
+  // auto gapHit = (*gapHC)[gapHC->entries()-1];
     
   auto Scint1Hit = (*scintHC)[0];
-  auto Scint2Hit = (*scintHC)[1];
-  auto Scint3Hit = (*scintHC)[2];
-  auto Scint4Hit = (*scintHC)[3];
+  // auto Scint2Hit = (*scintHC)[1];
+  // auto Scint3Hit = (*scintHC)[2];
+  // auto Scint4Hit = (*scintHC)[3];
  
   // Print per event (modulo n)
   //
@@ -168,9 +170,9 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
     // G4cout << "---> End of event: " << eventID << G4endl;     
 
-    PrintEventStatistics(
-      absoHit->GetEdep(), absoHit->GetTrackLength(),
-      gapHit->GetEdep(), gapHit->GetTrackLength());
+    // PrintEventStatistics(
+    //   absoHit->GetEdep(), absoHit->GetTrackLength(),
+    //   gapHit->GetEdep(), gapHit->GetTrackLength());
   }
   
   
@@ -194,7 +196,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     analysisManager->FillH1(0, Scint1Hit->GetEdep());
     Scint1Flag = TRUE;
   }
-    
+  /*
   if (Scint2Hit->GetEdep() != 0) {
     analysisManager->FillH1(1, Scint2Hit->GetEdep());
     Scint2Flag = TRUE;
@@ -212,8 +214,8 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     
   if ((Scint1Flag && Scint2Flag) == TRUE) {
       Scint12Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep();
-      // analysisManager->FillH1(4, Scint12Energy);
-      // analysisManager->FillH1(10, ekin);
+      analysisManager->FillH1(4, Scint12Energy);
+      analysisManager->FillH1(10, ekin);
       analysisManager->FillH1(15, Scint1Hit->GetEdep());
       analysisManager->FillH1(16, Scint2Hit->GetEdep());
       analysisManager->FillH2(0, Scint1Hit->GetEdep(), Scint2Hit->GetEdep());
@@ -222,15 +224,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
     
   if ((Scint3Flag && Scint4Flag) == TRUE) {
       Scint34Energy = Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      // analysisManager->FillH1(5, Scint34Energy);
-      // analysisManager->FillH1(11, ekin);
+      analysisManager->FillH1(5, Scint34Energy);
+      analysisManager->FillH1(11, ekin);
       fRunAct->UpdateRate34(1);
   }
     
   if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
       Scint123Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep();
-      // analysisManager->FillH1(6, Scint123Energy);
-      // analysisManager->FillH1(12, ekin);
+      analysisManager->FillH1(6, Scint123Energy);
+      analysisManager->FillH1(12, ekin);
       analysisManager->FillH1(17, Scint2Hit->GetEdep());
       analysisManager->FillH1(18, Scint3Hit->GetEdep());
       analysisManager->FillH2(1, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
@@ -239,21 +241,21 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
       Scint234Energy = Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      // analysisManager->FillH1(7, Scint234Energy);
-      // analysisManager->FillH1(13, ekin);
+      analysisManager->FillH1(7, Scint234Energy);
+      analysisManager->FillH1(13, ekin);
       fRunAct->UpdateRate234(1);
   }
 
   if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
       Scint1234Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      // analysisManager->FillH1(8, Scint1234Energy);
-      // analysisManager->FillH1(14, ekin);
+      analysisManager->FillH1(8, Scint1234Energy);
+      analysisManager->FillH1(14, ekin);
       analysisManager->FillH1(19, Scint2Hit->GetEdep());
       analysisManager->FillH1(20, Scint3Hit->GetEdep());
       analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
       fRunAct->UpdateRate1234(1);
   }
-
+  */
   /*
   if ((Scint1Flag && Scint2Flag) == TRUE || (Scint3Flag && Scint4Flag) == TRUE) {
       analysisManager->FillH1(13, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
@@ -273,11 +275,11 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   */
     
   // fill ntuple
-  analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
-  analysisManager->FillNtupleDColumn(1, gapHit->GetEdep());
-  analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
-  analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
-  analysisManager->AddNtupleRow();  
+  // analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
+  // analysisManager->FillNtupleDColumn(1, gapHit->GetEdep());
+  // analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
+  // analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
+  // analysisManager->AddNtupleRow();  
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

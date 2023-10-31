@@ -37,6 +37,8 @@
 class G4VPhysicalVolume;
 class G4GlobalMagFieldMessenger;
 class DetectorMessenger;
+class MyMaterials;
+class G4Material;
 
 /// Detector construction class to define materials and geometry.
 /// The calorimeter is a box made of a given number of layers. A layer consists
@@ -64,42 +66,46 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
     
+    // cmds
     void SetStartPhiAngle(G4double);
     void SetAperturePhiAngle(G4double);
     void SetStartThetaAngle(G4double);
     void SetApertureThetaAngle(G4double);
     
     void UpdateGeometry();
-    
-  private:
+
     // methods
     //
-    void DefineMaterials();
+    // void DefineMaterials(); // done in Materials class
     G4VPhysicalVolume* DefineVolumes();
     
+    
+  private:   
     // data members
     //
-    static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
-                                      // magnetic field messenger
+    MyMaterials* fMaterials;
+    G4VPhysicalVolume* worldPV;
+
+    G4Material* FindMaterial(G4String);
+
+    static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; // magnetic field messenger
 
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
     G4int   fNofLayers;     // number of layers
     
     G4double absoThickness[3];
-	G4double scintThickness;
-	G4double caloSizeXY;
-	
-	G4double shieldThickness;
-	G4double shieldSizeXY;
-	G4double shieldZ;
-	G4double worldSize;
+    G4double scintThickness;
+    G4double caloSizeXY;
+
+    G4double shieldThickness;
+    G4double shieldSizeXY;
+    G4double shieldZ;
+    G4double worldSize;
     
     G4double fStartPhiAngle = 0;
     G4double fAperturePhiAngle = 0.01;
     G4double fStartThetaAngle = 0;
     G4double fApertureThetaAngle = 0.01;
-    
-    G4VPhysicalVolume* worldPV;
     
     DetectorMessenger* fDetectorMessenger;
 };
