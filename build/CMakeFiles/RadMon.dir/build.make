@@ -181,10 +181,38 @@ CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/heplab/marina/lisa/RadMon/src/DetectorMessenger.cc -o CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s
 
+CMakeFiles/RadMon.dir/src/MyMaterials.cc.o: CMakeFiles/RadMon.dir/flags.make
+CMakeFiles/RadMon.dir/src/MyMaterials.cc.o: ../src/MyMaterials.cc
+CMakeFiles/RadMon.dir/src/MyMaterials.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/RadMon.dir/src/MyMaterials.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/MyMaterials.cc.o -MF CMakeFiles/RadMon.dir/src/MyMaterials.cc.o.d -o CMakeFiles/RadMon.dir/src/MyMaterials.cc.o -c /home/heplab/marina/lisa/RadMon/src/MyMaterials.cc
+
+CMakeFiles/RadMon.dir/src/MyMaterials.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RadMon.dir/src/MyMaterials.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/heplab/marina/lisa/RadMon/src/MyMaterials.cc > CMakeFiles/RadMon.dir/src/MyMaterials.cc.i
+
+CMakeFiles/RadMon.dir/src/MyMaterials.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/MyMaterials.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/heplab/marina/lisa/RadMon/src/MyMaterials.cc -o CMakeFiles/RadMon.dir/src/MyMaterials.cc.s
+
+CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o: CMakeFiles/RadMon.dir/flags.make
+CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o: ../src/MyPhysicsList.cc
+CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o -MF CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o.d -o CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o -c /home/heplab/marina/lisa/RadMon/src/MyPhysicsList.cc
+
+CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/heplab/marina/lisa/RadMon/src/MyPhysicsList.cc > CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.i
+
+CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/heplab/marina/lisa/RadMon/src/MyPhysicsList.cc -o CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.s
+
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: CMakeFiles/RadMon.dir/flags.make
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: ../src/MyPrimaryGeneratorAction.cc
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o -MF CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o.d -o CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o -c /home/heplab/marina/lisa/RadMon/src/MyPrimaryGeneratorAction.cc
 
 CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.i: cmake_force
@@ -198,7 +226,7 @@ CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.s: cmake_force
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/flags.make
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: CMakeFiles/RadMon.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -MF CMakeFiles/RadMon.dir/src/SteppingAction.cc.o.d -o CMakeFiles/RadMon.dir/src/SteppingAction.cc.o -c /home/heplab/marina/lisa/RadMon/src/SteppingAction.cc
 
 CMakeFiles/RadMon.dir/src/SteppingAction.cc.i: cmake_force
@@ -219,6 +247,8 @@ RadMon_OBJECTS = \
 "CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o" \
 "CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o" \
 "CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o" \
+"CMakeFiles/RadMon.dir/src/MyMaterials.cc.o" \
+"CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o" \
 "CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o" \
 "CMakeFiles/RadMon.dir/src/SteppingAction.cc.o"
 
@@ -233,6 +263,8 @@ RadMon: CMakeFiles/RadMon.dir/src/B4cCalorimeterSD.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cDetectorConstruction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/B4cEventAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.o
+RadMon: CMakeFiles/RadMon.dir/src/MyMaterials.cc.o
+RadMon: CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/MyPrimaryGeneratorAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/src/SteppingAction.cc.o
 RadMon: CMakeFiles/RadMon.dir/build.make
@@ -283,7 +315,7 @@ RadMon: /home/heplab/Programs/geant4-v11.1.1_install/lib/libG4global.so
 RadMon: /home/heplab/Programs/geant4-v11.1.1_install/lib/libG4clhep.so
 RadMon: /home/heplab/Programs/geant4-v11.1.1_install/lib/libG4ptl.so.2.3.3
 RadMon: CMakeFiles/RadMon.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable RadMon"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/heplab/marina/lisa/RadMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable RadMon"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RadMon.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

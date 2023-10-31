@@ -366,6 +366,54 @@ src/DetectorMessenger.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/DetectorMessenger.cc.s
 .PHONY : src/DetectorMessenger.cc.s
 
+src/MyMaterials.o: src/MyMaterials.cc.o
+.PHONY : src/MyMaterials.o
+
+# target to build an object file
+src/MyMaterials.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyMaterials.cc.o
+.PHONY : src/MyMaterials.cc.o
+
+src/MyMaterials.i: src/MyMaterials.cc.i
+.PHONY : src/MyMaterials.i
+
+# target to preprocess a source file
+src/MyMaterials.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyMaterials.cc.i
+.PHONY : src/MyMaterials.cc.i
+
+src/MyMaterials.s: src/MyMaterials.cc.s
+.PHONY : src/MyMaterials.s
+
+# target to generate assembly for a file
+src/MyMaterials.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyMaterials.cc.s
+.PHONY : src/MyMaterials.cc.s
+
+src/MyPhysicsList.o: src/MyPhysicsList.cc.o
+.PHONY : src/MyPhysicsList.o
+
+# target to build an object file
+src/MyPhysicsList.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.o
+.PHONY : src/MyPhysicsList.cc.o
+
+src/MyPhysicsList.i: src/MyPhysicsList.cc.i
+.PHONY : src/MyPhysicsList.i
+
+# target to preprocess a source file
+src/MyPhysicsList.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.i
+.PHONY : src/MyPhysicsList.cc.i
+
+src/MyPhysicsList.s: src/MyPhysicsList.cc.s
+.PHONY : src/MyPhysicsList.s
+
+# target to generate assembly for a file
+src/MyPhysicsList.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RadMon.dir/build.make CMakeFiles/RadMon.dir/src/MyPhysicsList.cc.s
+.PHONY : src/MyPhysicsList.cc.s
+
 src/MyPrimaryGeneratorAction.o: src/MyPrimaryGeneratorAction.cc.o
 .PHONY : src/MyPrimaryGeneratorAction.o
 
@@ -451,6 +499,12 @@ help:
 	@echo "... src/DetectorMessenger.o"
 	@echo "... src/DetectorMessenger.i"
 	@echo "... src/DetectorMessenger.s"
+	@echo "... src/MyMaterials.o"
+	@echo "... src/MyMaterials.i"
+	@echo "... src/MyMaterials.s"
+	@echo "... src/MyPhysicsList.o"
+	@echo "... src/MyPhysicsList.i"
+	@echo "... src/MyPhysicsList.s"
 	@echo "... src/MyPrimaryGeneratorAction.o"
 	@echo "... src/MyPrimaryGeneratorAction.i"
 	@echo "... src/MyPrimaryGeneratorAction.s"

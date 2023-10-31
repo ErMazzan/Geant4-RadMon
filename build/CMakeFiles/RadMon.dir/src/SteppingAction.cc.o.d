@@ -512,4 +512,5 @@ CMakeFiles/RadMon.dir/src/SteppingAction.cc.o: \
  /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4UItokenNum.hh \
  /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4ApplicationState.hh \
  /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4UserTrackingAction.hh \
- /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4RunManagerKernel.hh
+ /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4RunManagerKernel.hh \
+ /home/heplab/Programs/geant4-v11.1.1_install/include/Geant4/G4OpticalPhoton.hh

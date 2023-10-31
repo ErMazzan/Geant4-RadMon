@@ -15,7 +15,7 @@
 /gps/hist/type arb
 /gps/ene/emspec true
 /gps/ene/diffspec false
-/control/execute ../data/acc_p_solarmin.mac
+/control/execute acc_p_solarmin.mac
 /gps/hist/inter Lin
 
 /analysis/setFileName ../results/sphere_GCR/sphere_GCR.root

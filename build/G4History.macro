@@ -24,6 +24,9 @@
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
 /vis/verbose warnings
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton magenta
+/vis/scene/notifyHandlers scene-0
 /control/execute gui.mac
 /gui/addMenu file File
 /gui/addButton file Quit exit
@@ -52,3 +55,15 @@
 /gui/addButton viewer "Flush viewer (= refresh + update)" "/vis/viewer/flush"
 /gui/addButton viewer "Update scene" "/vis/scene/notifyHandlers"
 /run/printProgress 100
+/control/execute beam.mac
+/run/initialize
+/gps/particle proton
+/gps/direction 0 0 -1
+/gps/position 0 0 200 mm
+/gps/pos/type Point
+/gps/ene/type Mono
+/gps/energy 500 MeV
+/analysis/setFileName ../results/test/test.root
+/run/beamOn 5
+/analysis/h1/getVector
+/analysis/h2/getVector
