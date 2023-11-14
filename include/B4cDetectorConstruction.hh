@@ -79,7 +79,8 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     // void DefineMaterials(); // done in Materials class
     G4VPhysicalVolume* DefineVolumes();
     
-    
+    virtual G4int GetNofSiPMS() const;
+
   private:   
     // data members
     //
@@ -92,6 +93,7 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
 
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
     G4int   fNofLayers;     // number of layers
+    G4int   fNoSiPMs;     // number of SiPMs per scintillator
     
     G4double absoThickness[3];
     G4double scintThickness;
@@ -110,7 +112,14 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     DetectorMessenger* fDetectorMessenger;
 };
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//////////////////////
+//  inline methods
+//////////////////////
+
+inline G4int B4cDetectorConstruction::GetNofSiPMS() const
+{
+  return fNoSiPMs;
+}
 
 #endif
 
