@@ -37,6 +37,7 @@
 
 #include "MyMaterials.hh"
 #include "G4Material.hh"
+#include "G4MaterialPropertiesTable.hh"
 
 #include "G4Box.hh"
 #include "G4Sphere.hh"
@@ -48,6 +49,7 @@
 
 #include "G4OpticalSurface.hh"
 #include "G4LogicalBorderSurface.hh"
+#include "G4LogicalSkinSurface.hh"
 
 #include "G4GeometryManager.hh"
 #include "G4SolidStore.hh"
@@ -56,6 +58,7 @@
 #include "G4RunManager.hh"
 
 #include "G4SDManager.hh"
+#include "SiPMSD.hh"
 
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
@@ -74,9 +77,11 @@ B4cDetectorConstruction::B4cDetectorConstruction()
  : G4VUserDetectorConstruction(),
    fCheckOverlaps(true),
    fNofLayers(-1),
-   fMaterials(NULL)
+   fMaterials(NULL),
+   fNoSiPMs(-1)
 {
 	fNofLayers = 4;
+  fNoSiPMs = 4; //Num of SiPMs per scintillator (for now must be even number)
 	
     // DAVID -> Changed geometry of the absorbers: [0] 2 mm -> 10 mm ; [2] 50 mm -> 40 mm
 	absoThickness[0] = 10.*mm;
@@ -163,47 +168,106 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
                  fCheckOverlaps);  // checking overlaps 
                     
   // Cuper shield
-  /*
-  G4VSolid* shieldS = new G4Box("Shield", shieldSizeXY/2., shieldSizeXY/2., shieldZ/2.);
-  G4LogicalVolume* shieldLV = new G4LogicalVolume(shieldS, shieldMaterial, "ShieldLV");
-  G4VPhysicalVolume* shieldPV = new G4PVPlacement(0, G4ThreeVector(), shieldLV, "ShieldPV", worldLV, false, 0, fCheckOverlaps);
+
+  // G4VSolid* shieldS = new G4Box("Shield", shieldSizeXY/2., shieldSizeXY/2., shieldZ/2.);
+  // G4LogicalVolume* shieldLV = new G4LogicalVolume(shieldS, shieldMaterial, "ShieldLV");
+  // G4VPhysicalVolume* shieldPV = new G4PVPlacement(0, G4ThreeVector(), shieldLV, "ShieldPV", worldLV, false, 0, fCheckOverlaps);
   
   // Vacuum between shield and scintillators
-  G4VSolid* vacuumS = new G4Box("Vacuum", shieldSizeXY/2.-shieldThickness, shieldSizeXY/2.-shieldThickness, shieldZ/2.-shieldThickness);
-  G4LogicalVolume* vacuumLV = new G4LogicalVolume(vacuumS, defaultMaterial, "VacuumLV");
-  G4VPhysicalVolume* vacuumPV = new G4PVPlacement(0, G4ThreeVector(), vacuumLV,"VacuumPV", shieldLV, false, 0, fCheckOverlaps);
-  
+  // G4VSolid* vacuumS = new G4Box("Vacuum", shieldSizeXY/2.-shieldThickness, shieldSizeXY/2.-shieldThickness, shieldZ/2.-shieldThickness);
+  // G4LogicalVolume* vacuumLV = new G4LogicalVolume(vacuumS, defaultMaterial, "VacuumLV");
+  // G4VPhysicalVolume* vacuumPV = new G4PVPlacement(0, G4ThreeVector(), vacuumLV,"VacuumPV", shieldLV, false, 0, fCheckOverlaps);
+
   // Calo that joins all detectors made of default material
   G4VSolid* caloS = new G4Box("Calo", caloSizeXY/2., caloSizeXY/2., totalDetZ/2.);
   G4LogicalVolume* caloLV = new G4LogicalVolume(caloS, defaultMaterial, "CaloLV");
-  G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", vacuumLV, false, 0, fCheckOverlaps);
-  */
+  G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", worldLV, false, 0, fCheckOverlaps);
+  
 
-  // Scintillators
+   // Scintillators
   G4VSolid* scintS = new G4Box("Scintillator", caloSizeXY/2., caloSizeXY/2., scintThickness/2.);
-  G4LogicalVolume* scintLV = new G4LogicalVolume(scintS, scintMaterial, "ScintillatorLV");
-  G4VPhysicalVolume* scintPV = new G4PVPlacement( 0, G4ThreeVector(0., 0., 0.), scintLV, "ScintillatorPV", worldLV, false, 0, fCheckOverlaps);
+  G4LogicalVolume* scintLV = new G4LogicalVolume( scintS, scintMaterial, "ScintillatorLV");
+  G4VPhysicalVolume* scintPV;
+  G4double posDetEle;
+  G4double accumulatedAbsTh=0.;
+  
+  for (int i=0; i<fNofLayers; i++){
+	if (i>0) accumulatedAbsTh += absoThickness[i-1];
+	posDetEle = totalDetZ/2 - (1+2*i)*scintThickness/2. - accumulatedAbsTh;
+	scintPV = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), scintLV, "ScintillatorPV", caloLV, false, i, fCheckOverlaps);
+  }
+  
+  //Absorbers
+  
+  G4VSolid* absoS[fNofLayers-1];
+  G4LogicalVolume* absoLV[fNofLayers-1];
+  G4VPhysicalVolume* absoPV[fNofLayers-1];
+  
+  accumulatedAbsTh=0.;
+  char str[1024];
+  
+  for (int i=0; i<fNofLayers-1; i++){
+	  
+	  
+	  sprintf(str, "Absorber%d\n",i);
+	  absoS[i] = new G4Box(str, caloSizeXY/2., caloSizeXY/2., absoThickness[i]/2.);
+	  
+	  sprintf(str, "AbsorberLV%d\n",i);
+	  absoLV[i] = new G4LogicalVolume( absoS[i], absoMaterial, str);
+	  
+	  accumulatedAbsTh += absoThickness[i];
+	  posDetEle = totalDetZ/2 - (1+i)*scintThickness - accumulatedAbsTh + absoThickness[i]/2.;
+	  absoPV[i] = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), absoLV[i], "AbsorberPV", caloLV, false, i, fCheckOverlaps);
+  }
+  
+  
+  // SiPM placement:
 
-
-
-// OpCoupling
-	// G4Box* solidOpCoupling = new G4Box("OpCoupling", (sqrt(NSiPMs)*(SiPMsize+SiPMgap)-SiPMgap)/2., (sqrt(NSiPMs)*(SiPMsize+SiPMgap)-SiPMgap)/2., OpCouplThickness/2.);
-	// G4LogicalVolume* logicOpCoupling = new G4LogicalVolume(solidOpCoupling,FindMaterial(tempMaterial),"OpCoupling");
-	// G4VPhysicalVolume* physiOpCoupling = new G4PVPlacement(0,positionOpCoupling,"OpCoupling",logicOpCoupling,physiWorld,false,0);
-
-	// SiPM
   G4double SiPMsize = 1.3*mm;
-  G4double SiPMThickness = 0.3*mm;
+  G4double SiPMThickness = 1*mm;
+  G4double couplingThickness = 0.2*mm;
 
-    //Create a Rotation Matrix
-  G4RotationMatrix* Rotation = new G4RotationMatrix();
-  Rotation->rotateX(0*deg);
-  Rotation->rotateY(90*deg);
-  Rotation->rotateZ(0*deg);
+  G4double detectorsize = SiPMsize;
+  G4double detectorThickness = SiPMThickness + couplingThickness;
 
-  G4VSolid* sipmS = new G4Box("SiPM_SV", SiPMsize/2., SiPMsize/2., SiPMThickness/2.);
-  G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, scintMaterial, "SiPM_LV");
-  G4VPhysicalVolume* sipmPV = new G4PVPlacement(Rotation, G4ThreeVector(caloSizeXY/2.+SiPMThickness/2., 0., 0.), sipmLV, "SiPM_PV", scintLV, false, 0, fCheckOverlaps);
+    // Rotation Matrix (DON'T modify if used) 
+  G4RotationMatrix* RotationA = new G4RotationMatrix();
+  RotationA->rotateX(0*deg);
+  RotationA->rotateY(90*deg);
+  RotationA->rotateZ(0*deg);
+
+  G4RotationMatrix* RotationB = new G4RotationMatrix();
+  RotationB->rotateX(0*deg);
+  RotationB->rotateY(-90*deg);
+  RotationB->rotateZ(0*deg);
+
+
+      // Detector volume that contains SiPM + optical couping
+  G4VSolid* detectorS = new G4Box("Detector", detectorsize/2., detectorsize/2., detectorThickness/2.);
+  G4LogicalVolume* detectorLV = new G4LogicalVolume(detectorS, defaultMaterial, "DetectorLV");
+  // G4VPhysicalVolume* detectorPV = new G4PVPlacement(Rotation,  G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.), detectorLV, "DetectorPV", scintLV, false, 0, fCheckOverlaps);
+  // G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.)
+  // G4ThreeVector(0.,0.,-(scintThickness+detectorThickness)/2.)
+
+  G4VPhysicalVolume* detectorPV;
+  for (int i=0; i<fNoSiPMs/2; i++){
+    auto pos = G4ThreeVector(caloSizeXY/2.+detectorThickness/2., -caloSizeXY/2.+(i+1)*caloSizeXY/(fNoSiPMs/2.+1),0.);
+	  detectorPV = new G4PVPlacement( RotationA, pos, detectorLV, "DetectorPV", scintLV, false, i, fCheckOverlaps);
+  }
+  for (int i=0; i<fNoSiPMs/2; i++){
+    auto pos = G4ThreeVector(-1.*(caloSizeXY/2.+detectorThickness/2.), -caloSizeXY/2.+(i+1)*caloSizeXY/(fNoSiPMs/2.+1),0.);
+	  detectorPV = new G4PVPlacement( RotationB, pos, detectorLV, "DetectorPV", scintLV, false, i+fNoSiPMs/2, fCheckOverlaps);
+  }
+
+      // OpCoupling
+	G4Box* couplingS = new G4Box("OpCoupling", detectorsize/2., detectorsize/2., couplingThickness/2.);
+	G4LogicalVolume* couplingLV = new G4LogicalVolume(couplingS, couplingMaterial,"OpCouplingLV");
+	G4VPhysicalVolume* couplingPV = new G4PVPlacement(0, G4ThreeVector(0., 0., SiPMThickness/2.), couplingLV, "OpCouplingPV", detectorLV, false, 0, fCheckOverlaps);
+
+	    // SiPM
+  G4VSolid* sipmS = new G4Box("SiPM", SiPMsize/2., SiPMsize/2., SiPMThickness/2.);
+  G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, sipmMaterial, "SiPMLV");
+  G4VPhysicalVolume* sipmPV = new G4PVPlacement(0, G4ThreeVector(0., 0., -couplingThickness/2.), sipmLV, "SiPMPV", detectorLV, false, 0, fCheckOverlaps);
 
   
   
@@ -211,25 +275,54 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   // Surfaces and boundary processes
 	//------------------------------------------------------
 
-  // Scintillator - OpCoupling
-	
-	// G4OpticalSurface* OpCouplSurface = new G4OpticalSurface("WinCouplSurface");
-	// OpCouplSurface->SetType(dielectric_dielectric);
-	// OpCouplSurface->SetModel(glisur);
-	// OpCouplSurface->SetFinish(polished);
-	
-	// G4LogicalBorderSurface* WinCouplSurface = new G4LogicalBorderSurface("WinCouplSurface",sipmPV,couplingPV,OpCouplSurface);
+  // For no surface absorption, set REFLECTIVITY = 1 :
+  //      P(surface absorption) = 1 - REFLECTIVITY
+  // To tune reclectivity-transmittance (the physical parameters not the surface property)
+  // set TRANSMITTANCE parameter in [0., 1.]
+  //      R = 1 - TRANSMITTANCE
+  //      T = TRANSMITTANCE
+  // see Peculiarities in the Simulation of Optical Physics: https://arxiv.org/pdf/1612.05162.pdf 
 
-	
+  std::vector<G4double> energy = { 1.2915 * eV, 5.166 * eV };
+  std::vector<G4double> scintreflectivity = {1., 1.};
+  std::vector<G4double> scinttransmittance = {0.3, 0.3};
+  // For couplings:
+  std::vector<G4double> reflectivity = {1., 1.};
+  std::vector<G4double> transmittance = {1., 1.};
+
+  G4MaterialPropertiesTable* mpt_skin = new G4MaterialPropertiesTable();
+  mpt_skin->AddProperty("REFLECTIVITY", energy, scintreflectivity);
+  mpt_skin->AddProperty("TRANSMITTANCE", energy, scinttransmittance);
+
+  G4MaterialPropertiesTable* mpt = new G4MaterialPropertiesTable();
+	mpt->AddProperty("REFLECTIVITY", energy, transmittance);
+  mpt->AddProperty("TRANSMITTANCE", energy, reflectivity);
+
+
+  // Scintillator - exterior
+  G4OpticalSurface* ScintSkinSurface = new G4OpticalSurface("ScintSkinSurface");
+  ScintSkinSurface->SetType(dielectric_dielectric);
+	ScintSkinSurface->SetModel(glisur);
+	ScintSkinSurface->SetFinish(polished);
+  G4LogicalBorderSurface* ScintSurface = new G4LogicalBorderSurface("ScintSkinSurface", scintPV, worldPV,ScintSkinSurface);
+  ScintSkinSurface-> SetMaterialPropertiesTable(mpt_skin);
+
+
+  // Scintillator - OpCoupling
+	G4OpticalSurface* ScintOpCouplSurface = new G4OpticalSurface("ScintCouplSurface");
+  ScintOpCouplSurface->SetType(dielectric_dielectric);
+	ScintOpCouplSurface->SetModel(glisur);
+	ScintOpCouplSurface->SetFinish(polished);
+	G4LogicalBorderSurface* ScintOpCouplBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,couplingPV,ScintOpCouplSurface);
+  ScintOpCouplSurface->SetMaterialPropertiesTable(mpt);
+
 	// Opticalcoupling - SiPM
-	
 	G4OpticalSurface* OpCouplSiPMSurface = new G4OpticalSurface("CouplSiPMSurface");
-	OpCouplSiPMSurface->SetType(dielectric_dielectric);
+  OpCouplSiPMSurface->SetType(dielectric_dielectric);
 	OpCouplSiPMSurface->SetModel(glisur);
 	OpCouplSiPMSurface->SetFinish(polished);
-	
-	G4LogicalBorderSurface* CouplSiPMSurface = new G4LogicalBorderSurface("CouplSiPMSurface",scintPV,sipmPV,OpCouplSiPMSurface);
-	
+	G4LogicalBorderSurface* CouplingSiPMBorder = new G4LogicalBorderSurface("CouplSiPMSurface",couplingPV,sipmPV,OpCouplSiPMSurface);
+  OpCouplSiPMSurface->SetMaterialPropertiesTable(mpt);
 
   /*
   G4double posDetEle;
@@ -262,18 +355,18 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	  absoPV[i] = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), absoLV[i], "AbsorberPV", caloLV, false, i, fCheckOverlaps);
   }
   */
-  G4Sphere* Hemisphere = new G4Sphere("Hemisphere", 70.0*mm, 70.1*mm, fStartPhiAngle, fAperturePhiAngle, fStartThetaAngle, fApertureThetaAngle);
+  // G4Sphere* Hemisphere = new G4Sphere("Hemisphere", 70.0*mm, 70.1*mm, fStartPhiAngle, fAperturePhiAngle, fStartThetaAngle, fApertureThetaAngle);
     
-  G4LogicalVolume* HemisphereLV = new G4LogicalVolume(Hemisphere, defaultMaterial, "HemisphereLV");
+  // G4LogicalVolume* HemisphereLV = new G4LogicalVolume(Hemisphere, defaultMaterial, "HemisphereLV");
     
-  G4VPhysicalVolume* HemispherePV = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), HemisphereLV, "HemispherePV", worldLV, false, 0, fCheckOverlaps);
+  // G4VPhysicalVolume* HemispherePV = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), HemisphereLV, "HemispherePV", worldLV, false, 0, fCheckOverlaps);
   
   //                                        
   // Visualization attributes
   //
   worldLV->SetVisAttributes (G4VisAttributes::GetInvisible());
   
-  /*
+ 
   G4VisAttributes* Att_Green = new G4VisAttributes(G4Colour(0.0,1.0,0.0));
   G4VisAttributes* Att_Gray= new G4VisAttributes(G4Colour(0.5, 0.5, 0.5));
   G4VisAttributes* Att_Blue= new G4VisAttributes(G4Colour(0.0,0.0,1.0));
@@ -282,11 +375,14 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   G4VisAttributes* Att_Yellow= new G4VisAttributes(G4Colour(1.0,1.0,0.));
   G4VisAttributes* Att_Extra= new G4VisAttributes(G4Colour(0.,0.7,0.3));
 
-  scintLV->SetVisAttributes(Att_Blue);
-  shieldLV->SetVisAttributes(Att_Green);
-  vacuumLV->SetVisAttributes(Att_Green);
-  for (int i=0; i<fNofLayers-1; i++) absoLV[i]->SetVisAttributes(Att_Gray);
-  */
+  // scintLV->SetVisAttributes(Att_Green);
+  // couplingLV->SetVisAttributes(Att_Yellow);
+  // sipmLV->SetVisAttributes(Att_Blue);
+  // for (int i=0; i<fNofLayers-1; i++) absoLV[i]->SetVisAttributes(Att_Red);
+
+  // caloLV->SetVisAttributes (G4VisAttributes::GetInvisible());
+  // detectorLV->SetVisAttributes (G4VisAttributes::GetInvisible());
+  
     
   //
   // Always return the physical World
@@ -334,6 +430,9 @@ void B4cDetectorConstruction::SetApertureThetaAngle(G4double ApertureThetaAngle)
 void B4cDetectorConstruction::ConstructSDandField()
 {
   // G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  
+  // Sensitive detector manager
+  G4SDManager* sdman = G4SDManager::GetSDMpointer();
 
     
   // DAVID -> In order to follow how to know how Sensitive Detector and HitsCollection work, check this lecture:
@@ -358,11 +457,22 @@ void B4cDetectorConstruction::ConstructSDandField()
   G4SDManager::GetSDMpointer()->AddNewDetector(gapSD);
   SetSensitiveDetector("ScintillatorLV",gapSD);
   */
+
   // DAVID -> Added a new SensitiveDetector object
-  auto ScinSD
-    = new B4cCalorimeterSD("ScinSD", "ScintillatorHitsCollection", fNofLayers);
-  G4SDManager::GetSDMpointer()->AddNewDetector(ScinSD);
-    SetSensitiveDetector("ScintillatorLV",ScinSD);
+  auto ScinSD = new B4cCalorimeterSD("ScinSD", "ScintillatorHitsCollection", fNofLayers);
+  sdman->AddNewDetector(ScinSD);
+  SetSensitiveDetector("ScintillatorLV",ScinSD);
+
+
+
+  //Define SIPMs sensitive detectorS
+	auto sensSiPM = new SiPMSD("SiPMSD","SiPMHitsCollection");
+	sdman->AddNewDetector(sensSiPM);
+	//Set a sensitive detector to all logical volumes with name "SiPM"
+	SetSensitiveDetector("SiPMLV",sensSiPM, true);
+
+
+
 
   // 
   // Magnetic field

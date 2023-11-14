@@ -38,6 +38,7 @@
 #include "globals.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
+#include "G4OpticalSurface.hh"
 
 class MyMaterials
 {
@@ -62,6 +63,8 @@ class MyMaterials
     G4Material* fCu;
     G4Material* fPolystyrene;
     G4Material* fSi;
+    G4Material* fEpoxy;
+    G4Material* fSilicone;
     
 };
 

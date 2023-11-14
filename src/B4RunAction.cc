@@ -78,6 +78,7 @@ B4RunAction::B4RunAction()
   // 0. Energy deposited in Scintillator 1
   analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 50*MeV);
 
+  /*
   // 1. Energy deposited in Scintillator 2
   analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 50*MeV);
     
@@ -103,8 +104,10 @@ B4RunAction::B4RunAction()
   analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 1 & 2 & 3 & 4", TotalBins, 0., 100*MeV);
     
   // 9. Initial kinetic energy of the protons
+  */
   analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", TotalBins, 0., 20*GeV);
-  
+  /*
+
   // 10. Energy distribution of primary particles for 1-2 Coinc events
   analysisManager->CreateH1("EKinCoinc1-2", "KinEnergy for Coinc 1-2", TotalBins, 0., 20*GeV);
     
@@ -148,6 +151,14 @@ B4RunAction::B4RunAction()
   
   // 2. Energy deposited in coincidence channel 1-2-3-4
   analysisManager->CreateH2("EDep2-vs-EDep3-Scint1-2-3-4", "EDep for Scint2 and Scint3 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
+  */
+
+
+
+  // SiPM
+  analysisManager->CreateH1("EDep_SiPM1", "EDep in SiPM #1", TotalBins, 0., 5*eV);
+  analysisManager->CreateH1("EDep_SiPM2", "EDep in SiPM #2", TotalBins, 0., 5*eV);
+
 
   // Creating ntuple
   //
@@ -201,9 +212,14 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
     G4cout << G4endl << " ----> print histograms statistic ";
     if(isMaster) {
       G4cout << "for the entire run " << G4endl << G4endl; 
+        G4cout << "Counts scintillators 1 & 2: " << GetRate12() << G4endl;
+        G4cout << "Counts scintillators 3 & 4: " << GetRate34() << G4endl;
+        G4cout << "Counts scintillators 1 & 2 & 3: " << GetRate123() << G4endl;
+        G4cout << "Counts scintillators 2 & 3 & 4: " << GetRate234() << G4endl;
+        G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << GetRate1234() << G4endl;
     }
     else {
-      G4cout << "for the local thread " << G4endl << G4endl; 
+      // G4cout << "for the local thread " << G4endl << G4endl; 
     }
       
     /*
@@ -230,11 +246,11 @@ void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
      */
   }
     
-  G4cout << "Counts scintillators 1 & 2: " << GetRate12() << G4endl;
-  G4cout << "Counts scintillators 3 & 4: " << GetRate34() << G4endl;
-  G4cout << "Counts scintillators 1 & 2 & 3: " << GetRate123() << G4endl;
-  G4cout << "Counts scintillators 2 & 3 & 4: " << GetRate234() << G4endl;
-  G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << GetRate1234() << G4endl;
+  // G4cout << "Counts scintillators 1 & 2: " << GetRate12() << G4endl;
+  // G4cout << "Counts scintillators 3 & 4: " << GetRate34() << G4endl;
+  // G4cout << "Counts scintillators 1 & 2 & 3: " << GetRate123() << G4endl;
+  // G4cout << "Counts scintillators 2 & 3 & 4: " << GetRate234() << G4endl;
+  // G4cout << "Counts scintillators 1 & 2 & 3 & 4: " << GetRate1234() << G4endl;
   
   // save histograms & ntuple
   //

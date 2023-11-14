@@ -10,6 +10,7 @@
 
 #include "G4Step.hh"
 #include "G4RunManager.hh"
+#include "B4cEventAction.hh"
 
 #include "G4OpticalPhoton.hh"
 #include "G4OpBoundaryProcess.hh"
@@ -21,7 +22,9 @@ SteppingAction::SteppingAction(B4cDetectorConstruction* detConstruction)
 }
 */
 
-SteppingAction::SteppingAction(B4RunAction* runAct):  fRunAct(runAct)
+SteppingAction::SteppingAction(B4RunAction* runAct, B4cEventAction* evtAct):  
+    fRunAct(runAct), 
+    fEventAct(evtAct)
 {
 }
 
@@ -32,43 +35,135 @@ SteppingAction::~SteppingAction()
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
     
-    G4Track* Track = step->GetTrack();
-    G4int parent_id = Track->GetParentID();
-    const G4ParticleDefinition* part = Track->GetDefinition();
-    // G4int pdg = part->GetPDGEncoding(); // The Particle Data Group integer identifier of this particle
-   
-    const G4StepPoint* prePoint = step->GetPreStepPoint();
-    const G4StepPoint* endPoint = step->GetPostStepPoint();
-    const G4String currentPhysicalName = prePoint->GetPhysicalVolume()->GetName();
-    const G4String particleName = Track->GetDefinition()->GetParticleName();
-   
-    FirstIntStep = fRunAct->GetFirstIntFlag();
-    
-    if (currentPhysicalName == "WorldPV" && FirstIntStep == 0 && parent_id == 0) {
-       G4double kinE = Track->GetKineticEnergy();
-       fRunAct->SetKinEnergy(kinE);
-       FirstIntStep = 1;
-       fRunAct->SetFirstIntFlag(FirstIntStep);
-    }
+  G4Track* Track = step->GetTrack();
+  G4int parent_id = Track->GetParentID();
+  const G4ParticleDefinition* part = Track->GetDefinition();
+  // G4int pdg = part->GetPDGEncoding(); // The Particle Data Group integer identifier of this particle
+  
+  const G4StepPoint* prePoint = step->GetPreStepPoint();
+  const G4StepPoint* endPoint = step->GetPostStepPoint();
+  const G4String currentPhysicalName = prePoint->GetPhysicalVolume()->GetName();
+  const G4String particleName = Track->GetDefinition()->GetParticleName();
+  const G4String ProcessName = endPoint -> GetProcessDefinedStep() -> GetProcessName();
 
-  G4OpBoundaryProcessStatus boundaryStatus = Undefined;
+  FirstIntStep = fRunAct->GetFirstIntFlag();
+  
 
-  // find the boundary process only once
-  if(nullptr == fBoundary && Track->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) // pdg == -22
-  {
-    G4ProcessManager* pm = part->GetProcessManager();
-    G4int nprocesses = pm->GetProcessListLength();
-    G4ProcessVector* pv = pm->GetProcessList();
-    for(G4int i = 0; i < nprocesses; ++i)
-    {
-      if(nullptr != (*pv)[i] && (*pv)[i]->GetProcessName() == "OpBoundary")
-      {
-        fBoundary = dynamic_cast<G4OpBoundaryProcess*>((*pv)[i]);
-        break;
-      }
-    }
+  // Retrieve initial kinetic energy of primary particles
+  if (currentPhysicalName == "WorldPV" && FirstIntStep == 0 && parent_id == 0) {
+    G4double kinE = Track->GetKineticEnergy();
+    fRunAct->SetKinEnergy(kinE);
+    FirstIntStep = 1;
+    fRunAct->SetFirstIntFlag(FirstIntStep);
   }
 
+  // Only for optical photons:
+  if (particleName == "opticalphoton"){
+
+    // Count num of scintillation photons
+    if (currentPhysicalName == "ScintillatorPV" && Track->GetCurrentStepNumber() == 1){
+      fEventAct->nScintPhotons++;
+      //aStep->GetTrack()->SetTrackStatus(fStopAndKill); //use it to avoid the tracking of OpPhotons
+    }
+
+    // Count photons detected by any sipm
+    if (currentPhysicalName == "SiPMPV"){
+      if (ProcessName == "OpAbsorption"){ 
+        fEventAct->nDetectedPhotons++;
+        // G4cout << "Optical photon detected" << G4endl;
+      } 
+    }
+
+    
+    // Boundary informations//////////////////////////////////////
+    G4OpBoundaryProcessStatus BoundStatus = Undefined;
+    G4ProcessManager* OpProcessManager = G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
+
+    // if (OpManager) {
+    G4int n_processes = OpProcessManager->GetPostStepProcessVector()->entries();
+    G4ProcessVector* fPostStepDoItVector = OpProcessManager->GetPostStepProcessVector(typeDoIt);
+
+    for ( G4int i=0; i<n_processes; i++) {
+      G4VProcess* fCurrentProcess = (*fPostStepDoItVector)[i];
+      auto opProcess = dynamic_cast<G4OpBoundaryProcess*>(fCurrentProcess);
+      // G4cerr << "Process vector: "<< fCurrentProcess->GetProcessName() << G4endl;
+    
+      if (opProcess) { /* If current optical process is OpBoundary get Status (type of boundary interaction) */
+        BoundStatus = opProcess->GetStatus(); 
+        // auto boundaryprocessname = opProcess->GetProcessName();
+        // if (BoundStatus==Transmission){
+        //   G4cerr << "OpticalPhoton transmitted from: "<< currentPhysicalName <<
+        //   " to " << endPoint->GetPhysicalVolume()->GetName() << "; Process: " << ProcessName<< G4endl;
+        //   }
+        // G4cerr << "Process Status: "<< BoundStatus << G4endl;
+        // G4cerr << "Process Name: "<< boundaryprocessname << G4endl;
+        // G4cerr << "Get Process Defined Step: "<< ProcessName << G4endl;
+        break;
+        }
+      }
+
+
+    // Kill photons that exit the detector
+    if (endPoint->GetPhysicalVolume()){
+      auto postPV = endPoint->GetPhysicalVolume()->GetName();
+
+      // Check if it exits to world and kill
+      if (postPV == "WorldPV"){
+        // Track->SetTrackStatus(fStopAndKill);
+      }
+
+      // If it doesn't exit to world check that from world doesn't enter into the detector again
+      else {
+        if (currentPhysicalName=="WorldPV") { 
+          G4cout << "WARNING! Photon in World entering back to: " << postPV << G4endl; 
+          G4cout << "Boundary process status: " << BoundStatus << G4endl;
+        }
+      }
+    }
+
+    // If particle is killed when exits world it doesn't bounce in borders !!
+    if (currentPhysicalName=="WorldPV") {
+      G4cout << "Photon outside scintillator: killed " << G4endl;
+      Track->SetTrackStatus(fStopAndKill);
+    }
+
+  }
+
+
+
+
+/*
+ / Boundary informations//////////////////////////////////////
+ G4OpBoundaryProcessStatus BoundStatus = Undefined;
+    G4ProcessManager* OpManager = G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
+
+    // if (OpManager) {
+    G4int n_processes = OpManager->GetPostStepProcessVector()->entries();
+    G4ProcessVector* fPostStepDoItVector = OpManager->GetPostStepProcessVector(typeDoIt);
+
+    for ( G4int i=0; i<n_processes; i++) {
+      G4VProcess* fCurrentProcess = (*fPostStepDoItVector)[i];
+      auto opProcess = dynamic_cast<G4OpBoundaryProcess*>(fCurrentProcess);
+
+      if (opProcess) {
+        BoundStatus = opProcess->GetStatus(); 
+        auto boundaryprocessname = opProcess->GetProcessName();
+        // if (BoundStatus==Transmission){
+        //   G4cerr << "OpticalPhoton transmitted from: "<< currentPhysicalName <<
+        //   " to " << endPoint->GetPhysicalVolume()->GetName() << "; Process: " << ProcessName<< G4endl;
+        //   }
+        G4cerr << "Process Status: "<< BoundStatus << G4endl;
+        G4cerr << "Process Name: "<< boundaryprocessname << G4endl;
+        // break;
+        }
+    }
+    // }
+*/
+
+  // check if the photon is absorbed in the sensitive volume
+  // if (particleName == "opticalphoton" && ProcessName == "OpAbsorption"){ 
+	//   G4cout << "Optical photon absorbed in " << currentPhysicalName << currentPhysicalName  << G4endl;
+	// }
 
 
 
@@ -82,10 +177,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   // } 
       
   
-  // Never get scintillation not sure why :(
-  // Probably because sintillation is only a generator process
+
   // Optical photon post step process (the interation in the step) is always another typer of interaction, never scintillation
-  //
+  // Probably because sintillation is only a generator process (?)
   // if(step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Scintillation") {
       // G4cerr << "Process: " << step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4endl;
   // }

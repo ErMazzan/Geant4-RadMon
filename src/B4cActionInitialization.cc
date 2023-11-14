@@ -71,13 +71,8 @@ void B4cActionInitialization::Build() const
   B4cEventAction* evtAction = new B4cEventAction(runAction);
   SetUserAction(evtAction);
     
-  SetUserAction(new SteppingAction(runAction));
+  SetUserAction(new SteppingAction(runAction,evtAction)); // passing also evtAction to Stepping action
 
-  // B4RunAction* runAction = new B4RunAction;
-  // SetUserAction(runAction);
-
-  // B4cEventAction* eventAction = new B4cEventAction(runAction);
-  // SetUserAction(eventAction);
   
 }  
 

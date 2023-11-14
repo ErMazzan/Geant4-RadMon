@@ -33,6 +33,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4MaterialPropertiesTable.hh"
 
+#include "G4OpticalSurface.hh"
+
 MyMaterials* MyMaterials::fInstance = 0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -55,6 +57,8 @@ MyMaterials::~MyMaterials()
   delete fCu;
   delete fPolystyrene;
   delete fSi;
+  delete fEpoxy;
+  delete fSilicone;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -101,7 +105,7 @@ void MyMaterials::CreateMaterials()
   G4double z;  // z=mean number of protons;  
   G4double density; 
   new G4Material("Galactic", z=1., a=1.01*g/mole,density=CLHEP::universe_mean_density, 
-                  // decalred in geant4-v11.1.1_install/include/Geant4/CLHEP/Units/PhysicalConstants.h
+                  // declared in geant4-v11.1.1_install/include/Geant4/CLHEP/Units/PhysicalConstants.h
                   // static constexpr double universe_mean_density = 1.e-25*g/cm3;
                   kStateGas, 2.73*kelvin, 3.e-18*pascal);
   G4Material* fVacuum = fNistMan->FindOrBuildMaterial("Galactic");
@@ -153,6 +157,13 @@ void MyMaterials::CreateMaterials()
   /// ADD OPTICAL PROPERTIES TO CREATED MATERIALS
   ///
 
+  // Exterior? (Test)
+  G4MaterialPropertiesTable* GalacticMPT = new G4MaterialPropertiesTable();
+  std::vector<G4double> galacticenergy     = {2.64*eV, 3.22*eV};
+  std::vector<G4double> galacticrindex     = {1., 1.};
+  GalacticMPT->AddProperty("RINDEX", galacticenergy, galacticrindex);
+  fVacuum->SetMaterialPropertiesTable(GalacticMPT);
+
   // Scintillator
 
   G4MaterialPropertiesTable* MyScintMPT = new G4MaterialPropertiesTable();
@@ -160,19 +171,17 @@ void MyMaterials::CreateMaterials()
   G4double pde = 0.3;
 
   std::vector<G4double> energy     = {2.64*eV, 3.06*eV, 3.22*eV};
-
   std::vector<G4double> rindex     = {1.58, 1.58, 1.58};
   std::vector<G4double> absorption = {140.*cm, 140.*cm, 140.*cm};
-  std::vector<G4double> scintcomponent = {0.1, 1.0, 0.1};
+  std::vector<G4double> scintemission = {0.1, 1.0, 0.1};
 
-
-  MyScintMPT->AddProperty("RINDEX", energy, absorption);
+  MyScintMPT->AddProperty("RINDEX", energy, rindex);
   MyScintMPT->AddProperty("ABSLENGTH", energy, absorption);
   MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 10); //lightyield scaled to the SiPM pde: lightyield*pde
   MyScintMPT->AddConstProperty("RESOLUTIONSCALE", 1.0);
   // only use one component 
-  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", energy, scintcomponent);
-  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT2", energy, scintcomponent);
+  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", energy, scintemission);
+  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT2", energy, scintemission);
   MyScintMPT->AddConstProperty("SCINTILLATIONTIMECONSTANT1", 2.2*ns);
   MyScintMPT->AddConstProperty("SCINTILLATIONTIMECONSTANT2", 1.*ns);
   MyScintMPT->AddConstProperty("SCINTILLATIONYIELD1", 1.0);
@@ -183,21 +192,21 @@ void MyMaterials::CreateMaterials()
 
 
   // Epoxy (SiPM) 
-	std::vector<G4double> EpoxyRefractionIndex = {1.51,1.51};
-	std::vector<G4double> EpoxyAbsorptionLength = {1.0E-9*m,1.0E-9*m};
-  std::vector<G4double> PhotonEnergy = {1.0*eV,3.44*eV};
+  std::vector<G4double> EpoxyRefractionIndex = {1.51,1.51,1.51};
+	std::vector<G4double> EpoxyAbsorptionLength = {1.0E-9*m,1.0E-9*m,1.0E-9*m};
+  // std::vector<G4double> PhotonEnergy = {1.0*eV,4.0*eV,7.0*eV};
 
 	G4MaterialPropertiesTable* EpoxyMPT = new G4MaterialPropertiesTable();
-	EpoxyMPT->AddProperty("RINDEX",PhotonEnergy,EpoxyRefractionIndex);
-	EpoxyMPT->AddProperty("ABSLENGTH",PhotonEnergy,EpoxyAbsorptionLength);
+	EpoxyMPT->AddProperty("RINDEX",energy,EpoxyRefractionIndex);
+	EpoxyMPT->AddProperty("ABSLENGTH",energy,EpoxyAbsorptionLength);
 	fEpoxy->SetMaterialPropertiesTable(EpoxyMPT);
 
   // Silicone 
-	std::vector<G4double> SiliconeRefractionIndex = {1.47,1.47};
-	std::vector<G4double> SiliconeAbsorptionLength = {1.0E9*m,1.0E9*m};
+  std::vector<G4double> SiliconeRefractionIndex = {1.47,1.47,1.47};
+	std::vector<G4double> SiliconeAbsorptionLength = {1.0E9*m,1.0E9*m,1.0E9*m};
 	G4MaterialPropertiesTable* SiliconeMPT = new G4MaterialPropertiesTable();
-	SiliconeMPT->AddProperty("RINDEX",PhotonEnergy,SiliconeRefractionIndex);
-	SiliconeMPT->AddProperty("ABSLENGTH",PhotonEnergy,SiliconeAbsorptionLength);
+	SiliconeMPT->AddProperty("RINDEX",energy,SiliconeRefractionIndex);
+	SiliconeMPT->AddProperty("ABSLENGTH",energy,SiliconeAbsorptionLength);
 	fSilicone->SetMaterialPropertiesTable(SiliconeMPT);
 
 

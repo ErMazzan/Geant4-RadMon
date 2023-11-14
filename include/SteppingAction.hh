@@ -25,7 +25,7 @@ class SteppingAction : public G4UserSteppingAction
       ~SteppingAction() override;
       */
     
-      SteppingAction(B4RunAction* );
+      SteppingAction(B4RunAction* runAct, B4cEventAction* evtAct);
       ~SteppingAction();
       
       void UserSteppingAction(const G4Step* step) override;

@@ -51,12 +51,16 @@ MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 
 	// Optical processes parameters
 	// Default processes enabled:
+
+		// OPTICAL PHOTONS INTERACTIONS:
 		// processActivation["OpRayleigh"]    = true;
 		// processActivation["OpBoundary"]    = true;
 		// processActivation["OpMieHG"]       = true;
 		// processActivation["OpAbsorption"]  = true;
 		// processActivation["OpWLS"]         = true;
 		// processActivation["OpWLS2"]        = true;
+		
+		// OPTICAL PHOTONS GENERATION:
 		// processActivation["Cerenkov"]      = true;
 		// processActivation["Scintillation"] = true;
 	auto opticalParams = G4OpticalParameters::Instance();

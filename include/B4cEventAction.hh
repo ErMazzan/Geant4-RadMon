@@ -35,6 +35,7 @@
 
 #include "B4cCalorHit.hh"
 #include "B4RunAction.hh"
+#include "SiPMHit.hh"
 
 #include "globals.hh"
 
@@ -63,10 +64,15 @@ public:
   virtual void  BeginOfEventAction(const G4Event* event);
   virtual void    EndOfEventAction(const G4Event* event);
 
+
+  G4int nScintPhotons;
+  G4int nDetectedPhotons;
+
 private:
   // methods
-  B4cCalorHitsCollection* GetHitsCollection(G4int hcID,
-                                            const G4Event* event) const;
+  B4cCalorHitsCollection* GetHitsCollection(G4int hcID, const G4Event* event) const;
+  SiPMHitsCollection* GetSiPMHitsCollection(G4int hcID, const G4Event* event) const;
+
   void PrintEventStatistics(G4double absoEdep, G4double absoTrackLength,
                             G4double gapEdep, G4double gapTrackLength) const;
   
@@ -75,6 +81,8 @@ private:
   G4int  fAbsHCID;
   G4int  fGapHCID;
   G4int  fScintHCID;
+  G4int  fSiPMHCID;
+
   G4bool Scint1Flag;
   G4bool Scint2Flag;
   G4bool Scint3Flag;
@@ -87,6 +95,7 @@ private:
   G4double Scint1234Energy;
     
   B4RunAction* fRunAct;
+
 };
                      
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

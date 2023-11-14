@@ -34,6 +34,9 @@
 #include "B4cCalorHit.hh"
 #include "B4Analysis.hh"
 
+#include "SiPMHit.hh"
+#include "SiPMSD.hh"
+
 #include "G4RunManager.hh"
 #include "G4Event.hh"
 #include "G4SDManager.hh"
@@ -46,7 +49,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4cEventAction::B4cEventAction(B4RunAction* runAction)
-: fRunAct(runAction), fAbsHCID(-1), fGapHCID(-1)
+: fRunAct(runAction), fAbsHCID(-1), fGapHCID(-1), fScintHCID(-1), fSiPMHCID(-1)
 {}
 
 
@@ -70,19 +73,36 @@ B4cCalorHitsCollection*
 B4cEventAction::GetHitsCollection(G4int hcID,
                                   const G4Event* event) const
 {
-  auto hitsCollection 
-    = static_cast<B4cCalorHitsCollection*>(
-        event->GetHCofThisEvent()->GetHC(hcID));
-  
+  // auto hitsCollection = static_cast<B4cCalorHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcID));
+  auto hitsCollection = (B4cCalorHitsCollection*) (event->GetHCofThisEvent()->GetHC(hcID));
+
   if ( ! hitsCollection ) {
     G4ExceptionDescription msg;
     msg << "Cannot access hitsCollection ID " << hcID; 
     G4Exception("B4cEventAction::GetHitsCollection()",
       "MyCode0003", FatalException, msg);
   }         
-
   return hitsCollection;
 }    
+
+
+SiPMHitsCollection* 
+B4cEventAction::GetSiPMHitsCollection(G4int hcID,
+                                  const G4Event* event) const
+{
+  // auto hitsCollection = static_cast<B4cCalorHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcID));
+  auto hitsCollection = (SiPMHitsCollection*) (event->GetHCofThisEvent()->GetHC(hcID));
+
+  if ( ! hitsCollection ) {
+    G4ExceptionDescription msg;
+    msg << "Cannot access hitsCollection ID " << hcID; 
+    G4Exception("B4cEventAction::GetSiPMHitsCollection()",
+      "MyCode0003", FatalException, msg);
+  }         
+  return hitsCollection;
+}    
+
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -110,20 +130,24 @@ void B4cEventAction::PrintEventStatistics(
 
 void B4cEventAction::BeginOfEventAction(const G4Event* event)
 {
-    if (event->GetEventID()%100000 == 0) G4cout << "<<< Begin of Event:  " << event->GetEventID() << G4endl;
-    
-    Scint1Flag = FALSE;
-    Scint2Flag = FALSE;
-    Scint3Flag = FALSE;
-    Scint4Flag = FALSE;
-    
-    auto analysisManager = G4AnalysisManager::Instance();
-    
-    FirstInt = 0;
-    fRunAct->SetFirstIntFlag(FirstInt);
-    
-    G4double ekin = fRunAct->GetKinEnergy();
-    analysisManager->FillH1(9, ekin);
+  if (event->GetEventID()%100000 == 0) G4cout << "<<< Begin of Event:  " << event->GetEventID() << G4endl;
+  
+  Scint1Flag = FALSE;
+  Scint2Flag = FALSE;
+  Scint3Flag = FALSE;
+  Scint4Flag = FALSE;
+  
+  auto analysisManager = G4AnalysisManager::Instance();
+  
+  FirstInt = 0;
+  fRunAct->SetFirstIntFlag(FirstInt);
+  
+  // G4double ekin = fRunAct->GetKinEnergy();
+  // G4cerr << "Setting kinetic energy " << ekin << G4endl;
+  //analysisManager->FillH1(9, ekin);    
+
+  nDetectedPhotons = 0;
+  nScintPhotons = 0; 
     
 }
 
@@ -131,17 +155,20 @@ void B4cEventAction::BeginOfEventAction(const G4Event* event)
 
 void B4cEventAction::EndOfEventAction(const G4Event* event)
 {  
+
+  G4cout << "####  Scintillation photons this event: # Generated: " << nScintPhotons <<
+            " # Detected: " << nDetectedPhotons << G4endl;
+
   // Get hits collections IDs (only once)
   // David -> Added fScintHCID
     
   // G4cout << "hola:)" << G4endl;
   if ( fScintHCID == -1 ) {
-    /*
-    fAbsHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
-    fGapHCID 
-      = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
-      */
+
+    // fAbsHCID 
+    //   = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
+    // fGapHCID 
+    //   = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
     fScintHCID
       = G4SDManager::GetSDMpointer()->GetCollectionID("ScintillatorHitsCollection");
   }
@@ -167,13 +194,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   
   auto eventID = event->GetEventID();
   auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
-  if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
+
+
+  // if ( ( printModulo > 0 ) && ( eventID % printModulo == 0 ) ) {
     // G4cout << "---> End of event: " << eventID << G4endl;     
 
     // PrintEventStatistics(
     //   absoHit->GetEdep(), absoHit->GetTrackLength(),
     //   gapHit->GetEdep(), gapHit->GetTrackLength());
-  }
+  // }
   
   
   // Fill histograms, ntuple
@@ -191,6 +220,9 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // DAVID -> Added the filling for the histograms created in RunAction
   
   G4double ekin = fRunAct->GetKinEnergy();
+  analysisManager->FillH1(1, ekin);
+  // analysisManager->FillH1(9, ekin);
+
     
   if (Scint1Hit->GetEdep() != 0) {
     analysisManager->FillH1(0, Scint1Hit->GetEdep());
@@ -280,6 +312,29 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // analysisManager->FillNtupleDColumn(2, absoHit->GetTrackLength());
   // analysisManager->FillNtupleDColumn(3, gapHit->GetTrackLength());
   // analysisManager->AddNtupleRow();  
+
+
+  ////
+  //  sipms SD hits info
+  ////
+  
+  if ( fSiPMHCID == -1 ) {fSiPMHCID = G4SDManager::GetSDMpointer()->GetCollectionID("SiPMHitsCollection");}
+
+  // Get hits collections
+  auto SiPMHC = GetSiPMHitsCollection(fSiPMHCID, event);
+  G4int nhits = SiPMHC->entries();
+
+  for ( G4int i=0; i<nhits; i++) {
+    auto SiPMHit = (*SiPMHC)[i];
+    if (SiPMHit->GetEdep() != 0) {
+      auto id = SiPMHit->GetSiPMID();
+      if (id==0){analysisManager->FillH1(2, SiPMHit->GetEdep());}
+      if (id==1){analysisManager->FillH1(3, SiPMHit->GetEdep());}
+    }
+  }
+
+  // G4cout << "SiPM hit collection entries " << nhits << G4endl;
+  
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
