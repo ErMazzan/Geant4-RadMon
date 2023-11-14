@@ -122,36 +122,6 @@ int main(int argc,char** argv)
 
   runManager->SetUserInitialization(new MyPhysicsList);
 
-  /*
-  // Physics list
-  G4VModularPhysicsList* physicsList = new MyPhysicsList();
-
-  // hadronic physics
-   physicsList = new FTFP_BERT; // hadronic physics
-
-  // em physics
-  physicsList->RegisterPhysics(new G4EmStandardPhysics_option3()); // for medical and space
-
-  // optical physics
-  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  physicsList->RegisterPhysics(opticalPhysics);
-
-  auto opticalParams = G4OpticalParameters::Instance();
-  opticalParams->SetProcessActivation("Cerenkov",false);
-    // Default processes:
-        // processActivation["OpRayleigh"]    = true;
-        // processActivation["OpBoundary"]    = true;
-        // processActivation["OpMieHG"]       = true;
-        // processActivation["OpAbsorption"]  = true;
-        // processActivation["OpWLS"]         = true;
-        // processActivation["OpWLS2"]        = true;
-        // processActivation["Cerenkov"]      = true;
-        // processActivation["Scintillation"] = true;
-
-  runManager->SetUserInitialization(physicsList);
-  
-  */
-
   // Action Initialization
   auto actionInitialization = new B4cActionInitialization(detConstruction);
   runManager->SetUserInitialization(actionInitialization);
