@@ -103,6 +103,10 @@ int main(int argc,char** argv)
   // Choose the Random engine
   //
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
+
+  // G4long seed = time(NULL);
+	// CLHEP::HepRandom::setTheSeed(seed);
+	// G4Random::setTheSeed(seed);
   
   // Construct the default run manager
   //

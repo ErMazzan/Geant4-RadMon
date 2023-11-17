@@ -65,6 +65,7 @@ class MyMaterials
     G4Material* fSi;
     G4Material* fEpoxy;
     G4Material* fSilicone;
+    G4Material* fTeflon;
     
 };
 

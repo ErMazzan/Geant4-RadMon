@@ -324,10 +324,13 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   auto SiPMHC = GetSiPMHitsCollection(fSiPMHCID, event);
   G4int nhits = SiPMHC->entries();
 
+  // Loop for each entry since one event generates many scintillation photons that can be detected
   for ( G4int i=0; i<nhits; i++) {
     auto SiPMHit = (*SiPMHC)[i];
+
+    // Store depending on SiPM id
     if (SiPMHit->GetEdep() != 0) {
-      auto id = SiPMHit->GetSiPMID();
+      G4int id = SiPMHit->GetSiPMID();
       if (id==0){analysisManager->FillH1(2, SiPMHit->GetEdep());}
       if (id==1){analysisManager->FillH1(3, SiPMHit->GetEdep());}
     }

@@ -83,8 +83,15 @@
 
 
 
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add opticalphoton
+#/vis/filtering/trajectories/particleFilter-0/add proton
+
+
 /vis/modeling/trajectories/create/drawByParticleID
 /vis/modeling/trajectories/drawByParticleID-0/set opticalphoton magenta
+
+
 
 # Default colors correspond to:
 #/vis/modeling/trajectories/drawByParticleID-0/set e- red

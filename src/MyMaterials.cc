@@ -59,6 +59,7 @@ MyMaterials::~MyMaterials()
   delete fSi;
   delete fEpoxy;
   delete fSilicone;
+  delete fTeflon;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -132,6 +133,11 @@ void MyMaterials::CreateMaterials()
   G4Material* fSi = fNistMan->FindOrBuildMaterial("G4_Si");
   fSi->SetName("fSi");
 
+
+  // Reflector 
+  G4Material* fTeflon = fNistMan->FindOrBuildMaterial("G4_TEFLON"); //G4_MAGNESIUM_OXIDE, G4_Al
+  fTeflon->SetName("fTeflon");
+
  	// Epoxy
 	elements.push_back("C");     natoms.push_back(2);
   elements.push_back("H");     natoms.push_back(2);
@@ -157,13 +163,6 @@ void MyMaterials::CreateMaterials()
   /// ADD OPTICAL PROPERTIES TO CREATED MATERIALS
   ///
 
-  // Exterior? (Test)
-  G4MaterialPropertiesTable* GalacticMPT = new G4MaterialPropertiesTable();
-  std::vector<G4double> galacticenergy     = {2.64*eV, 3.22*eV};
-  std::vector<G4double> galacticrindex     = {1., 1.};
-  GalacticMPT->AddProperty("RINDEX", galacticenergy, galacticrindex);
-  fVacuum->SetMaterialPropertiesTable(GalacticMPT);
-
   // Scintillator
 
   G4MaterialPropertiesTable* MyScintMPT = new G4MaterialPropertiesTable();
@@ -177,7 +176,7 @@ void MyMaterials::CreateMaterials()
 
   MyScintMPT->AddProperty("RINDEX", energy, rindex);
   MyScintMPT->AddProperty("ABSLENGTH", energy, absorption);
-  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 10); //lightyield scaled to the SiPM pde: lightyield*pde
+  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 20); //lightyield scaled to the SiPM pde: lightyield*pde
   MyScintMPT->AddConstProperty("RESOLUTIONSCALE", 1.0);
   // only use one component 
   MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", energy, scintemission);
@@ -190,16 +189,26 @@ void MyMaterials::CreateMaterials()
 
   fPolystyrene->SetMaterialPropertiesTable(MyScintMPT);
 
+  // Reflector
+
+  std::vector<G4double> RRefractionIndex = {1.36,1.36,1.36}; //1.76 for MgO at 420 nm; maybe set to 1.36 for Teflon?
+	std::vector<G4double> RAbsorptionLength = {1.0E-9*m,1.0E-9*m,1.0E-9*m};
+
+  G4MaterialPropertiesTable* RMPT = new G4MaterialPropertiesTable();
+	RMPT->AddProperty("RINDEX",energy,RRefractionIndex);
+  RMPT->AddProperty("ABSLENGTH",energy,RAbsorptionLength);
+  fTeflon->SetMaterialPropertiesTable(RMPT);
+
 
   // Epoxy (SiPM) 
   std::vector<G4double> EpoxyRefractionIndex = {1.51,1.51,1.51};
 	std::vector<G4double> EpoxyAbsorptionLength = {1.0E-9*m,1.0E-9*m,1.0E-9*m};
   // std::vector<G4double> PhotonEnergy = {1.0*eV,4.0*eV,7.0*eV};
-
 	G4MaterialPropertiesTable* EpoxyMPT = new G4MaterialPropertiesTable();
 	EpoxyMPT->AddProperty("RINDEX",energy,EpoxyRefractionIndex);
 	EpoxyMPT->AddProperty("ABSLENGTH",energy,EpoxyAbsorptionLength);
 	fEpoxy->SetMaterialPropertiesTable(EpoxyMPT);
+
 
   // Silicone 
   std::vector<G4double> SiliconeRefractionIndex = {1.47,1.47,1.47};

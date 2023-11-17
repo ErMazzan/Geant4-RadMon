@@ -15,6 +15,7 @@ class B4cDetectorConstruction;
 class G4UIdirectory;
 class G4UIcmdWithADoubleAndUnit;
 class G4UIcmdWithoutParameter;
+class G4UIcmdWithAnInteger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -37,6 +38,10 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* fAperturePhiAngleCmd;
     G4UIcmdWithADoubleAndUnit* fStartThetaAngleCmd;
     G4UIcmdWithADoubleAndUnit* fApertureThetaAngleCmd;
+
+    G4UIdirectory*             fSiPMsDir;
+    G4UIcmdWithAnInteger* fNumOfSiPMsCmd;
+    G4UIcmdWithADoubleAndUnit* fSiPMSizeCmd;
     
     G4UIcmdWithoutParameter* UpdateCmd;
     

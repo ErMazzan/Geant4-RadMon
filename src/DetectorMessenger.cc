@@ -12,6 +12,7 @@
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithoutParameter.hh"
+#include "G4UIcmdWithAnInteger.hh"
 
 #include <stdio.h>
 
@@ -23,7 +24,9 @@ DetectorMessenger::DetectorMessenger(B4cDetectorConstruction* Det)
  fAperturePhiAngleCmd(0),
  fStartThetaAngleCmd(0),
  fApertureThetaAngleCmd(0),
- UpdateCmd(0)
+ UpdateCmd(0),
+ fNumOfSiPMsCmd(0),
+ fSiPMSizeCmd(0)
 {
     fRadMon = new G4UIdirectory("/RadMon/");
     fRadMon->SetGuidance("Commands specific for this example");
@@ -64,16 +67,43 @@ DetectorMessenger::DetectorMessenger(B4cDetectorConstruction* Det)
     fApertureThetaAngleCmd->SetUnitCategory("Degree");
     fApertureThetaAngleCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fApertureThetaAngleCmd->SetToBeBroadcasted(false);
+
+
+  /// SiPMs commands
+
+    fSiPMsDir = new G4UIdirectory("/RadMon/SiPMs");
+    fSiPMsDir->SetGuidance("Detector Construction commands for SiPMs");
+
+    fNumOfSiPMsCmd = new G4UIcmdWithAnInteger("/RadMon/SiPMs/setNum", this);
+    fNumOfSiPMsCmd->SetGuidance("Number of SiPMs to be placed in a Scintillator");
+    fNumOfSiPMsCmd->SetParameterName("#",false);
+    fNumOfSiPMsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fNumOfSiPMsCmd->SetToBeBroadcasted(false);
+
+    fSiPMSizeCmd = new G4UIcmdWithADoubleAndUnit("/RadMon/SiPMs/setSize", this);
+    fSiPMSizeCmd->SetGuidance("Size of square SiPM in mm");
+    fSiPMSizeCmd->SetParameterName("Length",false);
+    fApertureThetaAngleCmd->SetUnitCategory("mm");
+    fSiPMSizeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSiPMSizeCmd->SetToBeBroadcasted(false);
+
+
 }
 
 DetectorMessenger::~DetectorMessenger()
 {
   delete fRadMon;
   delete fDetDir;
+  delete fSiPMsDir;
+
   delete fStartPhiAngleCmd;
   delete fAperturePhiAngleCmd;
   delete fStartThetaAngleCmd;
   delete fApertureThetaAngleCmd;
+
+  delete fNumOfSiPMsCmd;
+  delete fSiPMSizeCmd;
+
   delete UpdateCmd;
 }
 

@@ -89,8 +89,10 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	absoThickness[2] = 35.*mm;
 	
 	scintThickness= 3.*mm;
-	caloSizeXY = 20.*mm;
-	
+  scintXY = 20.*mm;
+  reflectorGrosor = 0.5*mm; //0.5 mm each side
+	caloSizeXY = scintXY + 2*reflectorGrosor;
+  
 	shieldThickness= 6.*mm;
 	shieldSizeXY = 40. *mm;
 	shieldZ = 100.* mm;
@@ -127,12 +129,11 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 {
   // Get total length of calorimeter and position of its components
   G4double totalAbsZ = 0;
-  
   for (int i=0; i<fNofLayers-1; i++){
 	  totalAbsZ += absoThickness[i];
   }
   
-  G4double totalDetZ = fNofLayers*scintThickness + totalAbsZ;
+  G4double totalDetZ = fNofLayers*scintThickness + totalAbsZ + 2*fNofLayers*reflectorGrosor;
   
   // Get materials
   auto defaultMaterial = FindMaterial("fVacuum");
@@ -143,7 +144,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   auto scintMaterial = FindMaterial("fPolystyrene");
   auto sipmMaterial = FindMaterial("fEpoxy");
   auto couplingMaterial = FindMaterial("fSilicone");
-  
+  auto reflectorMaterial = FindMaterial("fTeflon");
   
   
   if ( ! defaultMaterial || ! shieldMaterial || ! absoMaterial || ! scintMaterial ) {
@@ -184,18 +185,27 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", worldLV, false, 0, fCheckOverlaps);
   
 
-   // Scintillators
-  G4VSolid* scintS = new G4Box("Scintillator", caloSizeXY/2., caloSizeXY/2., scintThickness/2.);
-  G4LogicalVolume* scintLV = new G4LogicalVolume( scintS, scintMaterial, "ScintillatorLV");
-  G4VPhysicalVolume* scintPV;
+  // Reflector
+	G4double ReflectorZ = scintThickness+reflectorGrosor*2.;
+	G4double ReflectorXY = caloSizeXY;
+
+	G4Box* reflectorS = new G4Box("Reflector",ReflectorXY/2.,ReflectorXY/2.,ReflectorZ/2.);
+	G4LogicalVolume* reflectorLV = new G4LogicalVolume(reflectorS,reflectorMaterial,"ReflectorLV");
+
   G4double posDetEle;
   G4double accumulatedAbsTh=0.;
-  
+  G4VPhysicalVolume* reflectorPV;
   for (int i=0; i<fNofLayers; i++){
-	if (i>0) accumulatedAbsTh += absoThickness[i-1];
-	posDetEle = totalDetZ/2 - (1+2*i)*scintThickness/2. - accumulatedAbsTh;
-	scintPV = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), scintLV, "ScintillatorPV", caloLV, false, i, fCheckOverlaps);
+    if (i>0) accumulatedAbsTh += absoThickness[i-1];
+    posDetEle = totalDetZ/2 - (1+2*i)*ReflectorZ/2. - accumulatedAbsTh;
+    reflectorPV = new G4PVPlacement(0,G4ThreeVector(0.,0.,posDetEle), reflectorLV, "ReflectorPV", caloLV,false,i,fCheckOverlaps);
   }
+	
+
+   // Scintillators
+  G4VSolid* scintS = new G4Box("Scintillator", scintXY/2., scintXY/2., scintThickness/2.);
+  G4LogicalVolume* scintLV = new G4LogicalVolume( scintS, scintMaterial, "ScintillatorLV");
+  G4VPhysicalVolume* scintPV = new G4PVPlacement( 0, G4ThreeVector(0., 0., 0.), scintLV, "ScintillatorPV", reflectorLV, false, 0, fCheckOverlaps);
   
   //Absorbers
   
@@ -216,7 +226,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	  absoLV[i] = new G4LogicalVolume( absoS[i], absoMaterial, str);
 	  
 	  accumulatedAbsTh += absoThickness[i];
-	  posDetEle = totalDetZ/2 - (1+i)*scintThickness - accumulatedAbsTh + absoThickness[i]/2.;
+	  posDetEle = totalDetZ/2 - (1+i)*ReflectorZ - accumulatedAbsTh + absoThickness[i]/2.;
 	  absoPV[i] = new G4PVPlacement( 0, G4ThreeVector(0., 0., posDetEle), absoLV[i], "AbsorberPV", caloLV, false, i, fCheckOverlaps);
   }
   
@@ -224,8 +234,11 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   // SiPM placement:
 
   G4double SiPMsize = 1.3*mm;
-  G4double SiPMThickness = 1*mm;
+  // G4double SiPMThickness = 0.3*mm;
   G4double couplingThickness = 0.2*mm;
+
+  G4double SiPMThickness = reflectorGrosor - couplingThickness;
+  if (SiPMThickness <= 0) G4cout << "WARNING! Reflector thicker than optical coupling: physical volume overlaps." << G4endl;
 
   G4double detectorsize = SiPMsize;
   G4double detectorThickness = SiPMThickness + couplingThickness;
@@ -251,12 +264,12 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 
   G4VPhysicalVolume* detectorPV;
   for (int i=0; i<fNoSiPMs/2; i++){
-    auto pos = G4ThreeVector(caloSizeXY/2.+detectorThickness/2., -caloSizeXY/2.+(i+1)*caloSizeXY/(fNoSiPMs/2.+1),0.);
-	  detectorPV = new G4PVPlacement( RotationA, pos, detectorLV, "DetectorPV", scintLV, false, i, fCheckOverlaps);
+    auto pos = G4ThreeVector(scintXY/2.+detectorThickness/2., -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
+	  detectorPV = new G4PVPlacement( RotationA, pos, detectorLV, "DetectorPV", reflectorLV, false, i, fCheckOverlaps);
   }
   for (int i=0; i<fNoSiPMs/2; i++){
-    auto pos = G4ThreeVector(-1.*(caloSizeXY/2.+detectorThickness/2.), -caloSizeXY/2.+(i+1)*caloSizeXY/(fNoSiPMs/2.+1),0.);
-	  detectorPV = new G4PVPlacement( RotationB, pos, detectorLV, "DetectorPV", scintLV, false, i+fNoSiPMs/2, fCheckOverlaps);
+    auto pos = G4ThreeVector(-1.*(scintXY/2.+detectorThickness/2.), -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
+	  detectorPV = new G4PVPlacement( RotationB, pos, detectorLV, "DetectorPV", reflectorLV, false, i+fNoSiPMs/2, fCheckOverlaps);
   }
 
       // OpCoupling
@@ -274,7 +287,8 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	//------------------------------------------------------
   // Surfaces and boundary processes
 	//------------------------------------------------------
-
+  
+  // IF DIELECTRIC-DIELECTRIC SURFACES USED:
   // For no surface absorption, set REFLECTIVITY = 1 :
   //      P(surface absorption) = 1 - REFLECTIVITY
   // To tune reclectivity-transmittance (the physical parameters not the surface property)
@@ -283,46 +297,49 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   //      T = TRANSMITTANCE
   // see Peculiarities in the Simulation of Optical Physics: https://arxiv.org/pdf/1612.05162.pdf 
 
-  std::vector<G4double> energy = { 1.2915 * eV, 5.166 * eV };
-  std::vector<G4double> scintreflectivity = {1., 1.};
-  std::vector<G4double> scinttransmittance = {0.3, 0.3};
-  // For couplings:
+  std::vector<G4double> energy = { 1.0 * eV, 7.0 * eV };
   std::vector<G4double> reflectivity = {1., 1.};
   std::vector<G4double> transmittance = {1., 1.};
 
-  G4MaterialPropertiesTable* mpt_skin = new G4MaterialPropertiesTable();
-  mpt_skin->AddProperty("REFLECTIVITY", energy, scintreflectivity);
-  mpt_skin->AddProperty("TRANSMITTANCE", energy, scinttransmittance);
+  // Reflector - scintillator surface 
+	std::vector<G4double> REfficiency = {1.,1.}; //photons transmitted in the reflector are absorbed
+	G4MaterialPropertiesTable* RMPT = new G4MaterialPropertiesTable();
+	RMPT->AddProperty("REFLECTIVITY", energy, reflectivity);
+	// RMPT->AddProperty("EFFICIENCY", energy, REfficiency);
+  RMPT->AddProperty("TRANSMITTANCE", energy, {0., 0.});
 
+	G4OpticalSurface* OpRefScintSurface = new G4OpticalSurface("RefCrySurface");
+	// OpRefScintSurface->SetType(dielectric_LUTDAVIS);
+	// OpRefScintSurface->SetModel(DAVIS);
+	// OpRefScintSurface->SetFinish(RoughTeflon_LUT);
+	// OpRefScintSurface->SetSigmaAlpha(1.*deg);
+  OpRefScintSurface->SetType(dielectric_dielectric);
+	OpRefScintSurface->SetModel(DAVIS);
+	OpRefScintSurface->SetFinish(RoughTeflon_LUT);
+	OpRefScintSurface->SetMaterialPropertiesTable(RMPT);
+  G4LogicalBorderSurface* OpRefcintBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,reflectorPV,OpRefScintSurface);
+
+
+  // Optical coupling borders
   G4MaterialPropertiesTable* mpt = new G4MaterialPropertiesTable();
 	mpt->AddProperty("REFLECTIVITY", energy, transmittance);
   mpt->AddProperty("TRANSMITTANCE", energy, reflectivity);
 
-
-  // Scintillator - exterior
-  G4OpticalSurface* ScintSkinSurface = new G4OpticalSurface("ScintSkinSurface");
-  ScintSkinSurface->SetType(dielectric_dielectric);
-	ScintSkinSurface->SetModel(glisur);
-	ScintSkinSurface->SetFinish(polished);
-  G4LogicalBorderSurface* ScintSurface = new G4LogicalBorderSurface("ScintSkinSurface", scintPV, worldPV,ScintSkinSurface);
-  ScintSkinSurface-> SetMaterialPropertiesTable(mpt_skin);
-
-
   // Scintillator - OpCoupling
 	G4OpticalSurface* ScintOpCouplSurface = new G4OpticalSurface("ScintCouplSurface");
   ScintOpCouplSurface->SetType(dielectric_dielectric);
-	ScintOpCouplSurface->SetModel(glisur);
-	ScintOpCouplSurface->SetFinish(polished);
-	G4LogicalBorderSurface* ScintOpCouplBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,couplingPV,ScintOpCouplSurface);
+	ScintOpCouplSurface->SetModel(DAVIS);
+	ScintOpCouplSurface->SetFinish(Detector_LUT);
   ScintOpCouplSurface->SetMaterialPropertiesTable(mpt);
+	G4LogicalBorderSurface* ScintOpCouplBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,couplingPV,ScintOpCouplSurface);
 
 	// Opticalcoupling - SiPM
 	G4OpticalSurface* OpCouplSiPMSurface = new G4OpticalSurface("CouplSiPMSurface");
   OpCouplSiPMSurface->SetType(dielectric_dielectric);
-	OpCouplSiPMSurface->SetModel(glisur);
-	OpCouplSiPMSurface->SetFinish(polished);
-	G4LogicalBorderSurface* CouplingSiPMBorder = new G4LogicalBorderSurface("CouplSiPMSurface",couplingPV,sipmPV,OpCouplSiPMSurface);
+	OpCouplSiPMSurface->SetModel(DAVIS);
+	OpCouplSiPMSurface->SetFinish(Detector_LUT);
   OpCouplSiPMSurface->SetMaterialPropertiesTable(mpt);
+	G4LogicalBorderSurface* CouplingSiPMBorder = new G4LogicalBorderSurface("CouplSiPMSurface",couplingPV,sipmPV,OpCouplSiPMSurface);
 
   /*
   G4double posDetEle;

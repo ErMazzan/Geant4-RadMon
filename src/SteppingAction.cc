@@ -103,30 +103,31 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       }
 
 
+    // Check for photons processes in the reflector:
+    // - OpAbsorption -> photons exit scint
+    // - Transportation -> photons reflect back into scintillator
+    // if (currentPhysicalName == "ReflectorPV"){
+    //   G4cout << "Process: " << ProcessName << G4endl;
+    // }
+
+
     // Kill photons that exit the detector
     if (endPoint->GetPhysicalVolume()){
       auto postPV = endPoint->GetPhysicalVolume()->GetName();
 
       // Check if it exits to world and kill
       if (postPV == "WorldPV"){
-        // Track->SetTrackStatus(fStopAndKill);
+        Track->SetTrackStatus(fStopAndKill);
       }
 
       // If it doesn't exit to world check that from world doesn't enter into the detector again
       else {
         if (currentPhysicalName=="WorldPV") { 
           G4cout << "WARNING! Photon in World entering back to: " << postPV << G4endl; 
-          G4cout << "Boundary process status: " << BoundStatus << G4endl;
+          // G4cout << "Boundary process status: " << BoundStatus << G4endl;
         }
       }
     }
-
-    // If particle is killed when exits world it doesn't bounce in borders !!
-    if (currentPhysicalName=="WorldPV") {
-      G4cout << "Photon outside scintillator: killed " << G4endl;
-      Track->SetTrackStatus(fStopAndKill);
-    }
-
   }
 
 

@@ -98,6 +98,8 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     G4double absoThickness[3];
     G4double scintThickness;
     G4double caloSizeXY;
+    G4double scintXY;
+    G4double reflectorGrosor;
 
     G4double shieldThickness;
     G4double shieldSizeXY;
