@@ -33,6 +33,7 @@
 
 #include "G4UserRunAction.hh"
 #include "globals.hh"
+#include "B4cDetectorConstruction.hh"
 
 class G4Run;
 
@@ -57,7 +58,7 @@ class G4Run;
 class B4RunAction : public G4UserRunAction
 {
   public:
-    B4RunAction();
+    B4RunAction(B4cDetectorConstruction* );
     virtual ~B4RunAction();
     
     virtual void BeginOfRunAction(const G4Run*);
@@ -93,6 +94,8 @@ class B4RunAction : public G4UserRunAction
     
   private:
     G4int TotalBins;
+
+    B4cDetectorConstruction*   fDetector;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -71,6 +71,9 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     void SetAperturePhiAngle(G4double);
     void SetStartThetaAngle(G4double);
     void SetApertureThetaAngle(G4double);
+
+    void SetNofSiPMs(G4int);
+    void SetSiPMSize(G4double);
     
     void UpdateGeometry();
 
@@ -80,6 +83,7 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* DefineVolumes();
     
     virtual G4int GetNofSiPMS() const;
+    virtual G4int GetNofScint() const;
 
   private:   
     // data members
@@ -100,6 +104,7 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
     G4double caloSizeXY;
     G4double scintXY;
     G4double reflectorGrosor;
+    G4double fSiPMsize;
 
     G4double shieldThickness;
     G4double shieldSizeXY;
@@ -121,6 +126,11 @@ class B4cDetectorConstruction : public G4VUserDetectorConstruction
 inline G4int B4cDetectorConstruction::GetNofSiPMS() const
 {
   return fNoSiPMs;
+}
+
+inline G4int B4cDetectorConstruction::GetNofScint() const
+{
+  return fNofLayers;
 }
 
 #endif

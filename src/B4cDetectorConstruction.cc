@@ -73,15 +73,25 @@ G4GlobalMagFieldMessenger* B4cDetectorConstruction::fMagFieldMessenger = 0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+// temporally here!
+const std::string txtred("\033[0;31m");
+const std::string txtgreen("\033[0;32m");
+const std::string txtyellow("\033[0;33m");
+const std::string txtblue("\033[0;34m");
+const std::string txtreset("\033[0m");
+//
+
 B4cDetectorConstruction::B4cDetectorConstruction()
  : G4VUserDetectorConstruction(),
    fCheckOverlaps(true),
    fNofLayers(-1),
    fMaterials(NULL),
-   fNoSiPMs(-1)
+   fNoSiPMs(-1),
+   fSiPMsize(-1)
 {
 	fNofLayers = 4;
   fNoSiPMs = 4; //Num of SiPMs per scintillator (for now must be even number)
+  fSiPMsize = 1.3*mm;
 	
     // DAVID -> Changed geometry of the absorbers: [0] 2 mm -> 10 mm ; [2] 50 mm -> 40 mm
 	absoThickness[0] = 10.*mm;
@@ -159,7 +169,16 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   //
   G4VSolid* worldS = new G4Box("World", worldSize/2, worldSize/2, worldSize/2);
   G4LogicalVolume* worldLV = new G4LogicalVolume(worldS, defaultMaterial,"WorldLV");                            
-  G4VPhysicalVolume* worldPV = new G4PVPlacement(0, // no rotation
+  // G4VPhysicalVolume* worldPV = new G4PVPlacement(0, // no rotation
+                //  G4ThreeVector(),  // at (0,0,0)
+                //  worldLV,          // its logical volume                         
+                //  "WorldPV",        // its name
+                //  0,                // its mother  volume
+                //  false,            // no boolean operation
+                //  0,                // copy number
+                //  fCheckOverlaps);  // checking overlaps 
+  
+  worldPV = new G4PVPlacement(0, // no rotation
                  G4ThreeVector(),  // at (0,0,0)
                  worldLV,          // its logical volume                         
                  "WorldPV",        // its name
@@ -191,7 +210,6 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 
 	G4Box* reflectorS = new G4Box("Reflector",ReflectorXY/2.,ReflectorXY/2.,ReflectorZ/2.);
 	G4LogicalVolume* reflectorLV = new G4LogicalVolume(reflectorS,reflectorMaterial,"ReflectorLV");
-
   G4double posDetEle;
   G4double accumulatedAbsTh=0.;
   G4VPhysicalVolume* reflectorPV;
@@ -233,14 +251,13 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   
   // SiPM placement:
 
-  G4double SiPMsize = 1.3*mm;
   // G4double SiPMThickness = 0.3*mm;
   G4double couplingThickness = 0.2*mm;
 
   G4double SiPMThickness = reflectorGrosor - couplingThickness;
   if (SiPMThickness <= 0) G4cout << "WARNING! Reflector thicker than optical coupling: physical volume overlaps." << G4endl;
 
-  G4double detectorsize = SiPMsize;
+  G4double detectorsize = fSiPMsize;
   G4double detectorThickness = SiPMThickness + couplingThickness;
 
     // Rotation Matrix (DON'T modify if used) 
@@ -278,11 +295,12 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	G4VPhysicalVolume* couplingPV = new G4PVPlacement(0, G4ThreeVector(0., 0., SiPMThickness/2.), couplingLV, "OpCouplingPV", detectorLV, false, 0, fCheckOverlaps);
 
 	    // SiPM
-  G4VSolid* sipmS = new G4Box("SiPM", SiPMsize/2., SiPMsize/2., SiPMThickness/2.);
+  G4VSolid* sipmS = new G4Box("SiPM", fSiPMsize/2., fSiPMsize/2., SiPMThickness/2.);
   G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, sipmMaterial, "SiPMLV");
   G4VPhysicalVolume* sipmPV = new G4PVPlacement(0, G4ThreeVector(0., 0., -couplingThickness/2.), sipmLV, "SiPMPV", detectorLV, false, 0, fCheckOverlaps);
 
   
+  std::cout<<txtred<<"\n\nSiPM size is now "<<fSiPMsize<<txtreset<<"\n\n"<<std::endl;
   
 	//------------------------------------------------------
   // Surfaces and boundary processes
@@ -313,10 +331,10 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	// OpRefScintSurface->SetModel(DAVIS);
 	// OpRefScintSurface->SetFinish(RoughTeflon_LUT);
 	// OpRefScintSurface->SetSigmaAlpha(1.*deg);
-  OpRefScintSurface->SetType(dielectric_dielectric);
+  OpRefScintSurface->SetType(dielectric_LUTDAVIS);
 	OpRefScintSurface->SetModel(DAVIS);
 	OpRefScintSurface->SetFinish(RoughTeflon_LUT);
-	OpRefScintSurface->SetMaterialPropertiesTable(RMPT);
+	// OpRefScintSurface->SetMaterialPropertiesTable(RMPT);
   G4LogicalBorderSurface* OpRefcintBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,reflectorPV,OpRefScintSurface);
 
 
@@ -328,16 +346,16 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   // Scintillator - OpCoupling
 	G4OpticalSurface* ScintOpCouplSurface = new G4OpticalSurface("ScintCouplSurface");
   ScintOpCouplSurface->SetType(dielectric_dielectric);
-	ScintOpCouplSurface->SetModel(DAVIS);
-	ScintOpCouplSurface->SetFinish(Detector_LUT);
+	ScintOpCouplSurface->SetModel(glisur);
+	ScintOpCouplSurface->SetFinish(polished);
   ScintOpCouplSurface->SetMaterialPropertiesTable(mpt);
 	G4LogicalBorderSurface* ScintOpCouplBorder = new G4LogicalBorderSurface("ScintCouplSurface",scintPV,couplingPV,ScintOpCouplSurface);
 
 	// Opticalcoupling - SiPM
 	G4OpticalSurface* OpCouplSiPMSurface = new G4OpticalSurface("CouplSiPMSurface");
   OpCouplSiPMSurface->SetType(dielectric_dielectric);
-	OpCouplSiPMSurface->SetModel(DAVIS);
-	OpCouplSiPMSurface->SetFinish(Detector_LUT);
+	OpCouplSiPMSurface->SetModel(glisur);
+	OpCouplSiPMSurface->SetFinish(polished);
   OpCouplSiPMSurface->SetMaterialPropertiesTable(mpt);
 	G4LogicalBorderSurface* CouplingSiPMBorder = new G4LogicalBorderSurface("CouplSiPMSurface",couplingPV,sipmPV,OpCouplSiPMSurface);
 
@@ -410,17 +428,23 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B4cDetectorConstruction::UpdateGeometry()
-{
-    if (!worldPV) return;
-    
-    
-    G4GeometryManager::GetInstance()->OpenGeometry();
-    G4PhysicalVolumeStore::GetInstance()->Clean();
-    G4LogicalVolumeStore::GetInstance()->Clean();
-    G4SolidStore::GetInstance()->Clean();
-    
-    G4RunManager::GetRunManager()->DefineWorldVolume(DefineVolumes());
-    G4RunManager::GetRunManager()->GeometryHasBeenModified();
+{   
+
+  if (!worldPV) return;
+
+  // clean-up previous geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
+  G4LogicalSkinSurface::CleanSurfaceTable();
+  G4LogicalBorderSurface::CleanSurfaceTable();
+
+  //define new one
+
+  G4RunManager::GetRunManager()->DefineWorldVolume(DefineVolumes());
+  G4RunManager::GetRunManager()->GeometryHasBeenModified();
+  // G4RunManager::GetRunManager()->PhysicsHasBeenModified();
     
 }
 
@@ -443,6 +467,20 @@ void B4cDetectorConstruction::SetApertureThetaAngle(G4double ApertureThetaAngle)
 {
     fApertureThetaAngle = ApertureThetaAngle;
 }
+
+
+void B4cDetectorConstruction::SetNofSiPMs(G4int NoSiPMs)
+{
+    fNoSiPMs = NoSiPMs;
+}
+
+void B4cDetectorConstruction::SetSiPMSize(G4double SiPMsize)
+{
+    fSiPMsize = SiPMsize;
+}
+
+
+
 
 void B4cDetectorConstruction::ConstructSDandField()
 {

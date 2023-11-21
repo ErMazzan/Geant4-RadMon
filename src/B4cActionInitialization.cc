@@ -34,6 +34,8 @@
 #include "B4cEventAction.hh"
 #include "SteppingAction.hh"
 
+#include "G4UImanager.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 /*
@@ -55,7 +57,7 @@ B4cActionInitialization::~B4cActionInitialization()
 
 void B4cActionInitialization::BuildForMaster() const
 {
-    B4RunAction* runAction = new B4RunAction;
+    B4RunAction* runAction = new B4RunAction(fDetConstruction);
     SetUserAction(runAction);
 }
 
@@ -65,9 +67,28 @@ void B4cActionInitialization::Build() const
 {
   SetUserAction(new MyPrimaryGeneratorAction);
     
-  B4RunAction* runAction = new B4RunAction;
+  B4RunAction* runAction = new B4RunAction(fDetConstruction);
   SetUserAction(runAction);
+
+
+  // --- REDUCE VERBOSITY
+
+  G4UImanager* UI = G4UImanager::GetUIpointer();
+
+  UI->ApplyCommand(G4String("/process/verbose       0"));
+  UI->ApplyCommand(G4String("/process/em/verbose    0"));
+  UI->ApplyCommand(G4String("/process/had/verbose   0"));
+  UI->ApplyCommand(G4String("/process/eLoss/verbose 0"));
+
+  UI->ApplyCommand(G4String("/control/verbose  0"));
+  UI->ApplyCommand(G4String("/run/verbose      0"));
+  UI->ApplyCommand(G4String("/event/verbose    0"));
+  UI->ApplyCommand(G4String("/hits/verbose     0"));
+  UI->ApplyCommand(G4String("/tracking/verbose 0"));
+  UI->ApplyCommand(G4String("/stepping/verbose 0"));
     
+  // ---
+
   B4cEventAction* evtAction = new B4cEventAction(runAction);
   SetUserAction(evtAction);
     

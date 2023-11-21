@@ -38,8 +38,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B4RunAction::B4RunAction()
- : G4UserRunAction()
+B4RunAction::B4RunAction(B4cDetectorConstruction *det)
+ : G4UserRunAction(),
+  fDetector(det)
 {
     
   // set printing event number per each event
@@ -78,7 +79,6 @@ B4RunAction::B4RunAction()
   // 0. Energy deposited in Scintillator 1
   analysisManager->CreateH1("EScint1","Edep in Scintillator 1", TotalBins, 0., 50*MeV);
 
-  /*
   // 1. Energy deposited in Scintillator 2
   analysisManager->CreateH1("EScint2","Edep in Scintillator 2", TotalBins, 0., 50*MeV);
     
@@ -104,9 +104,7 @@ B4RunAction::B4RunAction()
   analysisManager->CreateH1("ESumCoinc1-2-3-4", "Edep in Scint 1 & 2 & 3 & 4", TotalBins, 0., 100*MeV);
     
   // 9. Initial kinetic energy of the protons
-  */
   analysisManager->CreateH1("InitialKin", "Kinetic energy of protons", TotalBins, 0., 20*GeV);
-  /*
 
   // 10. Energy distribution of primary particles for 1-2 Coinc events
   analysisManager->CreateH1("EKinCoinc1-2", "KinEnergy for Coinc 1-2", TotalBins, 0., 20*GeV);
@@ -142,7 +140,7 @@ B4RunAction::B4RunAction()
   analysisManager->CreateH1("EDep3-Scint1-2-3-4", "EDep for Scint 3 for Coinc 1-2-3-4", TotalBins, 0., 50*MeV);
 
   // 2D HISTOGRAMS
-
+  /*
   // 0. Energy deposited in coincidence channel 1-2
   analysisManager->CreateH2("EDep1-vs-EDep2-Scint1-2", "EDep for Scint1 and Scint2 for Coinc 1-2", TotalBins, 0., 50*MeV, TotalBins, 0., 50*MeV);
 
@@ -156,8 +154,25 @@ B4RunAction::B4RunAction()
 
 
   // SiPM
-  analysisManager->CreateH1("EDep_SiPM1", "EDep in SiPM #1", TotalBins, 0., 5*eV);
-  analysisManager->CreateH1("EDep_SiPM2", "EDep in SiPM #2", TotalBins, 0., 5*eV);
+
+  G4int SiPMID;
+  G4int NSiPMs = fDetector->GetNofSiPMS();
+  G4int NScints = fDetector->GetNofScint();
+
+  analysisManager->CreateNtuple("RadMon", "SiPM Detections");
+  
+  //Add one branch per SiPM pixel
+  for (int scint=0; scint<NScints; scint++){
+	  for (int sipms=0; sipms<NSiPMs; sipms++){
+      SiPMID = sipms + scint*10;
+	    std::ostringstream os;
+	    os << "SiPMid" <<SiPMID;
+	    std::string name = os.str();
+	    analysisManager->CreateNtupleDColumn(name);
+	  }
+  }
+
+  // analysisManager->FinishNtuple();
 
 
   // Creating ntuple
@@ -184,20 +199,26 @@ void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
 { 
   //inform the runManager to save random number seed
   //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
+  G4cout<<"Begin of Run Action\n";
   
   // Get analysis manager
   auto analysisManager = G4AnalysisManager::Instance();
 
+  
   // Open an output file
   //
   G4String fileName = "";
   analysisManager->OpenFile(fileName);
-    
+
+  G4cout<<"Here!\n";
+
   fRate12 = 0;
   fRate34 = 0;
   fRate123 = 0;
   fRate234 = 0;
   fRate1234 = 0;
+
+  
 
 }
 
@@ -205,6 +226,7 @@ void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
 
 void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
 {
+  G4cout<<"End of Run Action\n";
   // print histogram statistics
   //
   auto analysisManager = G4AnalysisManager::Instance();

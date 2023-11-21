@@ -176,8 +176,9 @@ void MyMaterials::CreateMaterials()
 
   MyScintMPT->AddProperty("RINDEX", energy, rindex);
   MyScintMPT->AddProperty("ABSLENGTH", energy, absorption);
-  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 20); //lightyield scaled to the SiPM pde: lightyield*pde
+  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 20./MeV); //lightyield scaled to the SiPM pde: lightyield*pde
   MyScintMPT->AddConstProperty("RESOLUTIONSCALE", 1.0);
+  // MyScintMPT->AddConstProperty("YIELDRATIO",1.);
   // only use one component 
   MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", energy, scintemission);
   MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT2", energy, scintemission);

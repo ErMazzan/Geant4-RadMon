@@ -95,6 +95,10 @@ private:
   G4double Scint1234Energy;
     
   B4RunAction* fRunAct;
+  B4cDetectorConstruction* fDetector;
+
+  G4int nSiPMs;
+  G4int Ndet[50]; //larger than the maximum bumber of SiPMs accepted
 
 };
                      

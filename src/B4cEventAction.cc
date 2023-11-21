@@ -49,8 +49,11 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B4cEventAction::B4cEventAction(B4RunAction* runAction)
-: fRunAct(runAction), fAbsHCID(-1), fGapHCID(-1), fScintHCID(-1), fSiPMHCID(-1)
-{}
+: fRunAct(runAction), 
+  fAbsHCID(-1), fGapHCID(-1), fScintHCID(-1), fSiPMHCID(-1)
+{
+  nSiPMs=runAction->GetNpixels();
+}
 
 
 /*
@@ -148,6 +151,7 @@ void B4cEventAction::BeginOfEventAction(const G4Event* event)
 
   nDetectedPhotons = 0;
   nScintPhotons = 0; 
+  for(int i=0; i<nSiPMs; i++) Ndet[i] = 0;
     
 }
 
@@ -185,9 +189,9 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // auto gapHit = (*gapHC)[gapHC->entries()-1];
     
   auto Scint1Hit = (*scintHC)[0];
-  // auto Scint2Hit = (*scintHC)[1];
-  // auto Scint3Hit = (*scintHC)[2];
-  // auto Scint4Hit = (*scintHC)[3];
+  auto Scint2Hit = (*scintHC)[1];
+  auto Scint3Hit = (*scintHC)[2];
+  auto Scint4Hit = (*scintHC)[3];
  
   // Print per event (modulo n)
   //
@@ -220,15 +224,14 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // DAVID -> Added the filling for the histograms created in RunAction
   
   G4double ekin = fRunAct->GetKinEnergy();
-  analysisManager->FillH1(1, ekin);
-  // analysisManager->FillH1(9, ekin);
+  analysisManager->FillH1(9, ekin);
 
     
   if (Scint1Hit->GetEdep() != 0) {
     analysisManager->FillH1(0, Scint1Hit->GetEdep());
     Scint1Flag = TRUE;
   }
-  /*
+
   if (Scint2Hit->GetEdep() != 0) {
     analysisManager->FillH1(1, Scint2Hit->GetEdep());
     Scint2Flag = TRUE;
@@ -287,7 +290,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
       fRunAct->UpdateRate1234(1);
   }
-  */
+
   /*
   if ((Scint1Flag && Scint2Flag) == TRUE || (Scint3Flag && Scint4Flag) == TRUE) {
       analysisManager->FillH1(13, Scint1Hit->GetEdep()+Scint2Hit->GetEdep()+Scint3Hit->GetEdep()+Scint4Hit->GetEdep());
@@ -325,16 +328,15 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   G4int nhits = SiPMHC->entries();
 
   // Loop for each entry since one event generates many scintillation photons that can be detected
-  for ( G4int i=0; i<nhits; i++) {
-    auto SiPMHit = (*SiPMHC)[i];
-
-    // Store depending on SiPM id
-    if (SiPMHit->GetEdep() != 0) {
-      G4int id = SiPMHit->GetSiPMID();
-      if (id==0){analysisManager->FillH1(2, SiPMHit->GetEdep());}
-      if (id==1){analysisManager->FillH1(3, SiPMHit->GetEdep());}
+  for (int i=0; i<nhits; i++){
+      SiPMHit *thisHit = (*SiPMHC)[i];
+      G4int thisSiPM = thisHit->fSiPMID;
+      Ndet[thisSiPM]++;
+      
     }
-  }
+  auto SiPMHit = (*SiPMHC)[i];
+  analysisManager->FillNtupleDColumn(2, SiPMHit->GetEdep());
+
 
   // G4cout << "SiPM hit collection entries " << nhits << G4endl;
   
