@@ -9,10 +9,11 @@
 #include "G4UnitsTable.hh"
 
 //constructor
-SiPMSD::SiPMSD(G4String name, const G4String& hitsCollectionName)
-  : G4VSensitiveDetector(name),collectionID(-1)
+SiPMSD::SiPMSD(G4String name, const G4String& hitsCollectionName, G4int NoSiPMs)
+  : G4VSensitiveDetector(name),collectionID(-1),fSiPMperScint(0)
 {
   collectionName.insert("SiPMHitsCollection");
+  SetNofSiPMsperScint(NoSiPMs);
 }
 
 //destructor
@@ -36,6 +37,11 @@ void SiPMSD::Initialize(G4HCofThisEvent* HCE)
 G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory* ROhist)
 {
 
+  // G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
+  // if (particleName != "opticalphoton"){ G4cout << "\n\n"  <<particleName; return false; }
+
+
+
   //define something to store.
   G4double energydep = step->GetTotalEnergyDeposit();
   G4TouchableHandle touchable = step->GetPreStepPoint()->GetTouchableHandle();
@@ -46,7 +52,7 @@ G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory* ROhist)
   // set unique SiPM ID using copy numbers from "parent" and "grandparent" volumes
   G4int DetectorID = touchable->GetCopyNumber(1);    // Detector copy 
   G4int ScintillatorID = touchable->GetCopyNumber(2);   // Scintillator copy
-  auto SiPMID = DetectorID + ScintillatorID*10;   
+  auto SiPMID = DetectorID + ScintillatorID*fSiPMperScint;   
 
   // // Check that the copy ID really corresponds to desired Physical Volume
   // auto scintvol = touchable->GetVolume(2);
@@ -54,7 +60,7 @@ G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory* ROhist)
   // G4cout << "Scintillator copy number " << scintvol->GetName() << " " << ScintillatorID << G4endl;
   // G4cout << "Detector copy number " << detvol->GetName() << " " << DetectorID << G4endl;
 
-  G4cout << "SiPM ID: " << SiPMID << G4endl;
+  // G4cout << "SiPM ID: " << SiPMID << G4endl;
 
 
   if (energydep==0.) return false;

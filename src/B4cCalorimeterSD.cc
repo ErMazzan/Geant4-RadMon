@@ -97,7 +97,7 @@ G4bool B4cCalorimeterSD::ProcessHits(G4Step* step,
   // CopyNumber(0) -> retrieve energy for the layer
   // CopyNumber(1) -> retrieve information for the PARENT volume
   // CopyNumber(2) -> retrieve information for the GRANDPARENT volume
-  auto layerNumber = touchable->GetCopyNumber(0);
+  auto layerNumber = touchable->GetCopyNumber(1);
   
   // Get hit accounting data for this cell
   auto hit = (*fHitsCollection)[layerNumber];

@@ -172,7 +172,34 @@ void MyMaterials::CreateMaterials()
   std::vector<G4double> energy     = {2.64*eV, 3.06*eV, 3.22*eV};
   std::vector<G4double> rindex     = {1.58, 1.58, 1.58};
   std::vector<G4double> absorption = {140.*cm, 140.*cm, 140.*cm};
-  std::vector<G4double> scintemission = {0.1, 1.0, 0.1};
+
+  std::vector<G4double> emissionenergy = {
+    4.12840, 3.97487, 3.88361, 3.83674, 3.76463, 3.72157, 3.62103, 3.53301,
+    3.50535, 3.45629, 3.37620, 3.24040, 3.10185, 2.95454, 2.75043, 2.48246
+    };
+  std::vector<G4double> scintemission = {
+    0.3970, 0.1970, 0.3955, 0.5939, 0.8010, 0.9029, 0.9946, 0.9138,
+    0.8001, 0.6434, 0.5402, 0.4494, 0.3327, 0.1852, 0.0742, 0.0207
+    };
+
+// Emission Spectra
+//  (nm) ,  (%)
+// 300.32, 3.97
+// 311.92, 19.70
+// 319.25, 39.55
+// 323.15, 59.39
+// 329.34, 80.10
+// 333.15, 90.29
+// 342.40, 99.46
+// 350.93, 91.38
+// 353.70, 80.01
+// 358.72, 64.34
+// 367.23, 54.02
+// 382.62, 44.94
+// 399.71, 33.27
+// 419.64, 18.52
+// 450.78, 7.42
+// 499.44, 2.07
 
   MyScintMPT->AddProperty("RINDEX", energy, rindex);
   MyScintMPT->AddProperty("ABSLENGTH", energy, absorption);

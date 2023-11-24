@@ -1,3 +1,6 @@
+
+/process/optical/processActivation Scintillation false
+
 /run/initialize
 
 #/gps/particle ion
@@ -16,30 +19,30 @@
 /gps/ang/mintheta 0 deg
 /gps/ang/maxtheta 90 deg
 
+/gps/energy 70 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_70MeV.root
+/run/beamOn 10000000
+
 /gps/energy 100 MeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_100MeV.csv
-/run/beamOn 1000000
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_100MeV.root
+/run/beamOn 10000000
 
-/gps/energy 200 MeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_200MeV.csv
-/run/beamOn 1000000
+/gps/energy 158 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_158MeV.root
+/run/beamOn 10000000
 
-/gps/energy 300 MeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_300MeV.csv
-/run/beamOn 1000000
+/gps/energy 251 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_251MeV.root
+/run/beamOn 10000000
 
-/gps/energy 500 MeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_500MeV.csv
-/run/beamOn 1000000
+/gps/energy 398 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_398MeV.root
+/run/beamOn 10000000
 
-/gps/energy 700 MeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_700MeV.csv
-/run/beamOn 1000000
+/gps/energy 630 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_630MeV.root
+/run/beamOn 10000000
 
-/gps/energy 1 GeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_1GeV.csv
-/run/beamOn 1000000
-
-/gps/energy 2 GeV
-/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/abs10-25-35mm/sphereR7_mono/p_2GeV.csv
-/run/beamOn 1000000
+/gps/energy 1000 MeV
+/analysis/setFileName /home/heplab/marina/lisa/RadMon/results/data/sphere_mono/p_1000MeV.root
+/run/beamOn 10000000

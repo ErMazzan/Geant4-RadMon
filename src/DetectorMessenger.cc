@@ -71,7 +71,7 @@ DetectorMessenger::DetectorMessenger(B4cDetectorConstruction* Det)
 
   /// SiPMs commands
 
-    fSiPMsDir = new G4UIdirectory("/RadMon/SiPMs");
+    fSiPMsDir = new G4UIdirectory("/RadMon/SiPMs/");
     fSiPMsDir->SetGuidance("Detector Construction commands for SiPMs");
 
     fNumOfSiPMsCmd = new G4UIcmdWithAnInteger("/RadMon/SiPMs/setNum", this);
@@ -83,7 +83,7 @@ DetectorMessenger::DetectorMessenger(B4cDetectorConstruction* Det)
     fSiPMSizeCmd = new G4UIcmdWithADoubleAndUnit("/RadMon/SiPMs/setSize", this);
     fSiPMSizeCmd->SetGuidance("Size of square SiPM in mm");
     fSiPMSizeCmd->SetParameterName("Length",false);
-    fApertureThetaAngleCmd->SetUnitCategory("mm");
+    fSiPMSizeCmd->SetUnitCategory("mm");
     fSiPMSizeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSiPMSizeCmd->SetToBeBroadcasted(false);
 
@@ -123,5 +123,13 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
   if ( command == fApertureThetaAngleCmd )
   { fDetector->SetApertureThetaAngle(G4UIcmdWithADoubleAndUnit::GetNewDoubleValue(newValue)); }
    
+
+  if ( command == fNumOfSiPMsCmd )
+  { fDetector->SetNofSiPMs(G4UIcmdWithAnInteger::GetNewIntValue(newValue)); }
+  
+  if ( command == fSiPMSizeCmd )
+  { fDetector->SetSiPMSize(G4UIcmdWithADoubleAndUnit::GetNewDoubleValue(newValue)); }
+
+
 }
 

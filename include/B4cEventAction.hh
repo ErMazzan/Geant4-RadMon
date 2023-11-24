@@ -97,7 +97,7 @@ private:
   B4RunAction* fRunAct;
   B4cDetectorConstruction* fDetector;
 
-  G4int nSiPMs;
+  G4int fTotalNSiPMs;
   G4int Ndet[50]; //larger than the maximum bumber of SiPMs accepted
 
 };

@@ -63,6 +63,10 @@ class B4RunAction : public G4UserRunAction
     
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
+
+
+    G4int fTotalNSiPMs; //larger than the maximum bumber of SiPMs accepted
+    G4int GetTotalNSiPMs() {return fTotalNSiPMs;}
     
     G4int fRate12;
     void UpdateRate12(G4int count) { fRate12 = fRate12 + count; }

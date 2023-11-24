@@ -50,9 +50,10 @@
 
 B4cEventAction::B4cEventAction(B4RunAction* runAction)
 : fRunAct(runAction), 
-  fAbsHCID(-1), fGapHCID(-1), fScintHCID(-1), fSiPMHCID(-1)
+  fAbsHCID(-1), fGapHCID(-1), fScintHCID(-1), fSiPMHCID(-1),
+  fTotalNSiPMs(0)
 {
-  nSiPMs=runAction->GetNpixels();
+  fTotalNSiPMs=runAction->GetTotalNSiPMs();
 }
 
 
@@ -133,7 +134,7 @@ void B4cEventAction::PrintEventStatistics(
 
 void B4cEventAction::BeginOfEventAction(const G4Event* event)
 {
-  if (event->GetEventID()%100000 == 0) G4cout << "<<< Begin of Event:  " << event->GetEventID() << G4endl;
+  if (event->GetEventID()%1000000 == 0) G4cout << "<<< Begin of Event:  " << event->GetEventID() << G4endl;
   
   Scint1Flag = FALSE;
   Scint2Flag = FALSE;
@@ -151,7 +152,7 @@ void B4cEventAction::BeginOfEventAction(const G4Event* event)
 
   nDetectedPhotons = 0;
   nScintPhotons = 0; 
-  for(int i=0; i<nSiPMs; i++) Ndet[i] = 0;
+  for(int i=0; i<fTotalNSiPMs; i++) Ndet[i] = 0;
     
 }
 
@@ -160,8 +161,8 @@ void B4cEventAction::BeginOfEventAction(const G4Event* event)
 void B4cEventAction::EndOfEventAction(const G4Event* event)
 {  
 
-  G4cout << "####  Scintillation photons this event: # Generated: " << nScintPhotons <<
-            " # Detected: " << nDetectedPhotons << G4endl;
+  // G4cout << "####  Scintillation photons this event: # Generated: " << nScintPhotons <<
+  //           " # Detected: " << nDetectedPhotons << G4endl;
 
   // Get hits collections IDs (only once)
   // David -> Added fScintHCID
@@ -243,51 +244,66 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   }
     
   if (Scint4Hit->GetEdep() != 0) {
-     analysisManager->FillH1(3, Scint4Hit->GetEdep());
-     Scint4Flag = TRUE;
+    analysisManager->FillH1(3, Scint4Hit->GetEdep());
+    Scint4Flag = TRUE;
   }
-    
-  if ((Scint1Flag && Scint2Flag) == TRUE) {
+
+
+  // Coincidences:
+  
+  // Coinc 1-2 and NOT 3, 4
+  if ((Scint1Flag && Scint2Flag) == TRUE && (Scint3Flag || Scint4Flag) == FALSE) {
       Scint12Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep();
       analysisManager->FillH1(4, Scint12Energy);
-      analysisManager->FillH1(10, ekin);
-      analysisManager->FillH1(15, Scint1Hit->GetEdep());
-      analysisManager->FillH1(16, Scint2Hit->GetEdep());
+      analysisManager->FillH1(12, ekin);
+      analysisManager->FillH1(17, Scint1Hit->GetEdep());
+      analysisManager->FillH1(18, Scint2Hit->GetEdep());
       analysisManager->FillH2(0, Scint1Hit->GetEdep(), Scint2Hit->GetEdep());
       fRunAct->UpdateRate12(1);
   }
-    
-  if ((Scint3Flag && Scint4Flag) == TRUE) {
+  
+  // Coinc 3-4 and NOT 1, 2
+  if ((Scint3Flag && Scint4Flag) == TRUE && (Scint1Flag || Scint2Flag) == FALSE) {
       Scint34Energy = Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
       analysisManager->FillH1(5, Scint34Energy);
-      analysisManager->FillH1(11, ekin);
+      analysisManager->FillH1(13, ekin);
       fRunAct->UpdateRate34(1);
   }
-    
-  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE) {
+  
+  // Coinc 1-2-3 and NOT 4
+  if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE && Scint4Flag == FALSE) {
       Scint123Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep();
       analysisManager->FillH1(6, Scint123Energy);
-      analysisManager->FillH1(12, ekin);
-      analysisManager->FillH1(17, Scint2Hit->GetEdep());
-      analysisManager->FillH1(18, Scint3Hit->GetEdep());
-      analysisManager->FillH2(1, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
+      analysisManager->FillH1(14, ekin);
+      analysisManager->FillH1(19, Scint1Hit->GetEdep());
+      analysisManager->FillH1(20, Scint2Hit->GetEdep());
+      analysisManager->FillH1(21, Scint3Hit->GetEdep());
+      analysisManager->FillH2(1, Scint1Hit->GetEdep(), Scint3Hit->GetEdep());
+      analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
       fRunAct->UpdateRate123(1);
   }
 
-  if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-      Scint234Energy = Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      analysisManager->FillH1(7, Scint234Energy);
-      analysisManager->FillH1(13, ekin);
+  // Coinc 2-3-4 and NOT 1
+  if ((Scint2Flag && Scint3Flag && Scint4Flag) == TRUE && Scint1Flag == FALSE) {
+      // Scint234Energy = Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
+      // analysisManager->FillH1(7, Scint234Energy);
+      analysisManager->FillH1(15, ekin);
       fRunAct->UpdateRate234(1);
   }
 
+  // Coinc 1-2-3-4
   if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
       Scint1234Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
-      analysisManager->FillH1(8, Scint1234Energy);
-      analysisManager->FillH1(14, ekin);
-      analysisManager->FillH1(19, Scint2Hit->GetEdep());
-      analysisManager->FillH1(20, Scint3Hit->GetEdep());
-      analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
+      // analysisManager->FillH1(8, Scint1234Energy);
+      analysisManager->FillH1(7, Scint1234Energy);
+      analysisManager->FillH1(16, ekin);
+      analysisManager->FillH1(22, Scint1Hit->GetEdep());
+      analysisManager->FillH1(23, Scint2Hit->GetEdep());
+      analysisManager->FillH1(24, Scint3Hit->GetEdep());
+      analysisManager->FillH1(25, Scint4Hit->GetEdep());
+      analysisManager->FillH2(3, Scint1Hit->GetEdep(), Scint4Hit->GetEdep());
+      analysisManager->FillH2(4, Scint2Hit->GetEdep(), Scint4Hit->GetEdep());
+      analysisManager->FillH2(5, Scint3Hit->GetEdep(), Scint4Hit->GetEdep());
       fRunAct->UpdateRate1234(1);
   }
 
@@ -308,6 +324,7 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
       analysisManager->FillH1(16, Scint3Hit->GetEdep());
   }
   */
+
     
   // fill ntuple
   // analysisManager->FillNtupleDColumn(0, absoHit->GetEdep());
@@ -321,24 +338,30 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //  sipms SD hits info
   ////
   
+  // Get Hits collection ID
   if ( fSiPMHCID == -1 ) {fSiPMHCID = G4SDManager::GetSDMpointer()->GetCollectionID("SiPMHitsCollection");}
 
-  // Get hits collections
+  // Get Hits collection
   auto SiPMHC = GetSiPMHitsCollection(fSiPMHCID, event);
   G4int nhits = SiPMHC->entries();
+  // G4cout << "SiPM hit collection entries " << nhits << G4endl;
 
   // Loop for each entry since one event generates many scintillation photons that can be detected
+  // Count the detections and add them to total sim detections for that event
   for (int i=0; i<nhits; i++){
-      SiPMHit *thisHit = (*SiPMHC)[i];
-      G4int thisSiPM = thisHit->fSiPMID;
-      Ndet[thisSiPM]++;
-      
-    }
-  auto SiPMHit = (*SiPMHC)[i];
-  analysisManager->FillNtupleDColumn(2, SiPMHit->GetEdep());
+    SiPMHit *thisHit = (*SiPMHC)[i];
+    G4int thisSiPM = thisHit->fSiPMID;
+    Ndet[thisSiPM]++;
+  }
 
+  // Fill NTuple with total detections that event:
+  for (int id=0; id<fTotalNSiPMs; id++){
+    analysisManager->FillNtupleDColumn(0,id,Ndet[id]);
+    // G4cout << "Filling NTuple. SiPM " << id << ". Detections: "<<  Ndet[id]  << G4endl;
+  }
 
-  // G4cout << "SiPM hit collection entries " << nhits << G4endl;
+  analysisManager->AddNtupleRow();
+
   
 }  
 

@@ -147,8 +147,8 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   
   // Get materials
   auto defaultMaterial = FindMaterial("fVacuum");
-  // auto shieldMaterial = FindMaterial("fCu");
-  auto shieldMaterial = FindMaterial("fVacuum");
+  auto shieldMaterial = FindMaterial("fCu");
+  // auto shieldMaterial = FindMaterial("fVacuum");
   auto absoMaterial = FindMaterial("fW");
   // auto absoMaterial = FindMaterial("fTa");
   auto scintMaterial = FindMaterial("fPolystyrene");
@@ -169,14 +169,6 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   //
   G4VSolid* worldS = new G4Box("World", worldSize/2, worldSize/2, worldSize/2);
   G4LogicalVolume* worldLV = new G4LogicalVolume(worldS, defaultMaterial,"WorldLV");                            
-  // G4VPhysicalVolume* worldPV = new G4PVPlacement(0, // no rotation
-                //  G4ThreeVector(),  // at (0,0,0)
-                //  worldLV,          // its logical volume                         
-                //  "WorldPV",        // its name
-                //  0,                // its mother  volume
-                //  false,            // no boolean operation
-                //  0,                // copy number
-                //  fCheckOverlaps);  // checking overlaps 
   
   worldPV = new G4PVPlacement(0, // no rotation
                  G4ThreeVector(),  // at (0,0,0)
@@ -189,19 +181,19 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
                     
   // Cuper shield
 
-  // G4VSolid* shieldS = new G4Box("Shield", shieldSizeXY/2., shieldSizeXY/2., shieldZ/2.);
-  // G4LogicalVolume* shieldLV = new G4LogicalVolume(shieldS, shieldMaterial, "ShieldLV");
-  // G4VPhysicalVolume* shieldPV = new G4PVPlacement(0, G4ThreeVector(), shieldLV, "ShieldPV", worldLV, false, 0, fCheckOverlaps);
+  G4VSolid* shieldS = new G4Box("Shield", shieldSizeXY/2., shieldSizeXY/2., shieldZ/2.);
+  G4LogicalVolume* shieldLV = new G4LogicalVolume(shieldS, shieldMaterial, "ShieldLV");
+  G4VPhysicalVolume* shieldPV = new G4PVPlacement(0, G4ThreeVector(), shieldLV, "ShieldPV", worldLV, false, 0, fCheckOverlaps);
   
   // Vacuum between shield and scintillators
-  // G4VSolid* vacuumS = new G4Box("Vacuum", shieldSizeXY/2.-shieldThickness, shieldSizeXY/2.-shieldThickness, shieldZ/2.-shieldThickness);
-  // G4LogicalVolume* vacuumLV = new G4LogicalVolume(vacuumS, defaultMaterial, "VacuumLV");
-  // G4VPhysicalVolume* vacuumPV = new G4PVPlacement(0, G4ThreeVector(), vacuumLV,"VacuumPV", shieldLV, false, 0, fCheckOverlaps);
+  G4VSolid* vacuumS = new G4Box("Vacuum", shieldSizeXY/2.-shieldThickness, shieldSizeXY/2.-shieldThickness, shieldZ/2.-shieldThickness);
+  G4LogicalVolume* vacuumLV = new G4LogicalVolume(vacuumS, defaultMaterial, "VacuumLV");
+  G4VPhysicalVolume* vacuumPV = new G4PVPlacement(0, G4ThreeVector(), vacuumLV,"VacuumPV", shieldLV, false, 0, fCheckOverlaps);
 
   // Calo that joins all detectors made of default material
   G4VSolid* caloS = new G4Box("Calo", caloSizeXY/2., caloSizeXY/2., totalDetZ/2.);
   G4LogicalVolume* caloLV = new G4LogicalVolume(caloS, defaultMaterial, "CaloLV");
-  G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", worldLV, false, 0, fCheckOverlaps);
+  G4VPhysicalVolume* caloPV = new G4PVPlacement(0, G4ThreeVector(), caloLV,"CaloPV", vacuumLV, false, 0, fCheckOverlaps);
   
 
   // Reflector
@@ -519,9 +511,9 @@ void B4cDetectorConstruction::ConstructSDandField()
   SetSensitiveDetector("ScintillatorLV",ScinSD);
 
 
-
+  // G4int totalSiPMs = fNoSiPMs*fNofLayers;
   //Define SIPMs sensitive detectorS
-	auto sensSiPM = new SiPMSD("SiPMSD","SiPMHitsCollection");
+	auto sensSiPM = new SiPMSD("SiPMSD","SiPMHitsCollection",fNoSiPMs);
 	sdman->AddNewDetector(sensSiPM);
 	//Set a sensitive detector to all logical volumes with name "SiPM"
 	SetSensitiveDetector("SiPMLV",sensSiPM, true);

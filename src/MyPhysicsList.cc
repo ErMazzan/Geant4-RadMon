@@ -45,7 +45,7 @@ MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 	// G4VPhysicsConstructor* emList = new G4EmStandardPhysics_option3(); // for medical and space
 	auto emList = new G4EmStandardPhysics();
 	RegisterPhysics(emList);
-	
+
 	// optical physics
 	G4OpticalPhysics* opticalList = new G4OpticalPhysics();
 
@@ -65,7 +65,7 @@ MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 		// processActivation["Scintillation"] = true;
 	auto opticalParams = G4OpticalParameters::Instance();
 	opticalParams->SetProcessActivation("Cerenkov",false); //disable cherenkov effect
-	opticalParams->SetProcessActivation("Scintillation",true);
+	opticalParams->SetProcessActivation("Scintillation",false); // --------> comment for scintillation photons
 	opticalParams->SetScintTrackSecondariesFirst(true);  // track secondaries for scintillating processes
 
 	RegisterPhysics(opticalList);
