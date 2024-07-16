@@ -152,6 +152,11 @@ void B4cEventAction::BeginOfEventAction(const G4Event* event)
 
   nDetectedPhotons = 0;
   nScintPhotons = 0; 
+  nScint1Photons = 0; 
+  nScint2Photons = 0; 
+  nScint3Photons = 0; 
+  nScint4Photons = 0; 
+
   for(int i=0; i<fTotalNSiPMs; i++) Ndet[i] = 0;
     
 }
@@ -162,7 +167,10 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 {  
 
   // G4cout << "####  Scintillation photons this event: # Generated: " << nScintPhotons <<
-  //           " # Detected: " << nDetectedPhotons << G4endl;
+  //           "\n" << nScint1Photons << " in Scint 1" <<
+  //           "\n" << nScint2Photons << " in Scint 2" <<
+  //           "\n" << nScint3Photons << " in Scint 3" <<
+  //           "\n" << nScint4Photons << " in Scint 4" << G4endl;
 
   // Get hits collections IDs (only once)
   // David -> Added fScintHCID
@@ -225,40 +233,113 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   // DAVID -> Added the filling for the histograms created in RunAction
   
   G4double ekin = fRunAct->GetKinEnergy();
-  analysisManager->FillH1(9, ekin);
+  analysisManager->FillH1(11, ekin);
+
+
+  // Some parameters
+  G4double EDep_Thresh = 0.4;
+  G4double ERes = 0.1;
 
     
   if (Scint1Hit->GetEdep() != 0) {
-    analysisManager->FillH1(0, Scint1Hit->GetEdep());
+    G4double EDep1 = Scint1Hit->GetEdep();
+
+    analysisManager->FillH1(0, EDep1);
+    analysisManager->FillH1(98,nScint1Photons);
+
+    G4double val1 = G4RandGauss::shoot(EDep1,EDep1*ERes);
+    analysisManager->FillH1(76, val1);
+
+    analysisManager->FillH2(6,EDep1,ekin);
+
     Scint1Flag = TRUE;
   }
 
   if (Scint2Hit->GetEdep() != 0) {
-    analysisManager->FillH1(1, Scint2Hit->GetEdep());
+    G4double EDep2 = Scint2Hit->GetEdep();
+
+    analysisManager->FillH1(1, EDep2);
+    analysisManager->FillH1(99,nScint2Photons);
+
+    G4double val2 = G4RandGauss::shoot(EDep2,EDep2*ERes);
+    analysisManager->FillH1(77, val2);
+
     Scint2Flag = TRUE;
   }
     
   if (Scint3Hit->GetEdep() != 0) {
-    analysisManager->FillH1(2, Scint3Hit->GetEdep());
+    G4double EDep3 = Scint3Hit->GetEdep();
+
+    analysisManager->FillH1(2, EDep3);
+    analysisManager->FillH1(100,nScint3Photons);
+
+    G4double val3 = G4RandGauss::shoot(EDep3,EDep3*ERes);
+    analysisManager->FillH1(78, val3);
+    
     Scint3Flag = TRUE;
   }
     
   if (Scint4Hit->GetEdep() != 0) {
-    analysisManager->FillH1(3, Scint4Hit->GetEdep());
-    Scint4Flag = TRUE;
-  }
+    G4double EDep4 = Scint4Hit->GetEdep();
 
+    analysisManager->FillH1(3, EDep4);
+    analysisManager->FillH1(101,nScint4Photons);
+
+    G4double val4 = G4RandGauss::shoot(EDep4,EDep4*ERes);
+    analysisManager->FillH1(79, val4);
+
+    Scint4Flag = TRUE;
+    // if (Scint3Hit->GetEdep() == 0){ 
+    //   G4RunManager::GetRunManager()->rndmSaveThisEvent();
+    //   G4cout << event->GetEventID() << G4endl;
+    //   }
+  }
 
   // Coincidences:
   
   // Coinc 1-2 and NOT 3, 4
   if ((Scint1Flag && Scint2Flag) == TRUE && (Scint3Flag || Scint4Flag) == FALSE) {
-      Scint12Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep();
+      G4double EDep1 = Scint1Hit->GetEdep();
+      G4double EDep2 = Scint2Hit->GetEdep();
+      Scint12Energy = EDep1 + EDep2;
       analysisManager->FillH1(4, Scint12Energy);
       analysisManager->FillH1(12, ekin);
-      analysisManager->FillH1(17, Scint1Hit->GetEdep());
-      analysisManager->FillH1(18, Scint2Hit->GetEdep());
-      analysisManager->FillH2(0, Scint1Hit->GetEdep(), Scint2Hit->GetEdep());
+      analysisManager->FillH1(17, EDep1);
+      analysisManager->FillH1(18, EDep2);
+      analysisManager->FillH2(0, EDep1, EDep2);
+
+      analysisManager->FillH1(102, nScint1Photons);
+      analysisManager->FillH1(103, nScint2Photons);
+
+      // Energy resolution
+      G4double val1 = G4RandGauss::shoot(EDep1,EDep1*ERes);
+      G4double val2 = G4RandGauss::shoot(EDep2,EDep2*ERes);
+      analysisManager->FillH1(80, val1);
+      analysisManager->FillH1(81, val2);
+
+      // Particle ID
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh) {
+        if (EDep1<2. || EDep2<2.) {analysisManager->FillH1(89, ekin);} // p
+        else if (EDep1>2.5 && EDep1<5 && EDep2>2.5 && EDep2<5){analysisManager->FillH1(90, ekin);} // a
+        else {analysisManager->FillH1(91, ekin);} // gray
+      }
+
+      // PROTON CHANNELS
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh) {
+        analysisManager->FillH1(8, ekin);
+        analysisManager->FillNtupleDColumn(0,0,EDep1);
+        analysisManager->FillNtupleDColumn(0,1,EDep2);
+        analysisManager->AddNtupleRow(0);
+        }
+
+      // ALPHA CHANNELS
+      if (EDep1<10 && EDep1>EDep_Thresh && EDep2<10 && EDep2>EDep_Thresh){
+        if (EDep1<4 && EDep1>2 && EDep2<4 ){analysisManager->FillH1(71, ekin);}
+        else if (EDep2<4 && EDep2>2 && EDep1<4 ){analysisManager->FillH1(71, ekin);}
+        
+        else if (EDep1>7 || EDep2>7){analysisManager->FillH1(72, ekin);}
+      }
+
       fRunAct->UpdateRate12(1);
   }
   
@@ -272,15 +353,81 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   
   // Coinc 1-2-3 and NOT 4
   if ((Scint1Flag && Scint2Flag && Scint3Flag) == TRUE && Scint4Flag == FALSE) {
-      Scint123Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep();
+      G4double EDep1 = Scint1Hit->GetEdep();
+      G4double EDep2 = Scint2Hit->GetEdep();
+      G4double EDep3 = Scint3Hit->GetEdep();
+
+      Scint123Energy = EDep1 + EDep2 + EDep3;
       analysisManager->FillH1(6, Scint123Energy);
       analysisManager->FillH1(14, ekin);
-      analysisManager->FillH1(19, Scint1Hit->GetEdep());
-      analysisManager->FillH1(20, Scint2Hit->GetEdep());
-      analysisManager->FillH1(21, Scint3Hit->GetEdep());
-      analysisManager->FillH2(1, Scint1Hit->GetEdep(), Scint3Hit->GetEdep());
-      analysisManager->FillH2(2, Scint2Hit->GetEdep(), Scint3Hit->GetEdep());
+      analysisManager->FillH1(19, EDep1);
+      analysisManager->FillH1(20, EDep2);
+      analysisManager->FillH1(21, EDep3);
+      analysisManager->FillH2(1, EDep1, EDep3);
+      analysisManager->FillH2(2, EDep2, EDep3);
+
+      analysisManager->FillH1(104, nScint1Photons);
+      analysisManager->FillH1(105, nScint2Photons);
+      analysisManager->FillH1(106, nScint3Photons);
+
+      // Energy resolution
+      G4double val1 = G4RandGauss::shoot(EDep1,EDep1*ERes);
+      G4double val2 = G4RandGauss::shoot(EDep2,EDep2*ERes);
+      G4double val3 = G4RandGauss::shoot(EDep3,EDep3*ERes);
+      analysisManager->FillH1(82, val1);
+      analysisManager->FillH1(83, val2);
+      analysisManager->FillH1(84, val3);
+
+      // Particle ID
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh && EDep3>EDep_Thresh) {
+        if (EDep1<2. || EDep2<2. || EDep3<2.) {analysisManager->FillH1(92, ekin);}
+        else if (EDep1>2.5 && EDep2>2.5 && EDep3>2.5){analysisManager->FillH1(93, ekin);}
+        else {analysisManager->FillH1(94, ekin);}
+      }
+
+      // Proton channel
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh && EDep3>EDep_Thresh) {
+        analysisManager->FillH1(9, ekin);
+
+        analysisManager->FillNtupleDColumn(1,0,EDep1);
+        analysisManager->FillNtupleDColumn(1,1,EDep2);
+        analysisManager->FillNtupleDColumn(1,2,EDep3);
+        analysisManager->AddNtupleRow(1);
+
+        if (EDep3<0.7){
+          if (EDep2<0.7){ analysisManager->FillH1(39, ekin); }
+          else if (EDep2<1.){ analysisManager->FillH1(40, ekin); }
+          else if (EDep2<1.3){ analysisManager->FillH1(41, ekin); }
+          else if (EDep2<1.6){ analysisManager->FillH1(42, ekin); }
+        }
+        else if (EDep3<1.){
+          if (EDep2<0.7){ analysisManager->FillH1(43, ekin); }
+          else if (EDep2<1.){ analysisManager->FillH1(44, ekin); }
+          else if (EDep2<1.3){ analysisManager->FillH1(45, ekin); }
+          else if (EDep2<1.6){ analysisManager->FillH1(46, ekin); }
+        }
+        else if (EDep3<1.3){
+          if (EDep2<0.7){ analysisManager->FillH1(47, ekin); }
+          else if (EDep2<1.){ analysisManager->FillH1(48, ekin); }
+          else if (EDep2<1.3){ analysisManager->FillH1(49, ekin); }
+          else if (EDep2<1.6){ analysisManager->FillH1(50, ekin); }
+        }
+        else if (EDep3<1.6){
+          if (EDep2<0.7){ analysisManager->FillH1(51, ekin); }
+          else if (EDep2<1.){ analysisManager->FillH1(52, ekin); }
+          else if (EDep2<1.3){ analysisManager->FillH1(53, ekin); }
+          else if (EDep2<1.6){ analysisManager->FillH1(54, ekin); }
+        }
+
+        // ALPHA CHANNELS
+        if (EDep2<3 && EDep2>2 && EDep3<3 && EDep3>2){ analysisManager->FillH1(73, ekin); }
+        if (EDep2<8 && EDep2>5 && EDep3<8 && EDep3>5){ analysisManager->FillH1(74, ekin); }
+
+      // if (EDep1>EDep_Thresh && EDep2>EDep_Thresh && EDep3>EDep_Thresh) {
+      //   if (EDep2<0.7 && EDep3<1.5){ analysisManager->FillH1(40, ekin); }
+      // }
       fRunAct->UpdateRate123(1);
+      }
   }
 
   // Coinc 2-3-4 and NOT 1
@@ -293,19 +440,99 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
 
   // Coinc 1-2-3-4
   if ((Scint1Flag && Scint2Flag && Scint3Flag && Scint4Flag) == TRUE) {
-      Scint1234Energy = Scint1Hit->GetEdep() + Scint2Hit->GetEdep() + Scint3Hit->GetEdep() + Scint4Hit->GetEdep();
+      G4double EDep1 = Scint1Hit->GetEdep();
+      G4double EDep2 = Scint2Hit->GetEdep();
+      G4double EDep3 = Scint3Hit->GetEdep();
+      G4double EDep4 = Scint4Hit->GetEdep();
+
+      Scint1234Energy = EDep1 + EDep2 + EDep3 + EDep4;
       // analysisManager->FillH1(8, Scint1234Energy);
       analysisManager->FillH1(7, Scint1234Energy);
       analysisManager->FillH1(16, ekin);
-      analysisManager->FillH1(22, Scint1Hit->GetEdep());
-      analysisManager->FillH1(23, Scint2Hit->GetEdep());
-      analysisManager->FillH1(24, Scint3Hit->GetEdep());
-      analysisManager->FillH1(25, Scint4Hit->GetEdep());
-      analysisManager->FillH2(3, Scint1Hit->GetEdep(), Scint4Hit->GetEdep());
-      analysisManager->FillH2(4, Scint2Hit->GetEdep(), Scint4Hit->GetEdep());
-      analysisManager->FillH2(5, Scint3Hit->GetEdep(), Scint4Hit->GetEdep());
+      analysisManager->FillH1(22, EDep1);
+      analysisManager->FillH1(23, EDep2);
+      analysisManager->FillH1(24, EDep3);
+      analysisManager->FillH1(25, EDep4);
+      analysisManager->FillH2(3, EDep1, EDep4);
+      analysisManager->FillH2(4, EDep2, EDep4);
+      analysisManager->FillH2(5, EDep3, EDep4);
+
+      analysisManager->FillH1(107, nScint1Photons);
+      analysisManager->FillH1(108, nScint2Photons);
+      analysisManager->FillH1(109, nScint3Photons);
+      analysisManager->FillH1(110, nScint4Photons);
+
+      // Energy resolution
+      G4double val1 = G4RandGauss::shoot(EDep1,EDep1*ERes);
+      G4double val2 = G4RandGauss::shoot(EDep2,EDep2*ERes);
+      G4double val3 = G4RandGauss::shoot(EDep3,EDep3*ERes);
+      G4double val4 = G4RandGauss::shoot(EDep4,EDep4*ERes);
+      analysisManager->FillH1(85, val1);
+      analysisManager->FillH1(86, val2);
+      analysisManager->FillH1(87, val3);
+      analysisManager->FillH1(88, val4);
+
+
+      // Particle ID
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh && EDep3>EDep_Thresh&& EDep4>EDep_Thresh) {
+        if (EDep1<2. || EDep4<2.) {analysisManager->FillH1(95, ekin);}
+        else if (EDep2>2. && EDep4>2.){analysisManager->FillH1(96, ekin);}
+        else {analysisManager->FillH1(97, ekin);}
+      }
+
+      // Energy channels
+      if (EDep1>EDep_Thresh && EDep2>EDep_Thresh && EDep3>EDep_Thresh && EDep4>EDep_Thresh) {
+        analysisManager->FillH1(10, ekin); 
+
+        analysisManager->FillNtupleDColumn(2,0,EDep1);
+        analysisManager->FillNtupleDColumn(2,1,EDep2);
+        analysisManager->FillNtupleDColumn(2,2,EDep3);
+        analysisManager->FillNtupleDColumn(2,3,EDep4);
+        analysisManager->AddNtupleRow(2);
+
+        // PROTON CHANNELS
+        if (EDep4<0.7){
+          if (EDep1<0.7){ analysisManager->FillH1(55, ekin); }
+          else if (EDep1<1.){ analysisManager->FillH1(56, ekin); }
+          else if (EDep1<1.3){ analysisManager->FillH1(57, ekin); }
+          else if (EDep1<1.6){ analysisManager->FillH1(58, ekin); }
+        }
+        else if (EDep4<1.){
+          if (EDep1<0.7){ analysisManager->FillH1(59, ekin); }
+          else if (EDep1<1.){ analysisManager->FillH1(60, ekin); }
+          else if (EDep1<1.3){ analysisManager->FillH1(61, ekin); }
+          else if (EDep1<1.6){ analysisManager->FillH1(62, ekin); }
+        }
+        else if (EDep4<1.3){
+          if (EDep1<0.7){ analysisManager->FillH1(63, ekin); }
+          else if (EDep1<1.){ analysisManager->FillH1(64, ekin); }
+          else if (EDep1<1.3){ analysisManager->FillH1(65, ekin); }
+          else if (EDep1<1.6){ analysisManager->FillH1(66, ekin); }
+        }
+        else if (EDep4<1.6){
+          if (EDep1<0.7){ analysisManager->FillH1(67, ekin); }
+          else if (EDep1<1.){ analysisManager->FillH1(68, ekin); }
+          else if (EDep1<1.3){ analysisManager->FillH1(69, ekin); }
+          else if (EDep1<1.6){ analysisManager->FillH1(70, ekin); }
+        }
+
+        // ALPHA CHANNELS
+
+        if (EDep1<3.5 && EDep1>2.2 && EDep4<3.5 && EDep4>2.2){ analysisManager->FillH1(75, ekin); }
+        
+        // if (Scint1234Energy>5.5 && Scint1234Energy<7.5 ){ analysisManager->FillH1(41, ekin); }
+        
+        // // if (EDep1<1. && EDep1>0.5 && EDep4<1. && EDep4>0.5)
+        // if (EDep1<1. && EDep4<1. )
+        //   // (EDep1>2.5 && EDep1<4. && EDep4>0.4 && EDep4<1.6) ||
+        //   //    (EDep4>2.5 && EDep4<4. && EDep1>0.4 && EDep1<1.6)
+        //     { analysisManager->FillH1(42, ekin); }
+      }
+
       fRunAct->UpdateRate1234(1);
   }
+
+
 
   /*
   if ((Scint1Flag && Scint2Flag) == TRUE || (Scint3Flag && Scint4Flag) == TRUE) {
@@ -338,29 +565,29 @@ void B4cEventAction::EndOfEventAction(const G4Event* event)
   //  sipms SD hits info
   ////
   
-  // Get Hits collection ID
-  if ( fSiPMHCID == -1 ) {fSiPMHCID = G4SDManager::GetSDMpointer()->GetCollectionID("SiPMHitsCollection");}
+  // // Get Hits collection ID
+  // if ( fSiPMHCID == -1 ) {fSiPMHCID = G4SDManager::GetSDMpointer()->GetCollectionID("SiPMHitsCollection");}
 
-  // Get Hits collection
-  auto SiPMHC = GetSiPMHitsCollection(fSiPMHCID, event);
-  G4int nhits = SiPMHC->entries();
-  // G4cout << "SiPM hit collection entries " << nhits << G4endl;
+  // // Get Hits collection
+  // auto SiPMHC = GetSiPMHitsCollection(fSiPMHCID, event);
+  // G4int nhits = SiPMHC->entries();
+  // // G4cout << "SiPM hit collection entries " << nhits << G4endl;
 
-  // Loop for each entry since one event generates many scintillation photons that can be detected
-  // Count the detections and add them to total sim detections for that event
-  for (int i=0; i<nhits; i++){
-    SiPMHit *thisHit = (*SiPMHC)[i];
-    G4int thisSiPM = thisHit->fSiPMID;
-    Ndet[thisSiPM]++;
-  }
+  // // Loop for each entry since one event generates many scintillation photons that can be detected
+  // // Count the detections and add them to total sim detections for that event
+  // for (int i=0; i<nhits; i++){
+  //   SiPMHit *thisHit = (*SiPMHC)[i];
+  //   G4int thisSiPM = thisHit->fSiPMID;
+  //   Ndet[thisSiPM]++;
+  // }
 
-  // Fill NTuple with total detections that event:
-  for (int id=0; id<fTotalNSiPMs; id++){
-    analysisManager->FillNtupleDColumn(0,id,Ndet[id]);
-    // G4cout << "Filling NTuple. SiPM " << id << ". Detections: "<<  Ndet[id]  << G4endl;
-  }
+  // // Fill NTuple with total detections that event:
+  // for (int id=0; id<fTotalNSiPMs; id++){
+  //   analysisManager->FillNtupleDColumn(0,id,Ndet[id]);
+  //   // G4cout << "Filling NTuple. SiPM " << id << ". Detections: "<<  Ndet[id]  << G4endl;
+  // }
 
-  analysisManager->AddNtupleRow();
+  // analysisManager->AddNtupleRow();
 
   
 }  

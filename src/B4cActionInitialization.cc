@@ -33,6 +33,7 @@
 #include "B4RunAction.hh"
 #include "B4cEventAction.hh"
 #include "SteppingAction.hh"
+#include "MyTrackingAction.hh"
 
 #include "G4UImanager.hh"
 
@@ -91,8 +92,11 @@ void B4cActionInitialization::Build() const
 
   B4cEventAction* evtAction = new B4cEventAction(runAction);
   SetUserAction(evtAction);
-    
-  SetUserAction(new SteppingAction(runAction,evtAction)); // passing also evtAction to Stepping action
+
+  MyTrackingAction* trackAction = new MyTrackingAction(fDetConstruction);
+  SetUserAction(trackAction);
+
+  SetUserAction(new SteppingAction(runAction,evtAction,trackAction)); // passing also evtAction and trackAction to Stepping action
 
   
 }  

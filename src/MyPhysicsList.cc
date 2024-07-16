@@ -12,6 +12,7 @@
 
 #include "FTFP_BERT.hh"
 #include "G4HadronPhysicsFTFP_BERT.hh"
+#include "G4HadronPhysicsFTFP_BERT_HP.hh"
 #include "G4OpticalPhysics.hh"
 #include "G4OpticalParameters.hh"
 
@@ -32,6 +33,8 @@
 #include "G4ParticleTypes.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "G4LeptonConstructor.hh"
+
 
 MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 {	
@@ -41,9 +44,16 @@ MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 	auto hadronicList = new G4HadronPhysicsFTFP_BERT();
 	RegisterPhysics(hadronicList);
 
+
+	//------> Lepton Constructor
+	G4LeptonConstructor lConstructor;
+    lConstructor.ConstructParticle();
+
 	// em physics
 	// G4VPhysicsConstructor* emList = new G4EmStandardPhysics_option3(); // for medical and space
-	auto emList = new G4EmStandardPhysics();
+	// auto emList = new G4EmStandardPhysics();
+	auto emList = new G4EmStandardPhysics_option4(); 
+
 	RegisterPhysics(emList);
 
 	// optical physics
@@ -65,8 +75,8 @@ MyPhysicsList::MyPhysicsList() : G4VModularPhysicsList()
 		// processActivation["Scintillation"] = true;
 	auto opticalParams = G4OpticalParameters::Instance();
 	opticalParams->SetProcessActivation("Cerenkov",false); //disable cherenkov effect
-	opticalParams->SetProcessActivation("Scintillation",false); // --------> comment for scintillation photons
-	opticalParams->SetScintTrackSecondariesFirst(true);  // track secondaries for scintillating processes
+	// opticalParams->SetProcessActivation("Scintillation",false); // --------> comment for scintillation photons
+	opticalParams->SetScintTrackSecondariesFirst(false);  // track secondaries for scintillating processes
 
 	RegisterPhysics(opticalList);
 

@@ -174,12 +174,13 @@ void MyMaterials::CreateMaterials()
   std::vector<G4double> absorption = {140.*cm, 140.*cm, 140.*cm};
 
   std::vector<G4double> emissionenergy = {
-    4.12840, 3.97487, 3.88361, 3.83674, 3.76463, 3.72157, 3.62103, 3.53301,
-    3.50535, 3.45629, 3.37620, 3.24040, 3.10185, 2.95454, 2.75043, 2.48246
+    2.48246, 2.75043, 2.95454, 3.10185, 3.2404, 3.3762, 3.45629, 3.50535,
+    3.53301, 3.62103, 3.72157, 3.76463, 3.83674, 3.88361, 3.97487, 4.1284
     };
+    
   std::vector<G4double> scintemission = {
-    0.3970, 0.1970, 0.3955, 0.5939, 0.8010, 0.9029, 0.9946, 0.9138,
-    0.8001, 0.6434, 0.5402, 0.4494, 0.3327, 0.1852, 0.0742, 0.0207
+    0.0207, 0.0742, 0.1852, 0.3327, 0.4494, 0.5402, 0.6434, 0.8001,
+    0.9138, 0.9946, 0.9029, 0.801, 0.5939, 0.3955, 0.197, 0.0397
     };
 
 // Emission Spectra
@@ -203,19 +204,22 @@ void MyMaterials::CreateMaterials()
 
   MyScintMPT->AddProperty("RINDEX", energy, rindex);
   MyScintMPT->AddProperty("ABSLENGTH", energy, absorption);
-  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", 20./MeV); //lightyield scaled to the SiPM pde: lightyield*pde
-  MyScintMPT->AddConstProperty("RESOLUTIONSCALE", 1.0);
+  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD", lightyield); //lightyield scaled to the SiPM pde: lightyield*pde
+  MyScintMPT->AddConstProperty("RESOLUTIONSCALE", 0.);
   // MyScintMPT->AddConstProperty("YIELDRATIO",1.);
   // only use one component 
-  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", energy, scintemission);
-  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT2", energy, scintemission);
+  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT1", emissionenergy, scintemission);
+  MyScintMPT->AddProperty("SCINTILLATIONCOMPONENT2", emissionenergy, scintemission);
   MyScintMPT->AddConstProperty("SCINTILLATIONTIMECONSTANT1", 2.2*ns);
   MyScintMPT->AddConstProperty("SCINTILLATIONTIMECONSTANT2", 1.*ns);
-  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD1", 1.0);
-  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD2", 0.0);
+  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD1", 1.);
+  MyScintMPT->AddConstProperty("SCINTILLATIONYIELD2", 0.);
 
 
   fPolystyrene->SetMaterialPropertiesTable(MyScintMPT);
+  fPolystyrene->GetIonisation()->SetBirksConstant(0.126*mm/MeV); // https://doi-org.sire.ub.edu/10.1016/j.nima.2024.169143
+
+
 
   // Reflector
 

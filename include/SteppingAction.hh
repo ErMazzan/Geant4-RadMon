@@ -12,6 +12,7 @@
 #include "B4RunAction.hh"
 #include "B4cEventAction.hh"
 #include "G4OpBoundaryProcess.hh"
+#include "MyTrackingAction.hh"
 
 class B4cDetectorConstruction;
 class G4Track;
@@ -25,7 +26,7 @@ class SteppingAction : public G4UserSteppingAction
       ~SteppingAction() override;
       */
     
-      SteppingAction(B4RunAction* runAct, B4cEventAction* evtAct);
+      SteppingAction(B4RunAction* runAct, B4cEventAction* evtAct, MyTrackingAction* trackAct);
       ~SteppingAction();
       
       void UserSteppingAction(const G4Step* step) override;
@@ -34,6 +35,7 @@ class SteppingAction : public G4UserSteppingAction
       B4cDetectorConstruction* fDetConstruction;
       B4cEventAction* fEventAct;
       B4RunAction* fRunAct;
+      MyTrackingAction* fTrackAct;
     
       G4int FirstIntStep;
 

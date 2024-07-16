@@ -66,6 +66,10 @@ public:
 
 
   G4int nScintPhotons;
+  G4int nScint1Photons;
+  G4int nScint2Photons;
+  G4int nScint3Photons;
+  G4int nScint4Photons;
   G4int nDetectedPhotons;
 
 private:

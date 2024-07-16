@@ -95,8 +95,8 @@ B4cDetectorConstruction::B4cDetectorConstruction()
 	
     // DAVID -> Changed geometry of the absorbers: [0] 2 mm -> 10 mm ; [2] 50 mm -> 40 mm
 	absoThickness[0] = 10.*mm;
-	absoThickness[1] = 25.*mm;
-	absoThickness[2] = 35.*mm;
+	absoThickness[1] = 20.*mm;
+	absoThickness[2] = 40.*mm;
 	
 	scintThickness= 3.*mm;
   scintXY = 20.*mm;
@@ -241,58 +241,58 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   }
   
   
-  // SiPM placement:
+  // // SiPM placement:
 
-  // G4double SiPMThickness = 0.3*mm;
-  G4double couplingThickness = 0.2*mm;
+  // // G4double SiPMThickness = 0.3*mm;
+  // G4double couplingThickness = 0.2*mm;
 
-  G4double SiPMThickness = reflectorGrosor - couplingThickness;
-  if (SiPMThickness <= 0) G4cout << "WARNING! Reflector thicker than optical coupling: physical volume overlaps." << G4endl;
+  // G4double SiPMThickness = reflectorGrosor - couplingThickness;
+  // if (SiPMThickness <= 0) G4cout << "WARNING! Reflector thicker than optical coupling: physical volume overlaps." << G4endl;
 
-  G4double detectorsize = fSiPMsize;
-  G4double detectorThickness = SiPMThickness + couplingThickness;
+  // G4double detectorsize = fSiPMsize;
+  // G4double detectorThickness = SiPMThickness + couplingThickness;
 
-    // Rotation Matrix (DON'T modify if used) 
-  G4RotationMatrix* RotationA = new G4RotationMatrix();
-  RotationA->rotateX(0*deg);
-  RotationA->rotateY(90*deg);
-  RotationA->rotateZ(0*deg);
+  //   // Rotation Matrix (DON'T modify if used) 
+  // G4RotationMatrix* RotationA = new G4RotationMatrix();
+  // RotationA->rotateX(0*deg);
+  // RotationA->rotateY(90*deg);
+  // RotationA->rotateZ(0*deg);
 
-  G4RotationMatrix* RotationB = new G4RotationMatrix();
-  RotationB->rotateX(0*deg);
-  RotationB->rotateY(-90*deg);
-  RotationB->rotateZ(0*deg);
+  // G4RotationMatrix* RotationB = new G4RotationMatrix();
+  // RotationB->rotateX(0*deg);
+  // RotationB->rotateY(-90*deg);
+  // RotationB->rotateZ(0*deg);
 
 
-      // Detector volume that contains SiPM + optical couping
-  G4VSolid* detectorS = new G4Box("Detector", detectorsize/2., detectorsize/2., detectorThickness/2.);
-  G4LogicalVolume* detectorLV = new G4LogicalVolume(detectorS, defaultMaterial, "DetectorLV");
-  // G4VPhysicalVolume* detectorPV = new G4PVPlacement(Rotation,  G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.), detectorLV, "DetectorPV", scintLV, false, 0, fCheckOverlaps);
-  // G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.)
-  // G4ThreeVector(0.,0.,-(scintThickness+detectorThickness)/2.)
+  //     // Detector volume that contains SiPM + optical couping
+  // G4VSolid* detectorS = new G4Box("Detector", detectorsize/2., detectorsize/2., detectorThickness/2.);
+  // G4LogicalVolume* detectorLV = new G4LogicalVolume(detectorS, defaultMaterial, "DetectorLV");
+  // // G4VPhysicalVolume* detectorPV = new G4PVPlacement(Rotation,  G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.), detectorLV, "DetectorPV", scintLV, false, 0, fCheckOverlaps);
+  // // G4ThreeVector(caloSizeXY/2.+detectorThickness/2., 0., 0.)
+  // // G4ThreeVector(0.,0.,-(scintThickness+detectorThickness)/2.)
 
-  G4VPhysicalVolume* detectorPV;
-  for (int i=0; i<fNoSiPMs/2; i++){
-    auto pos = G4ThreeVector(scintXY/2.+detectorThickness/2., -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
-	  detectorPV = new G4PVPlacement( RotationA, pos, detectorLV, "DetectorPV", reflectorLV, false, i, fCheckOverlaps);
-  }
-  for (int i=0; i<fNoSiPMs/2; i++){
-    auto pos = G4ThreeVector(-1.*(scintXY/2.+detectorThickness/2.), -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
-	  detectorPV = new G4PVPlacement( RotationB, pos, detectorLV, "DetectorPV", reflectorLV, false, i+fNoSiPMs/2, fCheckOverlaps);
-  }
+  // G4VPhysicalVolume* detectorPV;
+  // for (int i=0; i<fNoSiPMs/2; i++){
+  //   auto pos = G4ThreeVector(scintXY/2.+detectorThickness/2., -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
+	//   detectorPV = new G4PVPlacement( RotationA, pos, detectorLV, "DetectorPV", reflectorLV, false, i, fCheckOverlaps);
+  // }
+  // for (int i=0; i<fNoSiPMs/2; i++){
+  //   auto pos = G4ThreeVector(-1.*(scintXY/2.+detectorThickness/2.), -scintXY/2.+(i+1)*scintXY/(fNoSiPMs/2.+1),0.);
+	//   detectorPV = new G4PVPlacement( RotationB, pos, detectorLV, "DetectorPV", reflectorLV, false, i+fNoSiPMs/2, fCheckOverlaps);
+  // }
 
-      // OpCoupling
-	G4Box* couplingS = new G4Box("OpCoupling", detectorsize/2., detectorsize/2., couplingThickness/2.);
-	G4LogicalVolume* couplingLV = new G4LogicalVolume(couplingS, couplingMaterial,"OpCouplingLV");
-	G4VPhysicalVolume* couplingPV = new G4PVPlacement(0, G4ThreeVector(0., 0., SiPMThickness/2.), couplingLV, "OpCouplingPV", detectorLV, false, 0, fCheckOverlaps);
+  //     // OpCoupling
+	// G4Box* couplingS = new G4Box("OpCoupling", detectorsize/2., detectorsize/2., couplingThickness/2.);
+	// G4LogicalVolume* couplingLV = new G4LogicalVolume(couplingS, couplingMaterial,"OpCouplingLV");
+	// G4VPhysicalVolume* couplingPV = new G4PVPlacement(0, G4ThreeVector(0., 0., SiPMThickness/2.), couplingLV, "OpCouplingPV", detectorLV, false, 0, fCheckOverlaps);
 
-	    // SiPM
-  G4VSolid* sipmS = new G4Box("SiPM", fSiPMsize/2., fSiPMsize/2., SiPMThickness/2.);
-  G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, sipmMaterial, "SiPMLV");
-  G4VPhysicalVolume* sipmPV = new G4PVPlacement(0, G4ThreeVector(0., 0., -couplingThickness/2.), sipmLV, "SiPMPV", detectorLV, false, 0, fCheckOverlaps);
+	//     // SiPM
+  // G4VSolid* sipmS = new G4Box("SiPM", fSiPMsize/2., fSiPMsize/2., SiPMThickness/2.);
+  // G4LogicalVolume* sipmLV = new G4LogicalVolume(sipmS, sipmMaterial, "SiPMLV");
+  // G4VPhysicalVolume* sipmPV = new G4PVPlacement(0, G4ThreeVector(0., 0., -couplingThickness/2.), sipmLV, "SiPMPV", detectorLV, false, 0, fCheckOverlaps);
 
   
-  std::cout<<txtred<<"\n\nSiPM size is now "<<fSiPMsize<<txtreset<<"\n\n"<<std::endl;
+  // std::cout<<txtred<<"\n\nSiPM size is now "<<fSiPMsize<<txtreset<<"\n\n"<<std::endl;
   
 	//------------------------------------------------------
   // Surfaces and boundary processes
@@ -307,6 +307,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
   //      T = TRANSMITTANCE
   // see Peculiarities in the Simulation of Optical Physics: https://arxiv.org/pdf/1612.05162.pdf 
 
+  /*
   std::vector<G4double> energy = { 1.0 * eV, 7.0 * eV };
   std::vector<G4double> reflectivity = {1., 1.};
   std::vector<G4double> transmittance = {1., 1.};
@@ -350,7 +351,7 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
 	OpCouplSiPMSurface->SetFinish(polished);
   OpCouplSiPMSurface->SetMaterialPropertiesTable(mpt);
 	G4LogicalBorderSurface* CouplingSiPMBorder = new G4LogicalBorderSurface("CouplSiPMSurface",couplingPV,sipmPV,OpCouplSiPMSurface);
-
+  */
   /*
   G4double posDetEle;
   G4double accumulatedAbsTh=0.;
@@ -512,11 +513,11 @@ void B4cDetectorConstruction::ConstructSDandField()
 
 
   // G4int totalSiPMs = fNoSiPMs*fNofLayers;
-  //Define SIPMs sensitive detectorS
-	auto sensSiPM = new SiPMSD("SiPMSD","SiPMHitsCollection",fNoSiPMs);
-	sdman->AddNewDetector(sensSiPM);
-	//Set a sensitive detector to all logical volumes with name "SiPM"
-	SetSensitiveDetector("SiPMLV",sensSiPM, true);
+  // //Define SIPMs sensitive detectorS
+	// auto sensSiPM = new SiPMSD("SiPMSD","SiPMHitsCollection",fNoSiPMs);
+	// sdman->AddNewDetector(sensSiPM);
+	// //Set a sensitive detector to all logical volumes with name "SiPM"
+	// SetSensitiveDetector("SiPMLV",sensSiPM, true);
 
 
 
