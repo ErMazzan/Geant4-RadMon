@@ -54,6 +54,9 @@ set(RadMon_SCRIPTS
   sphere_gcr.mac
   vis.mac
   prueba.mac
+  rndm_vis.mac
+  plane.mac
+  grb.mac
   data/acc_p_solarmax.mac
   data/acc_he_3_solarmax.mac
   data/acc_he_4_solarmax.mac
